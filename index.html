@@ -350,6 +350,7 @@
             padding: 1.5rem;
             margin: 2rem 0;
             overflow-x: auto;
+            border-left: 3px solid var(--primary-green);
         }
 
         .code-block pre {
@@ -357,6 +358,8 @@
             font-family: 'Courier New', monospace;
             font-size: 0.9rem;
             line-height: 1.6;
+            white-space: pre;
+            margin: 0;
         }
 
         /* Results Section */
@@ -383,6 +386,25 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 0.5rem;
+        }
+
+        /* Future Considerations Section */
+        .future-considerations {
+            color: var(--text-white);
+            line-height: 1.8;
+        }
+
+        .future-considerations .features-list {
+            margin: 0;
+        }
+
+        .future-considerations .features-list li {
+            border-bottom-color: rgba(42, 42, 42, 0.5);
+            color: var(--text-white);
+        }
+
+        .future-considerations .features-list li:last-child {
+            border-bottom: none;
         }
 
         /* Links Section */
@@ -476,7 +498,7 @@
         .about-content {
             max-width: 800px;
             margin: 0 auto;
-            text-align: center;
+            text-align: justify;
             color: var(--text-gray);
             line-height: 1.8;
         }
@@ -895,7 +917,7 @@
     <div id="main-content">
         <!-- Hero Section -->
         <section id="home" class="hero">
-            <h1>Your Name</h1>
+            <h1>Rohith Kumar S.</h1>
             <p class="subtitle">Computer Vision | Machine Learning | Data Science</p>
             <p class="terminal-text">Building intelligent systems that see and understand</p>
         </section>
@@ -905,10 +927,11 @@
             <h2>About Me</h2>
             <div class="about-content">
                 <p>
-                    Passionate ML engineer specializing in computer vision and deep learning. 
-                    I transform complex data into actionable insights and build intelligent systems 
-                    that solve real-world problems. With expertise in neural networks, image processing, 
-                    and statistical modeling, I bring ideas from concept to production.
+                   I am a Master's in Data Science student at Northeastern University, specializing in Deep Learning and Computer Vision. With 3 years of experience in building full-stack and AI solutions, I am well-versed in developing product-specific tools using Core Java and Spring Boot, designing web pages with ReactJS and Angular, and deploying containerized applications using AWS EC2 and Docker.                 </p>
+                <br>
+                <p>
+                    Now transitioning into Data Science and Computer Vision, I focus on building end-to-end AI solutions, from computer vision systems for object detection, tracking, and 3D reconstruction to scalable ML applications including recommender systems and forecasting models, supported by robust data pipelines.
+
                 </p>
             </div>
         </section>
@@ -922,7 +945,6 @@
             <button class="filter-btn active" onclick="filterProjects('all')">All Projects</button>
             <button class="filter-btn" onclick="filterProjects('computer-vision')">Computer Vision</button>
             <button class="filter-btn" onclick="filterProjects('deep-learning')">Deep Learning</button>
-            <button class="filter-btn" onclick="filterProjects('recommender')">Recommender Systems</button>
             <button class="filter-btn" onclick="filterProjects('machine-learning')">Machine Learning</button>
             <button class="filter-btn" onclick="filterProjects('big-data-engineering')">Big Data Engineering</button>
         </div>
@@ -1062,9 +1084,9 @@
             Interested in collaboration or have a challenging problem to solve?
         </p>
         <div class="contact-links">
-            <a href="mailto:your.email@example.com">Email</a>
-            <a href="https://github.com/yourusername">GitHub</a>
-            <a href="https://linkedin.com/in/yourusername">LinkedIn</a>
+            <a href="mailto:us.rohithkumar@gmail.com">Email</a>
+            <a href="https://github.com/Rohith-Kumar-S">GitHub</a>
+            <a href="https://www.linkedin.com/in/rohith-kumar-s-b41207180/">LinkedIn</a>
             <a href="#">Resume</a>
         </div>
     </section>
@@ -1105,15 +1127,15 @@
             </div>
 
             <!-- Video Demo Section -->
-            <div class="project-section">
+            <div class="project-section" id="video-section">
                 <h2>Demo Video</h2>
                 <div class="media-gallery">
                     <div class="media-item">
-                        <video controls>
+                        <video controls id="project-video">
                             <source src="your-video.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
-                        <p class="media-caption">Real-time object detection demonstration</p>
+                        <p class="media-caption" id="video-caption">Real-time object detection demonstration</p>
                     </div>
                 </div>
             </div>
@@ -1148,7 +1170,7 @@
             <!-- Key Features -->
             <div class="project-section">
                 <h2>Key Features</h2>
-                <ul class="features-list">
+                <ul class="features-list" id="features-list">
                     <li>Real-time processing with 30+ FPS on standard hardware</li>
                     <li>Custom training pipeline for domain-specific objects</li>
                     <li>Integrated tracking system with object persistence</li>
@@ -1161,7 +1183,7 @@
             <div class="project-section">
                 <h2>Technical Implementation</h2>
                 <div class="tech-details">
-                    <div class="tech-grid">
+                    <div class="tech-grid" id="tech-implementation">
                         <div class="tech-item">
                             <h3>Architecture</h3>
                             <p>Built on YOLOv5 backbone with custom head layers optimized for specific object classes</p>
@@ -1182,8 +1204,8 @@
                 </div>
 
                 <!-- Code Sample -->
-                <div class="code-block">
-                    <pre>
+                <div class="code-block" id="code-sample-block">
+                    <pre id="code-sample">
 # Model initialization
 model = YOLOv5(
     num_classes=10,
@@ -1204,7 +1226,7 @@ def focal_loss(pred, target, gamma=2.0):
             <!-- Results & Performance -->
             <div class="project-section">
                 <h2>Results & Performance</h2>
-                <div class="results-grid">
+                <div class="results-grid" id="results-grid">
                     <div class="result-item">
                         <div class="result-number">95%</div>
                         <div class="result-label">mAP Score</div>
@@ -1224,10 +1246,24 @@ def focal_loss(pred, target, gamma=2.0):
                 </div>
             </div>
 
+            <!-- Future Considerations -->
+            <div class="project-section">
+                <h2>Future Considerations</h2>
+                <div class="future-considerations" id="future-considerations">
+                    <ul class="features-list">
+                        <li>Implement transformer-based architecture for improved accuracy</li>
+                        <li>Add support for video stream processing with temporal consistency</li>
+                        <li>Develop mobile-optimized version using TensorFlow Lite</li>
+                        <li>Integrate active learning pipeline for continuous improvement</li>
+                        <li>Expand to 3D object detection using point cloud data</li>
+                    </ul>
+                </div>
+            </div>
+
             <!-- Links & Resources -->
             <div class="project-section">
                 <h2>Links & Resources</h2>
-                <div class="project-links-detail">
+                <div class="project-links-detail" id="project-links-detail">
                     <a href="#">View on GitHub</a>
                     <a href="#">Live Demo</a>
                     <a href="#">Documentation</a>
@@ -1278,9 +1314,97 @@ def focal_loss(pred, target, gamma=2.0):
                         src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Confusion+Matrix',
                         description: 'Confusion matrix analysis revealing model performance across different object categories with precision and recall metrics.'
                     }
+                ],
+                features: [
+                    'Real-time processing with 30+ FPS on standard hardware',
+                    'Custom training pipeline for domain-specific objects',
+                    'Integrated tracking system with object persistence',
+                    'RESTful API for easy integration',
+                    'Comprehensive logging and monitoring dashboard',
+                    'Support for multiple camera streams simultaneously',
+                    'Automatic model versioning and rollback capabilities'
+                ],
+                technical: [
+                    {
+                        title: 'Architecture',
+                        description: 'Built on YOLOv5 backbone with custom head layers optimized for specific object classes. Incorporates FPN for multi-scale detection.'
+                    },
+                    {
+                        title: 'Data Pipeline',
+                        description: 'Automated data augmentation using Albumentations. Custom annotation tool for rapid dataset creation.'
+                    },
+                    {
+                        title: 'Training Strategy',
+                        description: 'Distributed training on 4x V100 GPUs using PyTorch DDP. Mixed precision training for 2x speedup.'
+                    },
+                    {
+                        title: 'Optimization',
+                        description: 'Model quantization and pruning for edge deployment. TensorRT optimization for inference.'
+                    },
+                    {
+                        title: 'Infrastructure',
+                        description: 'Kubernetes orchestration with auto-scaling based on request load. Redis caching for frequently accessed results.'
+                    },
+                    {
+                        title: 'Monitoring',
+                        description: 'Grafana dashboards for real-time performance metrics. Automated alerting for accuracy degradation.'
+                    }
+                ],
+                codeSnippet: `# Model initialization with custom configurations
+model = YOLOv5Custom(
+    num_classes=10,
+    anchors=custom_anchors,
+    backbone='resnet50',
+    fpn_channels=256
+)
+
+# Advanced augmentation pipeline
+transform = A.Compose([
+    A.RandomRotate90(),
+    A.Flip(),
+    A.Transpose(),
+    A.OneOf([
+        A.GaussNoise(),
+        A.GaussianBlur(),
+        A.MotionBlur(),
+    ], p=0.3),
+    A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.2, rotate_limit=45, p=0.5),
+])
+
+# Custom focal loss for handling class imbalance
+def focal_loss(pred, target, gamma=2.0, alpha=0.25):
+    ce_loss = F.cross_entropy(pred, target, reduction='none')
+    pt = torch.exp(-ce_loss)
+    focal_loss = alpha * (1 - pt) ** gamma * ce_loss
+    return focal_loss.mean()`,
+                results: [
+                    { value: '95%', label: 'mAP Score' },
+                    { value: '32', label: 'FPS (RTX 3080)' },
+                    { value: '0.92', label: 'F1 Score' },
+                    { value: '10K+', label: 'Training Images' },
+                    { value: '99.7%', label: 'Uptime' },
+                    { value: '<50ms', label: 'Latency' }
+                ],
+                futureConsiderations: [
+                    'Implement transformer-based architecture (DETR) for improved accuracy',
+                    'Add support for video stream processing with temporal consistency',
+                    'Develop mobile-optimized version using TensorFlow Lite',
+                    'Integrate active learning pipeline for continuous improvement',
+                    'Expand to 3D object detection using point cloud data',
+                    'Implement federated learning for privacy-preserving model updates',
+                    'Add explainability features using Grad-CAM visualizations',
+                    'Support for custom object classes without full retraining'
+                ],
+                links: [
+                    { text: 'View on GitHub', url: '#' },
+                    { text: 'Live Demo', url: '#' },
+                    { text: 'Documentation', url: '#' },
+                    { text: 'Research Paper', url: '#' },
+                    { text: 'Docker Hub', url: '#' }
                 ]
             },
-            'data-fusion': {
+            // Add more projects as needed
+            'data-fusion':{
             title: 'Data Fusion Pipeline',
                 category: 'Big Data Engineering',
                 date: 'Jan 2025 - Present',
@@ -1305,31 +1429,48 @@ def focal_loss(pred, target, gamma=2.0):
                 images: [
                     {
                         src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/1.jpg',
-                        description: 'Real-time object detection results showing bounding boxes and confidence scores for multiple object classes in a complex industrial scene.'
+                        description: 'Data Ingestion Layer lets the user specify the type and specifications of the data source.'
                     },
                     {
                         src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/2.jpg',
-                        description: 'Custom YOLOv5 architecture with modified feature pyramid network for enhanced small object detection capabilities.'
+                        description: 'Data Processor Layer lets the user choose a dataset and define processing rules for it.'
                     },
                     {
                         src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/3.jpg',
-                        description: 'Training metrics visualization showing loss convergence and mAP improvement over 200 epochs of training.'
+                        description: 'Data Fusion Layer enables the user to combine multiple datasets and define fusion rules for the integrated dataset.'
                     },
                     {
                         src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/4.jpg',
-                        description: 'Confusion matrix analysis revealing model performance across different object categories with precision and recall metrics.'
+                        description: 'Data Target Layer allows the user to specify targets and export options for the processed data.'
                     },
                     {
                         src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/5.jpg',
-                        description: 'Confusion matrix analysis revealing model performance across different object categories with precision and recall metrics.'
+                        description: 'Pipeline Builder Layer allows the user to visually design and configure the predefined layers in the desired order of execution.'
                     },
                     {
                         src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/6.jpg',
-                        description: 'Confusion matrix analysis revealing model performance across different object categories with precision and recall metrics.'
+                        description: 'Pipeline Execution Layer allows the execution of defined data processing pipelines in parallel.'
                     }
+                ],
+                features: [
+    'Rule-Based Processing: User-friendly interface for defining data transformations without coding',
+    'Real-Time Streaming: Apache Kafka integration for continuous data processing',
+    'Data Fusion: Intelligent joining of datasets from multiple sources',
+    'Parallel Execution: Multi-threaded pipeline execution with concurrent processing',
+    'Flexible Input Sources: Support for Kaggle datasets, GitHub repositories, and Kafka streams',
+    'Multiple Output Destinations: Local files, console logging, and RDBMS integration'
+],
+
+                futureConsiderations: [
+                    'Expand support for additional input sources',
+                    'Enable more complex data transformations',
+                    'Support additional target destinations',
+                    'Improve system reliability and fail-safes',
+                ],
+                links: [
+                    { text: 'View on GitHub', url: 'https://github.com/Rohith-Kumar-S/datafusion-pipeline/tree/main' }
                 ]
             },
-            // Add more projects here
         };
 
         // Carousel functionality
@@ -1487,12 +1628,28 @@ def focal_loss(pred, target, gamma=2.0):
             // Get project data (you can customize this based on projectId)
             const project = projectData[projectId] || projectData['object-detection'];
             
-            // Update project detail content
+            // Update basic project info
             document.getElementById('detail-title').textContent = project.title;
             document.getElementById('detail-category').textContent = project.category;
             document.getElementById('detail-date').textContent = project.date;
             document.getElementById('detail-status').textContent = project.status;
             document.getElementById('detail-description').innerHTML = project.description;
+            
+            // Update video if provided
+            const videoSection = document.getElementById('video-section');
+            if (project.videoSrc) {
+                const videoElement = document.getElementById('project-video');
+                videoElement.querySelector('source').src = project.videoSrc;
+                videoElement.load();
+                videoSection.style.display = 'block';
+                
+                // Update video caption if provided
+                if (project.videoCaption) {
+                    document.getElementById('video-caption').textContent = project.videoCaption;
+                }
+            } else {
+                videoSection.style.display = 'none';
+            }
             
             // Update carousel images if provided
             if (project.images && project.images.length > 0) {
@@ -1506,7 +1663,6 @@ def focal_loss(pred, target, gamma=2.0):
                                         data-description="${img.description}">`;
                 });
                 
-                // Add description div and update carousel
                 imagesHTML += `<div class="carousel-description" id="carousel-description">
                                    ${project.images[0].description}
                                </div>`;
@@ -1516,6 +1672,66 @@ def focal_loss(pred, target, gamma=2.0):
                 // Reset carousel counter
                 currentImageIndex = 0;
                 document.getElementById('carousel-counter').textContent = `1 / ${project.images.length}`;
+            }
+            
+            // Update Key Features
+            if (project.features && project.features.length > 0) {
+                const featuresList = document.getElementById('features-list');
+                featuresList.innerHTML = project.features.map(feature => 
+                    `<li>${feature}</li>`
+                ).join('');
+            }
+            
+            // Update Technical Implementation
+            if (project.technical && project.technical.length > 0) {
+                const techGrid = document.getElementById('tech-implementation');
+                techGrid.innerHTML = project.technical.map(tech => 
+                    `<div class="tech-item">
+                        <h3>${tech.title}</h3>
+                        <p>${tech.description}</p>
+                    </div>`
+                ).join('');
+            }
+            
+            // Update Code Snippet
+            if (project.codeSnippet) {
+                const codeBlock = document.getElementById('code-sample-block');
+                const codeSample = document.getElementById('code-sample');
+                if (codeSample) {
+                    codeSample.textContent = project.codeSnippet;
+                }
+                codeBlock.style.display = 'block';
+            } else {
+                document.getElementById('code-sample-block').style.display = 'none';
+            }
+            
+            // Update Results & Performance
+            if (project.results && project.results.length > 0) {
+                const resultsGrid = document.getElementById('results-grid');
+                resultsGrid.innerHTML = project.results.map(result => 
+                    `<div class="result-item">
+                        <div class="result-number">${result.value}</div>
+                        <div class="result-label">${result.label}</div>
+                    </div>`
+                ).join('');
+            }
+            
+            // Update Future Considerations
+            if (project.futureConsiderations && project.futureConsiderations.length > 0) {
+                const futureSection = document.getElementById('future-considerations');
+                futureSection.innerHTML = `
+                    <ul class="features-list">
+                        ${project.futureConsiderations.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            // Update Links & Resources
+            if (project.links && project.links.length > 0) {
+                const linksSection = document.getElementById('project-links-detail');
+                linksSection.innerHTML = project.links.map(link => 
+                    `<a href="${link.url}">${link.text}</a>`
+                ).join('');
             }
             
             // Hide main content and show project detail

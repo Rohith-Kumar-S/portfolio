@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - ML & Computer Vision Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #0a0a0a;
+            --secondary-black: #1a1a1a;
+            --primary-green: #00ff88;
+            --secondary-green: #00cc6a;
+            --text-white: #e0e0e0;
+            --text-gray: #a0a0a0;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--primary-black);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--secondary-black);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-white);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover {
+            color: var(--primary-green);
+        }
+
+        /* Main Content Container */
+        #main-content {
+            display: block;
+        }
+
+        #main-content.hidden {
+            display: none;
+        }
+
+        /* Project Detail Page */
+        #project-detail {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        #project-detail.active {
+            display: block;
+        }
+
+        .project-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-gray);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            color: var(--primary-green);
+            border-color: var(--primary-green);
+        }
+
+        .back-button::before {
+            content: "←";
+            font-size: 1.2rem;
+        }
+
+        .project-detail-title {
+            font-size: 3rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+
+        .project-detail-meta {
+            display: flex;
+            gap: 2rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .project-detail-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem 2rem;
+        }
+
+        .project-section {
+            margin-bottom: 4rem;
+        }
+
+        .project-section h2 {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            font-weight: normal;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .project-description-full {
+            color: var(--text-white);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .project-description-full p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Media Gallery */
+        .media-gallery {
+            display: grid;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .media-item {
+            background-color: var(--secondary-black);
+            border: 1px solid #2a2a2a;
+            padding: 1rem;
+        }
+
+        .media-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .media-item video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .media-caption {
+            margin-top: 1rem;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Image Carousel */
+        .image-carousel {
+            position: relative;
+            background-color: var(--secondary-black);
+            border: 1px solid #2a2a2a;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .carousel-container {
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .carousel-image {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            display: none;
+            margin: 0 auto;
+        }
+
+        .carousel-image.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .carousel-description {
+            text-align: center;
+            color: var(--text-gray);
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-top: 1px solid #2a2a2a;
+            min-height: 60px;
+            line-height: 1.6;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .carousel-btn {
+            background-color: transparent;
+            color: var(--text-gray);
+            border: 1px solid #2a2a2a;
+            padding: 0.5rem 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .carousel-btn:hover:not(:disabled) {
+            color: var(--primary-green);
+            border-color: var(--primary-green);
+            background-color: rgba(0, 255, 136, 0.05);
+        }
+
+        .carousel-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .carousel-btn.prev::before {
+            content: "← ";
+        }
+
+        .carousel-btn.next::after {
+            content: " →";
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .carousel-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+            box-shadow: 0 0 10px var(--primary-green);
+        }
+
+        .carousel-counter {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Key Features List */
+        .features-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .features-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid #1a1a1a;
+            position: relative;
+            padding-left: 2rem;
+            color: var(--text-white);
+        }
+
+        .features-list li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary-green);
+            font-size: 1.2rem;
+        }
+
+        /* Technical Details */
+        .tech-details {
+            background-color: var(--secondary-black);
+            border: 1px solid #2a2a2a;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-item h3 {
+            color: var(--primary-green);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: normal;
+        }
+
+        .tech-item p {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Code Block */
+        .code-block {
+            background-color: #0d0d0d;
+            border: 1px solid #2a2a2a;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            color: var(--primary-green);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Results Section */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .result-item {
+            text-align: center;
+        }
+
+        .result-number {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            font-weight: normal;
+        }
+
+        .result-label {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        /* Links Section */
+        .project-links-detail {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .project-links-detail a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-white);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--primary-green);
+            background-color: rgba(0, 255, 136, 0.1);
+            transition: all 0.3s;
+        }
+
+        .project-links-detail a:hover {
+            background-color: var(--primary-green);
+            color: var(--primary-black);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-green);
+            font-weight: normal;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+        }
+
+        .terminal-text {
+            font-family: 'Courier New', monospace;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+        }
+
+        .terminal-text::before {
+            content: "> ";
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: normal;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-green);
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background-color: var(--secondary-black);
+            border: 1px solid #2a2a2a;
+            padding: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            border-color: var(--primary-green);
+            transform: translateY(-5px);
+        }
+        
+        .project-card .project-links {
+            position: relative;
+            z-index: 10;
+        }
+
+        .project-category {
+            color: var(--primary-green);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-tag {
+            background-color: rgba(0, 255, 136, 0.1);
+            color: var(--primary-green);
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            border: 1px solid var(--primary-green);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .project-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .project-links a:hover {
+            color: var(--primary-green);
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            background-color: var(--secondary-black);
+            padding: 1.5rem;
+            border: 1px solid #2a2a2a;
+        }
+
+        .skill-category h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: normal;
+        }
+
+        .skill-list {
+            list-style: none;
+            color: var(--text-gray);
+        }
+
+        .skill-list li {
+            padding: 0.3rem 0;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .skill-list li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary-green);
+        }
+
+        /* Filter Buttons */
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0 3rem 0;
+        }
+
+        .filter-btn {
+            background-color: transparent;
+            color: var(--text-gray);
+            border: 1px solid #2a2a2a;
+            padding: 0.5rem 1.2rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn:hover {
+            color: var(--primary-green);
+            border-color: var(--primary-green);
+            background-color: rgba(0, 255, 136, 0.05);
+        }
+
+        .filter-btn.active {
+            color: var(--primary-black);
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+            font-weight: bold;
+        }
+
+        .filter-btn.active:hover {
+            background-color: var(--secondary-green);
+            border-color: var(--secondary-green);
+        }
+
+        /* Project card fade animation */
+        .project-card {
+            background-color: var(--secondary-black);
+            border: 1px solid #2a2a2a;
+            padding: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            opacity: 1;
+            transform: scale(1);
+            position: relative;
+        }
+        
+        /* Status Badge Styles */
+        .status-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-badge.in-progress {
+            color: var(--primary-green);
+            border-color: var(--primary-green);
+            background-color: rgba(0, 255, 136, 0.1);
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+        
+        /* Alternative: Timeline indicator */
+        .project-timeline {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+        
+        .timeline-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .status-dot.active {
+            background-color: var(--primary-green);
+            box-shadow: 0 0 10px var(--primary-green);
+            animation: blink 1.5s infinite;
+        }
+        
+        .status-dot.completed {
+            background-color: var(--text-gray);
+        }
+        
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+        
+        /* Progress Bar Style */
+        .project-progress {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-label {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid #2a2a2a;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-green);
+            transition: width 0.3s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 30px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.5));
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-30px);
+            }
+            100% {
+                transform: translateX(30px);
+            }
+        }
+
+        .project-card.hidden {
+            display: none;
+        }
+
+        .project-card.show {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Contact Section */
+        .contact {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--text-gray);
+            transition: all 0.3s;
+        }
+
+        .contact-links a:hover {
+            color: var(--primary-green);
+            border-color: var(--primary-green);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--secondary-black);
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-container {
+                padding: 0 1rem;
+            }
+            
+            .filter-btn {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .project-detail-title {
+                font-size: 2rem;
+            }
+            
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .carousel-container {
+                min-height: 250px;
+            }
+            
+            .carousel-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .carousel-btn {
+                font-size: 0.8rem;
+                padding: 0.4rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <h1>Your Name</h1>
+            <p class="subtitle">Computer Vision | Machine Learning | Data Science</p>
+            <p class="terminal-text">Building intelligent systems that see and understand</p>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <p>
+                    Passionate ML engineer specializing in computer vision and deep learning. 
+                    I transform complex data into actionable insights and build intelligent systems 
+                    that solve real-world problems. With expertise in neural networks, image processing, 
+                    and statistical modeling, I bring ideas from concept to production.
+                </p>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+    <section id="projects">
+        <h2>Projects</h2>
+        
+        <!-- Filter Buttons -->
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterProjects('all')">All Projects</button>
+            <button class="filter-btn" onclick="filterProjects('computer-vision')">Computer Vision</button>
+            <button class="filter-btn" onclick="filterProjects('deep-learning')">Deep Learning</button>
+            <button class="filter-btn" onclick="filterProjects('recommender')">Recommender Systems</button>
+            <button class="filter-btn" onclick="filterProjects('machine-learning')">Machine Learning</button>
+            <button class="filter-btn" onclick="filterProjects('big-data-engineering')">Big Data Engineering</button>
+        </div>
+        
+        <div class="projects-grid">
+            <!-- Project 1 - Example with "In Progress" badge -->
+            <div class="project-card" data-category="deep-learning">
+                <span class="status-badge in-progress">In Progress</span>
+                <div class="project-category">Recommender Systems</div>
+                <h3 class="project-title">Multi-domain Adaptive Recommendation System (MARS)</h3>
+                <p class="project-description">
+                    Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">PyTorch</span>
+                    <span class="tech-tag">pandas</span>
+                    <span class="tech-tag">ONNX</span>
+                    <span class="tech-tag">Pinecone</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Rohith-Kumar-S/MARS" target="_blank">[GitHub]</a>
+                    <a href="https://rohith-kumar-s-mars-app-ldawct.streamlit.app/" target="_blank">[Demo]</a>
+                </div>
+            </div>
+
+            <!-- Project 1 -->
+            <div class="project-card" data-category="computer-vision">
+                <div class="project-category">Computer Vision</div>
+                <h3 class="project-title">CNN Visualizer</h3>
+                <p class="project-description">
+                    A comprehensive tool to visualize how CNNs process images.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">PyTorch</span>
+                    <span class="tech-tag">OpenCV</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Rohith-Kumar-S/cnn-layer-visualizer" target="_blank">[GitHub]</a>
+                    <a href="https://rohith-kumar-s-cnn-layer-visualizer-app-oriztm.streamlit.app/" target="_blank">[Demo]</a>
+                </div>
+            </div>
+
+            <div class="project-card" data-category="big-data-engineering">
+                <div class="project-category">Big Data Engineering</div>
+                <h3 class="project-title">Data Fusion Pipeline</h3>
+                <p class="project-description">
+                    A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Scikit-learn</span>
+                    <span class="tech-tag">XGBoost</span>
+                    <span class="tech-tag">Pandas</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Rohith-Kumar-S/datafusion-pipeline" target="_blank">[GitHub]</a>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+
+
+            <!-- Project 4 -->
+            <div class="project-card" data-category="machine-learning">
+                <div class="project-category">Machine Learning</div>
+                <h3 class="project-title">Prime Predict</h3>
+                <p class="project-description">
+                    Time series forecasting model using Boosting methods for Amazon sales prediction. 
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">XGBoost</span>
+                    <span class="tech-tag">CatBoost</span>
+                    <span class="tech-tag">K-Means</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Rohith-Kumar-S/PrimePredict" target="_blank">[GitHub]</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <h2>Technical Skills</h2>
+        <div class="skills-container">
+            <div class="skill-category">
+                <h3>Languages & Frameworks</h3>
+                <ul class="skill-list">
+                    <li>Python</li>
+                    <li>PyTorch / TensorFlow</li>
+                    <li>OpenCV</li>
+                    <li>Scikit-learn</li>
+                    <li>SQL</li>
+                    <li>C++</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Machine Learning</h3>
+                <ul class="skill-list">
+                    <li>Deep Learning (CNN, RNN, Transformer)</li>
+                    <li>Computer Vision</li>
+                    <li>Natural Language Processing</li>
+                    <li>Reinforcement Learning</li>
+                    <li>Statistical Analysis</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Tools & Platforms</h3>
+                <ul class="skill-list">
+                    <li>Git / GitHub</li>
+                    <li>Docker / Kubernetes</li>
+                    <li>AWS / GCP</li>
+                    <li>MLflow / Weights & Biases</li>
+                    <li>CUDA / TensorRT</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Data & Visualization</h3>
+                <ul class="skill-list">
+                    <li>Pandas / NumPy</li>
+                    <li>Matplotlib / Seaborn</li>
+                    <li>Plotly / Dash</li>
+                    <li>Apache Spark</li>
+                    <li>MongoDB / PostgreSQL</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2>Get In Touch</h2>
+        <p style="color: var(--text-gray); margin-top: 1rem;">
+            Interested in collaboration or have a challenging problem to solve?
+        </p>
+        <div class="contact-links">
+            <a href="mailto:your.email@example.com">Email</a>
+            <a href="https://github.com/yourusername">GitHub</a>
+            <a href="https://linkedin.com/in/yourusername">LinkedIn</a>
+            <a href="#">Resume</a>
+        </div>
+    </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2025 Your Name. Built with passion for AI.</p>
+        </footer>
+    </div>
+
+    <!-- Project Detail Page -->
+    <div id="project-detail">
+        <div class="project-header">
+            <a href="#" class="back-button" onclick="closeProjectDetail()">Back to Portfolio</a>
+            <h1 class="project-detail-title" id="detail-title">Project Title</h1>
+            <div class="project-detail-meta">
+                <span id="detail-category">Category</span>
+                <span id="detail-date">Date</span>
+                <span id="detail-status">Status</span>
+            </div>
+        </div>
+
+        <div class="project-detail-content">
+            <!-- Overview Section -->
+            <div class="project-section">
+                <h2>Project Overview</h2>
+                <div class="project-description-full" id="detail-description">
+                    <p>
+                        This is where you can write a comprehensive description of your project. 
+                        Explain the problem you were trying to solve, your approach, and the impact 
+                        of your solution. You can include multiple paragraphs here.
+                    </p>
+                    <p>
+                        Discuss the challenges you faced, the methodologies you employed, and any 
+                        innovative techniques you developed during the project.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Video Demo Section -->
+            <div class="project-section">
+                <h2>Demo Video</h2>
+                <div class="media-gallery">
+                    <div class="media-item">
+                        <video controls>
+                            <source src="your-video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <p class="media-caption">Real-time object detection demonstration</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screenshots/Images Section -->
+            <div class="project-section">
+                <h2>Screenshots & Visualizations</h2>
+                <div class="image-carousel">
+                    <div class="carousel-container">
+                        <!-- Images will be inserted here dynamically -->
+                        <img class="carousel-image active" src="https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Model+Architecture" alt="Image 1" data-description="Neural network architecture diagram showing the custom YOLOv5 implementation with modified backbone for improved performance on specific object classes.">
+                        <img class="carousel-image" src="https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Training+Metrics" alt="Image 2" data-description="Training and validation metrics over 100 epochs, showing convergence of loss functions and steady improvement in mAP scores.">
+                        <img class="carousel-image" src="https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Detection+Results" alt="Image 3" data-description="Real-world detection results on test images, demonstrating high accuracy in various lighting conditions and object orientations.">
+                        <img class="carousel-image" src="https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Performance+Analysis" alt="Image 4" data-description="Comparative performance analysis showing FPS vs accuracy trade-offs across different model configurations and hardware setups.">
+                        <img class="carousel-image" src="https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Data+Pipeline" alt="Image 5" data-description="Data augmentation pipeline visualization showing the various transformations applied to training images for improved model robustness.">
+                        
+                        <div class="carousel-description" id="carousel-description">
+                            Neural network architecture diagram showing the custom YOLOv5 implementation with modified backbone for improved performance on specific object classes.
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-controls">
+                        <button class="carousel-btn prev" onclick="changeImage(-1)">Previous</button>
+                        <div class="carousel-indicators">
+                            <span class="carousel-counter" id="carousel-counter">1 / 5</span>
+                        </div>
+                        <button class="carousel-btn next" onclick="changeImage(1)">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Features -->
+            <div class="project-section">
+                <h2>Key Features</h2>
+                <ul class="features-list">
+                    <li>Real-time processing with 30+ FPS on standard hardware</li>
+                    <li>Custom training pipeline for domain-specific objects</li>
+                    <li>Integrated tracking system with object persistence</li>
+                    <li>RESTful API for easy integration</li>
+                    <li>Comprehensive logging and monitoring dashboard</li>
+                </ul>
+            </div>
+
+            <!-- Technical Implementation -->
+            <div class="project-section">
+                <h2>Technical Implementation</h2>
+                <div class="tech-details">
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <h3>Architecture</h3>
+                            <p>Built on YOLOv5 backbone with custom head layers optimized for specific object classes</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>Data Pipeline</h3>
+                            <p>Automated data augmentation and preprocessing using Albumentations library</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>Training</h3>
+                            <p>Distributed training on multiple GPUs using PyTorch DDP</p>
+                        </div>
+                        <div class="tech-item">
+                            <h3>Deployment</h3>
+                            <p>Containerized with Docker and deployed on AWS EC2 with auto-scaling</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code Sample -->
+                <div class="code-block">
+                    <pre>
+# Model initialization
+model = YOLOv5(
+    num_classes=10,
+    anchors=custom_anchors,
+    backbone='resnet50'
+)
+
+# Custom loss function
+def focal_loss(pred, target, gamma=2.0):
+    ce_loss = F.cross_entropy(pred, target, reduction='none')
+    pt = torch.exp(-ce_loss)
+    focal_loss = (1 - pt) ** gamma * ce_loss
+    return focal_loss.mean()
+                    </pre>
+                </div>
+            </div>
+
+            <!-- Results & Performance -->
+            <div class="project-section">
+                <h2>Results & Performance</h2>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">95%</div>
+                        <div class="result-label">mAP Score</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">32</div>
+                        <div class="result-label">FPS</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">0.92</div>
+                        <div class="result-label">F1 Score</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">10K+</div>
+                        <div class="result-label">Images Processed</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Links & Resources -->
+            <div class="project-section">
+                <h2>Links & Resources</h2>
+                <div class="project-links-detail">
+                    <a href="#">View on GitHub</a>
+                    <a href="#">Live Demo</a>
+                    <a href="#">Documentation</a>
+                    <a href="#">Research Paper</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Project data store (you can expand this with your actual project data)
+        const projectData = {
+            'object-detection': {
+                title: 'Object Detection System',
+                category: 'Computer Vision',
+                date: 'Jan 2025 - Present',
+                status: 'In Progress',
+                description: `
+                    <p>
+                        This real-time object detection system represents a significant advancement in computer vision applications.
+                        Built on the YOLOv5 architecture, the system has been customized and optimized for detecting specific 
+                        object classes in industrial environments.
+                    </p>
+                    <p>
+                        The project began as a response to the need for accurate, real-time object detection in manufacturing 
+                        quality control. Traditional methods were either too slow or lacked the precision required for production environments.
+                    </p>
+                    <p>
+                        Through extensive experimentation with different architectures and training strategies, we achieved 
+                        a 95% mAP score while maintaining real-time performance of 30+ FPS on standard hardware.
+                    </p>
+                `,
+                videoSrc: 'path/to/your/video.mp4',
+                images: [
+                    {
+                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Detection+Results',
+                        description: 'Real-time object detection results showing bounding boxes and confidence scores for multiple object classes in a complex industrial scene.'
+                    },
+                    {
+                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Model+Architecture',
+                        description: 'Custom YOLOv5 architecture with modified feature pyramid network for enhanced small object detection capabilities.'
+                    },
+                    {
+                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Training+Progress',
+                        description: 'Training metrics visualization showing loss convergence and mAP improvement over 200 epochs of training.'
+                    },
+                    {
+                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Confusion+Matrix',
+                        description: 'Confusion matrix analysis revealing model performance across different object categories with precision and recall metrics.'
+                    }
+                ]
+            },
+            'data-fusion': {
+            title: 'Data Fusion Pipeline',
+                category: 'Big Data Engineering',
+                date: 'Jan 2025 - Present',
+                status: 'Completed',
+                description: `
+                    <p>
+                        A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface. The system supports both real-time streaming and batch processing with distributed computing capabilities.
+                    </p>
+                    <p>
+                        I built this as a final project for my Intro to Data Management course here at Northeastern. It is the culmination of the majority of tools I learned during my 3rd semester, covering RDBMS fundamentals, Big Data Systems, and Distributed Computing. I have always wanted to explore the full breadth of a data pipeline, and this project became the perfect sandbox for me to experiment in. I set up the final environment in Docker after countless struggles with manual setup, dealing with Hadoop and PySpark version mismatches which led to the failure of the download feature.
+
+                    </p>
+                    <p>
+                        At first, the data injection layer only allowed data from Kaggle to be imported, enabling the data to be casted, fused with another Kaggle dataset, and downloaded as a CSV file. Now the application supports Kaggle and GitHub sources through links and streamed data through Apache Kafka. It supports most of the main functionalities available in Spark: Cast, Filter, Rename, Drop, Fill, Explode, Flatten, and Save. It allows users to fuse data by rows and columns based on join type, and supports export options including download, logging to Docker console, and sending to JDBC driver.
+
+                    </p>
+					<p>
+					All the rules the user configures are stored in a MongoDB database, so they can be reused later. The pipelines built can be run in parallel and can be restarted once execution is completed.
+					</p>
+                `,
+                videoSrc: 'path/to/your/video.mp4',
+                images: [
+                    {
+                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Detection+Results',
+                        description: 'Real-time object detection results showing bounding boxes and confidence scores for multiple object classes in a complex industrial scene.'
+                    },
+                    {
+                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Model+Architecture',
+                        description: 'Custom YOLOv5 architecture with modified feature pyramid network for enhanced small object detection capabilities.'
+                    },
+                    {
+                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Training+Progress',
+                        description: 'Training metrics visualization showing loss convergence and mAP improvement over 200 epochs of training.'
+                    },
+                    {
+                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Confusion+Matrix',
+                        description: 'Confusion matrix analysis revealing model performance across different object categories with precision and recall metrics.'
+                    }
+                ]
+            },
+            // Add more projects here
+        };
+
+        // Carousel functionality
+        let currentImageIndex = 0;
+        
+        function changeImage(direction) {
+            const images = document.querySelectorAll('.carousel-image');
+            const totalImages = images.length;
+            
+            // Hide current image
+            images[currentImageIndex].classList.remove('active');
+            
+            // Calculate new index
+            currentImageIndex += direction;
+            
+            // Wrap around if necessary
+            if (currentImageIndex < 0) {
+                currentImageIndex = totalImages - 1;
+            } else if (currentImageIndex >= totalImages) {
+                currentImageIndex = 0;
+            }
+            
+            // Show new image
+            images[currentImageIndex].classList.add('active');
+            
+            // Update description
+            const description = images[currentImageIndex].getAttribute('data-description');
+            document.getElementById('carousel-description').textContent = description;
+            
+            // Update counter
+            document.getElementById('carousel-counter').textContent = `${currentImageIndex + 1} / ${totalImages}`;
+            
+            // Update button states
+            updateCarouselButtons();
+        }
+        
+        function goToImage(index) {
+            const images = document.querySelectorAll('.carousel-image');
+            
+            // Hide current image
+            images[currentImageIndex].classList.remove('active');
+            
+            // Set new index
+            currentImageIndex = index;
+            
+            // Show new image
+            images[currentImageIndex].classList.add('active');
+            
+            // Update description
+            const description = images[currentImageIndex].getAttribute('data-description');
+            document.getElementById('carousel-description').textContent = description;
+            
+            // Update counter
+            document.getElementById('carousel-counter').textContent = `${currentImageIndex + 1} / ${images.length}`;
+            
+            // Update button states
+            updateCarouselButtons();
+        }
+        
+        function updateCarouselButtons() {
+            const images = document.querySelectorAll('.carousel-image');
+            const prevBtn = document.querySelector('.carousel-btn.prev');
+            const nextBtn = document.querySelector('.carousel-btn.next');
+            
+            // Enable all buttons (since we're wrapping around)
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+        }
+        
+        // Keyboard navigation for carousel
+        document.addEventListener('keydown', function(e) {
+            const carousel = document.querySelector('.image-carousel');
+            if (carousel && document.getElementById('project-detail').classList.contains('active')) {
+                if (e.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeImage(1);
+                }
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.getAttribute('href') === '#') return; // Skip empty href
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active class to navigation on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('nav a').forEach(link => {
+                link.style.color = '';
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.style.color = 'var(--primary-green)';
+                }
+            });
+        });
+
+        // Project filtering function
+        function filterProjects(category) {
+            const projects = document.querySelectorAll('.project-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().includes(category.replace('-', ' ')) || 
+                    (category === 'all' && btn.textContent === 'All Projects')) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Filter projects with animation
+            projects.forEach(project => {
+                if (category === 'all') {
+                    project.classList.remove('hidden');
+                    project.classList.add('show');
+                } else {
+                    const projectCategories = project.getAttribute('data-category');
+                    if (projectCategories && projectCategories.includes(category)) {
+                        project.classList.remove('hidden');
+                        project.classList.add('show');
+                    } else {
+                        project.classList.add('hidden');
+                        project.classList.remove('show');
+                    }
+                }
+            });
+        }
+
+        // Open project detail page
+        function openProjectDetail(projectId) {
+            const mainContent = document.getElementById('main-content');
+            const projectDetail = document.getElementById('project-detail');
+            
+            // Get project data (you can customize this based on projectId)
+            const project = projectData[projectId] || projectData['object-detection'];
+            
+            // Update project detail content
+            document.getElementById('detail-title').textContent = project.title;
+            document.getElementById('detail-category').textContent = project.category;
+            document.getElementById('detail-date').textContent = project.date;
+            document.getElementById('detail-status').textContent = project.status;
+            document.getElementById('detail-description').innerHTML = project.description;
+            
+            // Update carousel images if provided
+            if (project.images && project.images.length > 0) {
+                const carouselContainer = document.querySelector('.carousel-container');
+                let imagesHTML = '';
+                
+                project.images.forEach((img, index) => {
+                    imagesHTML += `<img class="carousel-image ${index === 0 ? 'active' : ''}" 
+                                        src="${img.src}" 
+                                        alt="Image ${index + 1}" 
+                                        data-description="${img.description}">`;
+                });
+                
+                // Add description div and update carousel
+                imagesHTML += `<div class="carousel-description" id="carousel-description">
+                                   ${project.images[0].description}
+                               </div>`;
+                
+                carouselContainer.innerHTML = imagesHTML;
+                
+                // Reset carousel counter
+                currentImageIndex = 0;
+                document.getElementById('carousel-counter').textContent = `1 / ${project.images.length}`;
+            }
+            
+            // Hide main content and show project detail
+            mainContent.classList.add('hidden');
+            projectDetail.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Close project detail page
+        function closeProjectDetail() {
+            const mainContent = document.getElementById('main-content');
+            const projectDetail = document.getElementById('project-detail');
+            
+            mainContent.classList.remove('hidden');
+            projectDetail.classList.remove('active');
+            
+            // Reset carousel to first image
+            currentImageIndex = 0;
+            
+            // Scroll to projects section
+            setTimeout(() => {
+                document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        // Add click handlers to project cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach((card, index) => {
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', function(e) {
+                    // Don't open detail if clicking on project links
+                    if (e.target.tagName === 'A') return;
+                    
+                    // You can map each card to a specific project ID
+                    const projectIds = ['object-detection', 'predictive-maintenance', 'data-fusion', 
+                                       'time-series', 'face-recognition', 'vqa', 'recommender', 'big-data'];
+                    openProjectDetail(projectIds[index] || 'object-detection');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

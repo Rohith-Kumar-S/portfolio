@@ -1037,41 +1037,32 @@
                 <h3>Languages & Frameworks</h3>
                 <ul class="skill-list">
                     <li>Python</li>
-                    <li>PyTorch / TensorFlow</li>
+                    <li>PyTorch</li>
+                    <li>TensorFlow</li>
                     <li>OpenCV</li>
                     <li>Scikit-learn</li>
-                    <li>SQL</li>
                     <li>C++</li>
+                    <li>ReactJS</li>
                 </ul>
             </div>
             <div class="skill-category">
-                <h3>Machine Learning</h3>
-                <ul class="skill-list">
-                    <li>Deep Learning (CNN, RNN, Transformer)</li>
-                    <li>Computer Vision</li>
-                    <li>Natural Language Processing</li>
-                    <li>Reinforcement Learning</li>
-                    <li>Statistical Analysis</li>
-                </ul>
-            </div>
-            <div class="skill-category">
-                <h3>Tools & Platforms</h3>
+                <h3>Tools & Cloud</h3>
                 <ul class="skill-list">
                     <li>Git / GitHub</li>
-                    <li>Docker / Kubernetes</li>
-                    <li>AWS / GCP</li>
-                    <li>MLflow / Weights & Biases</li>
-                    <li>CUDA / TensorRT</li>
+                    <li>Docker</li>
+                    <li>AWS EC2</li>
                 </ul>
             </div>
             <div class="skill-category">
                 <h3>Data & Visualization</h3>
                 <ul class="skill-list">
-                    <li>Pandas / NumPy</li>
-                    <li>Matplotlib / Seaborn</li>
-                    <li>Plotly / Dash</li>
                     <li>Apache Spark</li>
-                    <li>MongoDB / PostgreSQL</li>
+                    <li>MongoDB</li>
+                    <li>PostgreSQL</li>
+                    <li>Pandas</li>
+                    <li>NumPy</li>
+                    <li>Matplotlib</li>
+                    <li>Seaborn</li>
                 </ul>
             </div>
         </div>
@@ -1180,7 +1171,7 @@
             </div>
 
             <!-- Technical Implementation -->
-            <div class="project-section">
+            <div class="project-section" id="tech-details-main">
                 <h2>Technical Implementation</h2>
                 <div class="tech-details">
                     <div class="tech-grid" id="tech-implementation">
@@ -1224,7 +1215,7 @@ def focal_loss(pred, target, gamma=2.0):
             </div>
 
             <!-- Results & Performance -->
-            <div class="project-section">
+            <div class="project-section" id="results-section">
                 <h2>Results & Performance</h2>
                 <div class="results-grid" id="results-grid">
                     <div class="result-item">
@@ -1471,6 +1462,81 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                     { text: 'View on GitHub', url: 'https://github.com/Rohith-Kumar-S/datafusion-pipeline/tree/main' }
                 ]
             },
+            'cnn-visualizer':{
+            title: 'CNN Visualizer',
+                category: 'Computer Vision',
+                date: 'Feb 2025 - March 2025',
+                status: 'Completed',
+                description: `
+                    <p>
+                        A comprehensive tool to visualize how CNNs process images.
+                    </p>
+                    <p>
+                        I started building this tool as a result of the challenges I faced in understanding how the filters in Convolutional Neural Networks affect input images, specifically while exploring attention U-Nets during a self-supervised approach to segment MRI images of the bowel region.
+                    </p>
+                    <p>
+						This tool is scalable, with the addition of predefined model weights and image processing capabilities, and can be transformed into a full image processing pipeline with further developments.
+                    </p>
+                `,
+                videoSrc: '',
+                images: [
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/cnn-layer-visualizer/main/screenshot.jpg',
+                        description: 'CNN Layer Visualizer App, with Input and Output layers displayed on startup.'
+                    },
+                ],
+                features: [
+                    'Display individual convolutional, pooling, and fully connected layers.',
+                    'Show the architecture of the CNN model in an interactive format.',
+                    'Visualize the learned filters/kernels at each convolutional layer.'
+                ],
+                futureConsiderations: [
+                    'Add support for predefined model weights',
+                    'Enable layer construction via code',
+                    'Expand visualization tools and options'
+                ],
+                links: [
+                    { text: 'View on GitHub', url: 'https://github.com/Rohith-Kumar-S/cnn-layer-visualizer' },
+                    { text: 'Live Demo', url: 'https://rohith-kumar-s-cnn-layer-visualizer-app-oriztm.streamlit.app/' }
+                ]
+            },
+            'mars':{
+            title: 'Multi-domain Adaptive Recommendation System (MARS)',
+                category: 'Computer Vision',
+                date: 'Feb 2025 - March 2025',
+                status: 'Completed',
+                description: `
+                    <p>
+                       Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.
+                    </p>
+                    <p>
+                        This project was my first implementation of the collaborative filtering concept. Although it does not yet support traditional collaborative filtering, which I plan to add in upcoming updates, it includes a robust hybrid model that effectively handles the cold start problem.                    </p>
+                    <p>
+						The hybrid approach uses embeddings from the MovieLens dataset, generated with Ollama2 and stored in Pinecone, for content-based filtering, and ranks movies using collaborative filtering results from the ONNX model. The neural collaborative filtering model was trained on the ratings data using PyTorch with GPU acceleration. With an RMSE of over 0.8, it was later converted to ONNX format for faster inference and storage optimization. The original embeddings, which were over 1 GB in size, were reduced to under 100 MB using PCA (from 4096 to 512 dimensions), while still maintaining relevance for similar movie searches. Cosine similarity was applied for similarity search in Pinecone, which stored ~87,000 vectors corresponding to movie ratings in the dataset. The IMDb API was integrated to retrieve additional movie data, which was then used in the user interface built with Streamlit.                   </p>
+                `,
+                videoSrc: '',
+                images: [
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/MARS/main/data/1.jpg',
+                        description: 'Movie Recommender App.'
+                    },
+                ],
+
+                features: [
+                    'Movie recommendations based on the user\'s past ratings',
+                    'Displays movies similar to those the user is about to rate and ranks them based on watch history',
+                    'Lightweight model for quick inference'
+                ],
+                futureConsiderations: [
+                    'Add support for music and book recommendations',
+                    'Recommendations based on user activity',
+                    'Improved model accuracy'
+                ],
+                links: [
+                    { text: 'View on GitHub', url: 'https://github.com/Rohith-Kumar-S/MARS' },
+                    { text: 'Live Demo', url: 'https://rohith-kumar-s-mars-app-ldawct.streamlit.app/' }
+                ]
+            },
         };
 
         // Carousel functionality
@@ -1683,6 +1749,7 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
             }
             
             // Update Technical Implementation
+            const techDetails = document.getElementById('tech-details-main');
             if (project.technical && project.technical.length > 0) {
                 const techGrid = document.getElementById('tech-implementation');
                 techGrid.innerHTML = project.technical.map(tech => 
@@ -1691,6 +1758,8 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                         <p>${tech.description}</p>
                     </div>`
                 ).join('');
+            }else {
+                techDetails.style.display = 'none';
             }
             
             // Update Code Snippet
@@ -1706,6 +1775,7 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
             }
             
             // Update Results & Performance
+            const resultsSection = document.getElementById('results-section');
             if (project.results && project.results.length > 0) {
                 const resultsGrid = document.getElementById('results-grid');
                 resultsGrid.innerHTML = project.results.map(result => 
@@ -1714,6 +1784,9 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                         <div class="result-label">${result.label}</div>
                     </div>`
                 ).join('');
+            }
+            else{
+                resultsSection.style.display = 'none';
             }
             
             // Update Future Considerations
@@ -1769,7 +1842,7 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                     if (e.target.tagName === 'A') return;
                     
                     // You can map each card to a specific project ID
-                    const projectIds = ['object-detection', 'predictive-maintenance', 'data-fusion', 
+                    const projectIds = ['mars', 'cnn-visualizer', 'data-fusion', 
                                        'time-series', 'face-recognition', 'vqa', 'recommender', 'big-data'];
                     openProjectDetail(projectIds[index] || 'object-detection');
                 });

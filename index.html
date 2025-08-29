@@ -951,7 +951,7 @@
             <p class="subtitle">Computer Vision | Machine Learning | Data Science</p>
             <p class="terminal-text">Building intelligent systems that see and understand</p>
             <div class="hero-cta">
-                <a href="https://drive.google.com/file/d/1h6k5_lJLxQWQEhmJEcShGYnq4sDRmx0I/view?usp=sharing" target="_blank" class="resume-button">
+                <a href="https://drive.google.com/file/d/1Hee2BgJ1UPgFkJ3-Yxg2X2qMYVth5-wN/view?usp=sharing" target="_blank" class="resume-button">
                     <svg class="resume-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M13,17V18H7V17H13M17,14V15H7V14H17M17,11V12H7V11H17Z"/>
                     </svg>
@@ -1295,7 +1295,7 @@ def focal_loss(pred, target, gamma=2.0):
             'data-fusion':{
                 title: 'Data Fusion Pipeline',
                 category: 'Big Data Engineering',
-                date: 'Jan 2025 - Present',
+                date: 'June 2025 - July 2025',
                 status: 'Completed',
                 description: `
                     <p>
@@ -1375,8 +1375,24 @@ def focal_loss(pred, target, gamma=2.0):
                 videoSrc: '',
                 images: [
                     {
-                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/cnn-layer-visualizer/main/screenshot.jpg',
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/cnn-visualizer/1.jpg',
                         description: 'CNN Layer Visualizer App, with Input and Output layers displayed on startup.'
+                    },
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/cnn-visualizer/2.jpg',
+                        description: 'Input image loaded, and ready to be processed to RGB color space from BGR.'
+                    },
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/cnn-visualizer/3.jpg',
+                        description: 'Basic Convolutional Layer architecture.'
+                    },
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/cnn-visualizer/out.gif',
+                        description: 'Output GIF showing the CNN layer activations.'
+                    },
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/cnn-visualizer/4.jpg',
+                        description: 'CNN model code generated from the architecture specified by the user.'
                     },
                 ],
                 features: [
@@ -1397,7 +1413,7 @@ def focal_loss(pred, target, gamma=2.0):
             'mars':{
                 title: 'Multi-domain Adaptive Recommendation System (MARS)',
                 category: 'Recommender Systems',
-                date: 'Feb 2025 - March 2025',
+                date: 'July 2025 - August 2025',
                 status: 'Completed',
                 description: `
                     <p>
@@ -1409,12 +1425,28 @@ def focal_loss(pred, target, gamma=2.0):
                     <p>
                         The hybrid approach uses embeddings from the MovieLens dataset, generated with Ollama2 and stored in Pinecone, for content-based filtering, and ranks movies using collaborative filtering results from the ONNX model. The neural collaborative filtering model was trained on the ratings data using PyTorch with GPU acceleration. With an RMSE of over 0.8, it was later converted to ONNX format for faster inference and storage optimization. The original embeddings, which were over 1 GB in size, were reduced to under 100 MB using PCA (from 4096 to 512 dimensions), while still maintaining relevance for similar movie searches. Cosine similarity was applied for similarity search in Pinecone, which stored ~87,000 vectors corresponding to movie ratings in the dataset. The IMDb API was integrated to retrieve additional movie data, which was then used in the user interface built with Streamlit.
                     </p>
+
+                    <p>
+                       Disclaimer: The movie images and data used in this project were obtained from publicly available sources, such as MovieLens and the IMDb API, for educational purposes only.
+                    </p>
                 `,
                 videoSrc: '',
                 images: [
                     {
-                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/MARS/main/data/1.jpg',
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/1.jpg',
                         description: 'Movie Recommender App.'
+                    },
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/2.jpg',
+                        description: 'Avatar movie, ready to be rated by the user.'
+                    },
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/3.jpg',
+                        description: 'Similar movies to Avatar, resulting from content-based filtering.'
+                    },
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/4.jpg',
+                        description: 'Movie Recommendations from the Hybrid Model.'
                     },
                 ],
                 features: [
@@ -1451,9 +1483,17 @@ def focal_loss(pred, target, gamma=2.0):
                 videoSrc: '',
                 images: [
                     {
-                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/PrimePredict/main/data/images/1.jpg',
-                        description: 'Prime Predict Forecasting App.'
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/1.jpg',
+                        description: 'Prime Predict Forecasting App home screen, showing total sales forecasts across all categories and states, generated using both XGBoost and CatBoost.'
                     },
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/2.jpg',
+                        description: 'Forecast for California.'
+                    },
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/3.jpg',
+                        description: 'Forecast for Nutritional Supplements category.'
+                    }
                 ],
                 features: [
                     'Integrated pipeline for EDA, preprocessing, feature engineering, ML forecasting, and clustering, removing the need to combine multiple tools.',

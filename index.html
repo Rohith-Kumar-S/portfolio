@@ -36,8 +36,11 @@
             background-color: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            padding: 1rem 0;
+            padding: 1rem 2rem;
             border-bottom: 1px solid var(--secondary-black);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         nav ul {
@@ -45,9 +48,12 @@
             display: flex;
             justify-content: center;
             gap: 2rem;
+            margin: 0;
+            padding: 0;
+            flex: 1;
         }
 
-        nav a {
+        nav ul a {
             color: var(--text-white);
             text-decoration: none;
             transition: color 0.3s;
@@ -56,8 +62,41 @@
             letter-spacing: 1px;
         }
 
-        nav a:hover {
+        nav ul a:hover {
             color: var(--primary-green);
+        }
+
+        /* Social Icons in Nav */
+        .nav-social-icons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px; /* Squircle shape */
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background-color: transparent;
+        }
+
+        .nav-social-icon:hover {
+            border-color: var(--primary-green);
+            background-color: rgba(0, 255, 136, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.2);
+        }
+
+        .nav-social-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white; /* Always white */
         }
 
         /* Main Content Container */
@@ -119,8 +158,50 @@
             display: flex;
             gap: 2rem;
             color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Project Links at Top */
+        .project-links-top {
+            display: flex;
+            gap: 1rem;
             margin-bottom: 2rem;
             flex-wrap: wrap;
+        }
+
+        .project-links-top a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-white);
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--primary-green);
+            background-color: transparent;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .project-links-top a:hover {
+            background-color: var(--primary-green);
+            color: var(--primary-black);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Make Live Demo button prominent */
+        .project-links-top a:nth-child(2) {
+            background-color: var(--primary-green);
+            color: var(--primary-black);
+            font-weight: bold;
+        }
+
+        .project-links-top a:nth-child(2):hover {
+            background-color: var(--secondary-green);
+            border-color: var(--secondary-green);
         }
 
         .project-detail-content {
@@ -407,31 +488,6 @@
             border-bottom: none;
         }
 
-        /* Links Section */
-        .project-links-detail {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .project-links-detail a {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-white);
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border: 1px solid var(--primary-green);
-            background-color: rgba(0, 255, 136, 0.1);
-            transition: all 0.3s;
-        }
-
-        .project-links-detail a:hover {
-            background-color: var(--primary-green);
-            color: var(--primary-black);
-        }
-
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -464,6 +520,46 @@
 
         .terminal-text::before {
             content: "> ";
+        }
+
+        /* Resume Button */
+        .hero-cta {
+            margin-top: 2rem;
+        }
+
+        .resume-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 2rem;
+            background-color: transparent;
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+            text-decoration: none;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resume-button:hover {
+            background-color: var(--primary-green);
+            color: var(--primary-black);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .resume-button .resume-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            transition: transform 0.3s ease;
+        }
+
+        .resume-button:hover .resume-icon {
+            transform: translateY(-2px);
         }
 
         /* Sections */
@@ -517,6 +613,9 @@
             padding: 2rem;
             transition: all 0.3s;
             cursor: pointer;
+            opacity: 1;
+            transform: scale(1);
+            position: relative;
         }
 
         .project-card:hover {
@@ -549,7 +648,7 @@
             line-height: 1.6;
         }
 
-        .tech-stack {
+        .tech-stack, .project-tech {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
@@ -663,138 +762,6 @@
         }
 
         /* Project card fade animation */
-        .project-card {
-            background-color: var(--secondary-black);
-            border: 1px solid #2a2a2a;
-            padding: 2rem;
-            transition: all 0.3s;
-            cursor: pointer;
-            opacity: 1;
-            transform: scale(1);
-            position: relative;
-        }
-        
-        /* Status Badge Styles */
-        .status-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid;
-            animation: pulse 2s infinite;
-        }
-        
-        .status-badge.in-progress {
-            color: var(--primary-green);
-            border-color: var(--primary-green);
-            background-color: rgba(0, 255, 136, 0.1);
-        }
-        
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.6;
-            }
-        }
-        
-        /* Alternative: Timeline indicator */
-        .project-timeline {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
-            font-size: 0.85rem;
-            color: var(--text-gray);
-        }
-        
-        .timeline-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-        
-        .status-dot.active {
-            background-color: var(--primary-green);
-            box-shadow: 0 0 10px var(--primary-green);
-            animation: blink 1.5s infinite;
-        }
-        
-        .status-dot.completed {
-            background-color: var(--text-gray);
-        }
-        
-        @keyframes blink {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.3;
-            }
-        }
-        
-        /* Progress Bar Style */
-        .project-progress {
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .progress-label {
-            font-size: 0.75rem;
-            color: var(--text-gray);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.3rem;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid #2a2a2a;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background-color: var(--primary-green);
-            transition: width 0.3s ease;
-            position: relative;
-        }
-        
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 30px;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.5));
-            animation: shimmer 2s infinite;
-        }
-        
-        @keyframes shimmer {
-            0% {
-                transform: translateX(-30px);
-            }
-            100% {
-                transform: translateX(30px);
-            }
-        }
-
         .project-card.hidden {
             display: none;
         }
@@ -855,9 +822,40 @@
                 font-size: 2rem;
             }
             
+            .hero .subtitle {
+                font-size: 1rem;
+            }
+            
+            nav {
+                padding: 1rem;
+            }
+            
             nav ul {
-                gap: 1rem;
-                padding: 0 1rem;
+                gap: 0.75rem;
+                font-size: 0.8rem;
+            }
+            
+            nav ul a {
+                font-size: 0.8rem;
+            }
+            
+            .nav-social-icons {
+                gap: 0.5rem;
+            }
+            
+            .nav-social-icon {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .nav-social-icon svg {
+                width: 16px;
+                height: 16px;
+            }
+            
+            .resume-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
             }
             
             .projects-grid {
@@ -875,6 +873,15 @@
             
             .project-detail-title {
                 font-size: 2rem;
+            }
+            
+            .project-links-top {
+                flex-direction: column;
+            }
+            
+            .project-links-top a {
+                width: 100%;
+                justify-content: center;
             }
             
             .tech-grid {
@@ -899,6 +906,17 @@
                 padding: 0.4rem 1rem;
             }
         }
+        
+        @media (max-width: 480px) {
+            nav ul {
+                gap: 0.5rem;
+            }
+            
+            nav ul a {
+                font-size: 0.7rem;
+                letter-spacing: 0.5px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -911,6 +929,18 @@
             <li><a href="#skills">Skills</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
+        <div class="nav-social-icons">
+            <a href="https://www.linkedin.com/in/rohith-kumar-s-b41207180/" target="_blank" class="nav-social-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+            </a>
+            <a href="https://github.com/Rohith-Kumar-S" target="_blank" class="nav-social-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </a>
+        </div>
     </nav>
 
     <!-- Main Content -->
@@ -920,6 +950,14 @@
             <h1>Rohith Kumar S.</h1>
             <p class="subtitle">Computer Vision | Machine Learning | Data Science</p>
             <p class="terminal-text">Building intelligent systems that see and understand</p>
+            <div class="hero-cta">
+                <a href="https://drive.google.com/file/d/1h6k5_lJLxQWQEhmJEcShGYnq4sDRmx0I/view?usp=sharing" target="_blank" class="resume-button">
+                    <svg class="resume-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M13,17V18H7V17H13M17,14V15H7V14H17M17,11V12H7V11H17Z"/>
+                    </svg>
+                    Download Resume
+                </a>
+            </div>
         </section>
 
         <!-- About Section -->
@@ -927,165 +965,157 @@
             <h2>About Me</h2>
             <div class="about-content">
                 <p>
-                   I am a Master's in Data Science student at Northeastern University, specializing in Deep Learning and Computer Vision. With 3 years of experience in building full-stack and AI solutions, I am well-versed in developing product-specific tools using Core Java and Spring Boot, designing web pages with ReactJS and Angular, and deploying containerized applications using AWS EC2 and Docker.                 </p>
+                   I am a Master's in Data Science student at Northeastern University, specializing in Deep Learning and Computer Vision. With 3 years of experience in building full-stack and AI solutions, I am well-versed in developing product-specific tools using Core Java and Spring Boot, designing web pages with ReactJS and Angular, and deploying containerized applications using AWS EC2 and Docker.
+                </p>
                 <br>
                 <p>
                     Now transitioning into Data Science and Computer Vision, I focus on building end-to-end AI solutions, from computer vision systems for object detection, tracking, and 3D reconstruction to scalable ML applications including recommender systems and forecasting models, supported by robust data pipelines.
-
                 </p>
             </div>
         </section>
 
         <!-- Projects Section -->
-    <section id="projects">
-        <h2>Projects</h2>
-        
-        <!-- Filter Buttons -->
-        <div class="filter-container">
-            <button class="filter-btn active" onclick="filterProjects('all')">All Projects</button>
-            <button class="filter-btn" onclick="filterProjects('computer-vision')">Computer Vision</button>
-            <button class="filter-btn" onclick="filterProjects('deep-learning')">Deep Learning</button>
-            <button class="filter-btn" onclick="filterProjects('machine-learning')">Machine Learning</button>
-            <button class="filter-btn" onclick="filterProjects('big-data-engineering')">Big Data Engineering</button>
-        </div>
-        
-        <div class="projects-grid">
-            <!-- Project 1 - Example with "In Progress" badge -->
-            <div class="project-card" data-category="deep-learning">
-                <span class="status-badge in-progress">In Progress</span>
-                <div class="project-category">Recommender Systems</div>
-                <h3 class="project-title">Multi-domain Adaptive Recommendation System (MARS)</h3>
-                <p class="project-description">
-                    Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.
-                </p>
-                <div class="project-tech">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">PyTorch</span>
-                    <span class="tech-tag">pandas</span>
-                    <span class="tech-tag">ONNX</span>
-                    <span class="tech-tag">Pinecone</span>
+        <section id="projects">
+            <h2>Projects</h2>
+            
+            <!-- Filter Buttons -->
+            <div class="filter-container">
+                <button class="filter-btn active" onclick="filterProjects('all')">All Projects</button>
+                <button class="filter-btn" onclick="filterProjects('computer-vision')">Computer Vision</button>
+                <button class="filter-btn" onclick="filterProjects('deep-learning')">Deep Learning</button>
+                <button class="filter-btn" onclick="filterProjects('machine-learning')">Machine Learning</button>
+                <button class="filter-btn" onclick="filterProjects('big-data-engineering')">Big Data Engineering</button>
+            </div>
+            
+            <div class="projects-grid">
+                <!-- Project 1 - MARS -->
+                <div class="project-card" data-category="deep-learning">
+                    <div class="project-category">Recommender Systems</div>
+                    <h3 class="project-title">Multi-domain Adaptive Recommendation System (MARS)</h3>
+                    <p class="project-description">
+                        Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">PyTorch</span>
+                        <span class="tech-tag">pandas</span>
+                        <span class="tech-tag">ONNX</span>
+                        <span class="tech-tag">Pinecone</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Rohith-Kumar-S/MARS" target="_blank">[GitHub]</a>
+                        <a href="https://rohith-kumar-s-mars-app-ldawct.streamlit.app/" target="_blank">[Demo]</a>
+                    </div>
                 </div>
-                <div class="project-links">
-                    <a href="https://github.com/Rohith-Kumar-S/MARS" target="_blank">[GitHub]</a>
-                    <a href="https://rohith-kumar-s-mars-app-ldawct.streamlit.app/" target="_blank">[Demo]</a>
+
+                <!-- Project 2 - CNN Visualizer -->
+                <div class="project-card" data-category="computer-vision">
+                    <div class="project-category">Computer Vision</div>
+                    <h3 class="project-title">CNN Visualizer</h3>
+                    <p class="project-description">
+                        A comprehensive tool to visualize how CNNs process images.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">PyTorch</span>
+                        <span class="tech-tag">OpenCV</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Rohith-Kumar-S/cnn-layer-visualizer" target="_blank">[GitHub]</a>
+                        <a href="https://rohith-kumar-s-cnn-layer-visualizer-app-oriztm.streamlit.app/" target="_blank">[Demo]</a>
+                    </div>
+                </div>
+
+                <!-- Project 3 - Data Fusion Pipeline -->
+                <div class="project-card" data-category="big-data-engineering">
+                    <div class="project-category">Big Data Engineering</div>
+                    <h3 class="project-title">Data Fusion Pipeline</h3>
+                    <p class="project-description">
+                        A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Scikit-learn</span>
+                        <span class="tech-tag">XGBoost</span>
+                        <span class="tech-tag">Pandas</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Rohith-Kumar-S/datafusion-pipeline" target="_blank">[GitHub]</a>
+                    </div>
+                </div>
+
+                <!-- Project 4 - Prime Predict -->
+                <div class="project-card" data-category="machine-learning">
+                    <div class="project-category">Machine Learning</div>
+                    <h3 class="project-title">Prime Predict</h3>
+                    <p class="project-description">
+                        Time series forecasting model using Boosting methods for Amazon sales prediction. 
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">XGBoost</span>
+                        <span class="tech-tag">CatBoost</span>
+                        <span class="tech-tag">K-Means</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Rohith-Kumar-S/PrimePredict" target="_blank">[GitHub]</a>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Project 1 -->
-            <div class="project-card" data-category="computer-vision">
-                <div class="project-category">Computer Vision</div>
-                <h3 class="project-title">CNN Visualizer</h3>
-                <p class="project-description">
-                    A comprehensive tool to visualize how CNNs process images.
-                </p>
-                <div class="project-tech">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">PyTorch</span>
-                    <span class="tech-tag">OpenCV</span>
+        <!-- Skills Section -->
+        <section id="skills">
+            <h2>Technical Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>Languages & Frameworks</h3>
+                    <ul class="skill-list">
+                        <li>Python</li>
+                        <li>PyTorch</li>
+                        <li>TensorFlow</li>
+                        <li>OpenCV</li>
+                        <li>Scikit-learn</li>
+                        <li>C++</li>
+                        <li>ReactJS</li>
+                    </ul>
                 </div>
-                <div class="project-links">
-                    <a href="https://github.com/Rohith-Kumar-S/cnn-layer-visualizer" target="_blank">[GitHub]</a>
-                    <a href="https://rohith-kumar-s-cnn-layer-visualizer-app-oriztm.streamlit.app/" target="_blank">[Demo]</a>
+                <div class="skill-category">
+                    <h3>Tools & Cloud</h3>
+                    <ul class="skill-list">
+                        <li>Git / GitHub</li>
+                        <li>Docker</li>
+                        <li>AWS EC2</li>
+                    </ul>
                 </div>
-            </div>
-
-            <div class="project-card" data-category="big-data-engineering">
-                <div class="project-category">Big Data Engineering</div>
-                <h3 class="project-title">Data Fusion Pipeline</h3>
-                <p class="project-description">
-                    A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface.
-                </p>
-                <div class="project-tech">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">Scikit-learn</span>
-                    <span class="tech-tag">XGBoost</span>
-                    <span class="tech-tag">Pandas</span>
-                </div>
-                <div class="project-links">
-                    <a href="https://github.com/Rohith-Kumar-S/datafusion-pipeline" target="_blank">[GitHub]</a>
-                </div>
-            </div>
-
-            <!-- Project 2 -->
-
-
-            <!-- Project 4 -->
-            <div class="project-card" data-category="machine-learning">
-                <div class="project-category">Machine Learning</div>
-                <h3 class="project-title">Prime Predict</h3>
-                <p class="project-description">
-                    Time series forecasting model using Boosting methods for Amazon sales prediction. 
-                </p>
-                <div class="project-tech">
-                    <span class="tech-tag">Python</span>
-                    <span class="tech-tag">XGBoost</span>
-                    <span class="tech-tag">CatBoost</span>
-                    <span class="tech-tag">K-Means</span>
-                </div>
-                <div class="project-links">
-                    <a href="https://github.com/Rohith-Kumar-S/PrimePredict" target="_blank">[GitHub]</a>
+                <div class="skill-category">
+                    <h3>Data & Visualization</h3>
+                    <ul class="skill-list">
+                        <li>Apache Spark</li>
+                        <li>MongoDB</li>
+                        <li>PostgreSQL</li>
+                        <li>Pandas</li>
+                        <li>NumPy</li>
+                        <li>Matplotlib</li>
+                        <li>Seaborn</li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Skills Section -->
-    <section id="skills">
-        <h2>Technical Skills</h2>
-        <div class="skills-container">
-            <div class="skill-category">
-                <h3>Languages & Frameworks</h3>
-                <ul class="skill-list">
-                    <li>Python</li>
-                    <li>PyTorch</li>
-                    <li>TensorFlow</li>
-                    <li>OpenCV</li>
-                    <li>Scikit-learn</li>
-                    <li>C++</li>
-                    <li>ReactJS</li>
-                </ul>
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <h2>Get In Touch</h2>
+            <p style="color: var(--text-gray); margin-top: 1rem;">
+                Interested in collaboration or have a challenging problem to solve?
+            </p>
+            <div class="contact-links">
+                <a href="mailto:us.rohithkumar@gmail.com">Email</a>
+                <a href="https://github.com/Rohith-Kumar-S">GitHub</a>
+                <a href="https://www.linkedin.com/in/rohith-kumar-s-b41207180/">LinkedIn</a>
+                <a href="https://drive.google.com/file/d/1h6k5_lJLxQWQEhmJEcShGYnq4sDRmx0I/view?usp=sharing" target="_blank">Resume</a>
             </div>
-            <div class="skill-category">
-                <h3>Tools & Cloud</h3>
-                <ul class="skill-list">
-                    <li>Git / GitHub</li>
-                    <li>Docker</li>
-                    <li>AWS EC2</li>
-                </ul>
-            </div>
-            <div class="skill-category">
-                <h3>Data & Visualization</h3>
-                <ul class="skill-list">
-                    <li>Apache Spark</li>
-                    <li>MongoDB</li>
-                    <li>PostgreSQL</li>
-                    <li>Pandas</li>
-                    <li>NumPy</li>
-                    <li>Matplotlib</li>
-                    <li>Seaborn</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <h2>Get In Touch</h2>
-        <p style="color: var(--text-gray); margin-top: 1rem;">
-            Interested in collaboration or have a challenging problem to solve?
-        </p>
-        <div class="contact-links">
-            <a href="mailto:us.rohithkumar@gmail.com">Email</a>
-            <a href="https://github.com/Rohith-Kumar-S">GitHub</a>
-            <a href="https://www.linkedin.com/in/rohith-kumar-s-b41207180/">LinkedIn</a>
-            <a href="#">Resume</a>
-        </div>
-    </section>
-
-        <!-- Footer -->
-        <footer>
-            <p>© 2025 Your Name. Built with passion for AI.</p>
-        </footer>
+        </section>
     </div>
 
     <!-- Project Detail Page -->
@@ -1097,6 +1127,12 @@
                 <span id="detail-category">Category</span>
                 <span id="detail-date">Date</span>
                 <span id="detail-status">Status</span>
+            </div>
+            <!-- Quick Links moved here -->
+            <div class="project-links-top" id="project-links-top">
+                <a href="#">GitHub</a>
+                <a href="#">Live Demo</a>
+                <a href="#">Documentation</a>
             </div>
         </div>
 
@@ -1250,153 +1286,14 @@ def focal_loss(pred, target, gamma=2.0):
                     </ul>
                 </div>
             </div>
-
-            <!-- Links & Resources -->
-            <div class="project-section">
-                <h2>Links & Resources</h2>
-                <div class="project-links-detail" id="project-links-detail">
-                    <a href="#">View on GitHub</a>
-                    <a href="#">Live Demo</a>
-                    <a href="#">Documentation</a>
-                    <a href="#">Research Paper</a>
-                </div>
-            </div>
         </div>
     </div>
 
     <script>
-        // Project data store (you can expand this with your actual project data)
+        // Your existing project data
         const projectData = {
-            'object-detection': {
-                title: 'Object Detection System',
-                category: 'Computer Vision',
-                date: 'Jan 2025 - Present',
-                status: 'In Progress',
-                description: `
-                    <p>
-                        This real-time object detection system represents a significant advancement in computer vision applications.
-                        Built on the YOLOv5 architecture, the system has been customized and optimized for detecting specific 
-                        object classes in industrial environments.
-                    </p>
-                    <p>
-                        The project began as a response to the need for accurate, real-time object detection in manufacturing 
-                        quality control. Traditional methods were either too slow or lacked the precision required for production environments.
-                    </p>
-                    <p>
-                        Through extensive experimentation with different architectures and training strategies, we achieved 
-                        a 95% mAP score while maintaining real-time performance of 30+ FPS on standard hardware.
-                    </p>
-                `,
-                videoSrc: 'path/to/your/video.mp4',
-                images: [
-                    {
-                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Detection+Results',
-                        description: 'Real-time object detection results showing bounding boxes and confidence scores for multiple object classes in a complex industrial scene.'
-                    },
-                    {
-                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Model+Architecture',
-                        description: 'Custom YOLOv5 architecture with modified feature pyramid network for enhanced small object detection capabilities.'
-                    },
-                    {
-                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Training+Progress',
-                        description: 'Training metrics visualization showing loss convergence and mAP improvement over 200 epochs of training.'
-                    },
-                    {
-                        src: 'https://via.placeholder.com/900x500/1a1a1a/00ff88?text=Confusion+Matrix',
-                        description: 'Confusion matrix analysis revealing model performance across different object categories with precision and recall metrics.'
-                    }
-                ],
-                features: [
-                    'Real-time processing with 30+ FPS on standard hardware',
-                    'Custom training pipeline for domain-specific objects',
-                    'Integrated tracking system with object persistence',
-                    'RESTful API for easy integration',
-                    'Comprehensive logging and monitoring dashboard',
-                    'Support for multiple camera streams simultaneously',
-                    'Automatic model versioning and rollback capabilities'
-                ],
-                technical: [
-                    {
-                        title: 'Architecture',
-                        description: 'Built on YOLOv5 backbone with custom head layers optimized for specific object classes. Incorporates FPN for multi-scale detection.'
-                    },
-                    {
-                        title: 'Data Pipeline',
-                        description: 'Automated data augmentation using Albumentations. Custom annotation tool for rapid dataset creation.'
-                    },
-                    {
-                        title: 'Training Strategy',
-                        description: 'Distributed training on 4x V100 GPUs using PyTorch DDP. Mixed precision training for 2x speedup.'
-                    },
-                    {
-                        title: 'Optimization',
-                        description: 'Model quantization and pruning for edge deployment. TensorRT optimization for inference.'
-                    },
-                    {
-                        title: 'Infrastructure',
-                        description: 'Kubernetes orchestration with auto-scaling based on request load. Redis caching for frequently accessed results.'
-                    },
-                    {
-                        title: 'Monitoring',
-                        description: 'Grafana dashboards for real-time performance metrics. Automated alerting for accuracy degradation.'
-                    }
-                ],
-                codeSnippet: `# Model initialization with custom configurations
-model = YOLOv5Custom(
-    num_classes=10,
-    anchors=custom_anchors,
-    backbone='resnet50',
-    fpn_channels=256
-)
-
-# Advanced augmentation pipeline
-transform = A.Compose([
-    A.RandomRotate90(),
-    A.Flip(),
-    A.Transpose(),
-    A.OneOf([
-        A.GaussNoise(),
-        A.GaussianBlur(),
-        A.MotionBlur(),
-    ], p=0.3),
-    A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.2, rotate_limit=45, p=0.5),
-])
-
-# Custom focal loss for handling class imbalance
-def focal_loss(pred, target, gamma=2.0, alpha=0.25):
-    ce_loss = F.cross_entropy(pred, target, reduction='none')
-    pt = torch.exp(-ce_loss)
-    focal_loss = alpha * (1 - pt) ** gamma * ce_loss
-    return focal_loss.mean()`,
-                results: [
-                    { value: '95%', label: 'mAP Score' },
-                    { value: '32', label: 'FPS (RTX 3080)' },
-                    { value: '0.92', label: 'F1 Score' },
-                    { value: '10K+', label: 'Training Images' },
-                    { value: '99.7%', label: 'Uptime' },
-                    { value: '<50ms', label: 'Latency' }
-                ],
-                futureConsiderations: [
-                    'Implement transformer-based architecture (DETR) for improved accuracy',
-                    'Add support for video stream processing with temporal consistency',
-                    'Develop mobile-optimized version using TensorFlow Lite',
-                    'Integrate active learning pipeline for continuous improvement',
-                    'Expand to 3D object detection using point cloud data',
-                    'Implement federated learning for privacy-preserving model updates',
-                    'Add explainability features using Grad-CAM visualizations',
-                    'Support for custom object classes without full retraining'
-                ],
-                links: [
-                    { text: 'View on GitHub', url: '#' },
-                    { text: 'Live Demo', url: '#' },
-                    { text: 'Documentation', url: '#' },
-                    { text: 'Research Paper', url: '#' },
-                    { text: 'Docker Hub', url: '#' }
-                ]
-            },
-            // Add more projects as needed
             'data-fusion':{
-            title: 'Data Fusion Pipeline',
+                title: 'Data Fusion Pipeline',
                 category: 'Big Data Engineering',
                 date: 'Jan 2025 - Present',
                 status: 'Completed',
@@ -1406,17 +1303,15 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                     </p>
                     <p>
                         I built this as a final project for my Intro to Data Management course here at Northeastern. It is the culmination of the majority of tools I learned during my 3rd semester, covering RDBMS fundamentals, Big Data Systems, and Distributed Computing. I have always wanted to explore the full breadth of a data pipeline, and this project became the perfect sandbox for me to experiment in. I set up the final environment in Docker after countless struggles with manual setup, dealing with Hadoop and PySpark version mismatches which led to the failure of the download feature.
-
                     </p>
                     <p>
                         At first, the data injection layer only allowed data from Kaggle to be imported, enabling the data to be casted, fused with another Kaggle dataset, and downloaded as a CSV file. Now the application supports Kaggle and GitHub sources through links and streamed data through Apache Kafka. It supports most of the main functionalities available in Spark: Cast, Filter, Rename, Drop, Fill, Explode, Flatten, and Save. It allows users to fuse data by rows and columns based on join type, and supports export options including download, logging to Docker console, and sending to JDBC driver.
-
                     </p>
-					<p>
-					All the rules the user configures are stored in a MongoDB database, so they can be reused later. The pipelines built can be run in parallel and can be restarted once execution is completed.
-					</p>
+                    <p>
+                        All the rules the user configures are stored in a MongoDB database, so they can be reused later. The pipelines built can be run in parallel and can be restarted once execution is completed.
+                    </p>
                 `,
-                videoSrc: 'path/to/your/video.mp4',
+                videoSrc: '',
                 images: [
                     {
                         src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/1.jpg',
@@ -1444,14 +1339,13 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                     }
                 ],
                 features: [
-    'Rule-Based Processing: User-friendly interface for defining data transformations without coding',
-    'Real-Time Streaming: Apache Kafka integration for continuous data processing',
-    'Data Fusion: Intelligent joining of datasets from multiple sources',
-    'Parallel Execution: Multi-threaded pipeline execution with concurrent processing',
-    'Flexible Input Sources: Support for Kaggle datasets, GitHub repositories, and Kafka streams',
-    'Multiple Output Destinations: Local files, console logging, and RDBMS integration'
-],
-
+                    'Rule-Based Processing: User-friendly interface for defining data transformations without coding',
+                    'Real-Time Streaming: Apache Kafka integration for continuous data processing',
+                    'Data Fusion: Intelligent joining of datasets from multiple sources',
+                    'Parallel Execution: Multi-threaded pipeline execution with concurrent processing',
+                    'Flexible Input Sources: Support for Kaggle datasets, GitHub repositories, and Kafka streams',
+                    'Multiple Output Destinations: Local files, console logging, and RDBMS integration'
+                ],
                 futureConsiderations: [
                     'Expand support for additional input sources',
                     'Enable more complex data transformations',
@@ -1459,11 +1353,11 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                     'Improve system reliability and fail-safes',
                 ],
                 links: [
-                    { text: 'View on GitHub', url: 'https://github.com/Rohith-Kumar-S/datafusion-pipeline/tree/main' }
+                    { text: 'GitHub', url: 'https://github.com/Rohith-Kumar-S/datafusion-pipeline/tree/main' }
                 ]
             },
             'cnn-visualizer':{
-            title: 'CNN Visualizer',
+                title: 'CNN Visualizer',
                 category: 'Computer Vision',
                 date: 'Feb 2025 - March 2025',
                 status: 'Completed',
@@ -1475,7 +1369,7 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                         I started building this tool as a result of the challenges I faced in understanding how the filters in Convolutional Neural Networks affect input images, specifically while exploring attention U-Nets during a self-supervised approach to segment MRI images of the bowel region.
                     </p>
                     <p>
-						This tool is scalable, with the addition of predefined model weights and image processing capabilities, and can be transformed into a full image processing pipeline with further developments.
+                        This tool is scalable, with the addition of predefined model weights and image processing capabilities, and can be transformed into a full image processing pipeline with further developments.
                     </p>
                 `,
                 videoSrc: '',
@@ -1496,13 +1390,13 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                     'Expand visualization tools and options'
                 ],
                 links: [
-                    { text: 'View on GitHub', url: 'https://github.com/Rohith-Kumar-S/cnn-layer-visualizer' },
+                    { text: 'GitHub', url: 'https://github.com/Rohith-Kumar-S/cnn-layer-visualizer' },
                     { text: 'Live Demo', url: 'https://rohith-kumar-s-cnn-layer-visualizer-app-oriztm.streamlit.app/' }
                 ]
             },
             'mars':{
-            title: 'Multi-domain Adaptive Recommendation System (MARS)',
-                category: 'Computer Vision',
+                title: 'Multi-domain Adaptive Recommendation System (MARS)',
+                category: 'Recommender Systems',
                 date: 'Feb 2025 - March 2025',
                 status: 'Completed',
                 description: `
@@ -1510,9 +1404,11 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                        Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.
                     </p>
                     <p>
-                        This project was my first implementation of the collaborative filtering concept. Although it does not yet support traditional collaborative filtering, which I plan to add in upcoming updates, it includes a robust hybrid model that effectively handles the cold start problem.                    </p>
+                        This project was my first implementation of the collaborative filtering concept. Although it does not yet support traditional collaborative filtering, which I plan to add in upcoming updates, it includes a robust hybrid model that effectively handles the cold start problem.
+                    </p>
                     <p>
-						The hybrid approach uses embeddings from the MovieLens dataset, generated with Ollama2 and stored in Pinecone, for content-based filtering, and ranks movies using collaborative filtering results from the ONNX model. The neural collaborative filtering model was trained on the ratings data using PyTorch with GPU acceleration. With an RMSE of over 0.8, it was later converted to ONNX format for faster inference and storage optimization. The original embeddings, which were over 1 GB in size, were reduced to under 100 MB using PCA (from 4096 to 512 dimensions), while still maintaining relevance for similar movie searches. Cosine similarity was applied for similarity search in Pinecone, which stored ~87,000 vectors corresponding to movie ratings in the dataset. The IMDb API was integrated to retrieve additional movie data, which was then used in the user interface built with Streamlit.                   </p>
+                        The hybrid approach uses embeddings from the MovieLens dataset, generated with Ollama2 and stored in Pinecone, for content-based filtering, and ranks movies using collaborative filtering results from the ONNX model. The neural collaborative filtering model was trained on the ratings data using PyTorch with GPU acceleration. With an RMSE of over 0.8, it was later converted to ONNX format for faster inference and storage optimization. The original embeddings, which were over 1 GB in size, were reduced to under 100 MB using PCA (from 4096 to 512 dimensions), while still maintaining relevance for similar movie searches. Cosine similarity was applied for similarity search in Pinecone, which stored ~87,000 vectors corresponding to movie ratings in the dataset. The IMDb API was integrated to retrieve additional movie data, which was then used in the user interface built with Streamlit.
+                    </p>
                 `,
                 videoSrc: '',
                 images: [
@@ -1521,7 +1417,6 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                         description: 'Movie Recommender App.'
                     },
                 ],
-
                 features: [
                     'Movie recommendations based on the user\'s past ratings',
                     'Displays movies similar to those the user is about to rate and ranks them based on watch history',
@@ -1533,8 +1428,45 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                     'Improved model accuracy'
                 ],
                 links: [
-                    { text: 'View on GitHub', url: 'https://github.com/Rohith-Kumar-S/MARS' },
+                    { text: 'GitHub', url: 'https://github.com/Rohith-Kumar-S/MARS' },
                     { text: 'Live Demo', url: 'https://rohith-kumar-s-mars-app-ldawct.streamlit.app/' }
+                ]
+            },
+            'prime-predict':{
+                title: 'Prime Predict',
+                category: 'Machine Learning',
+                date: 'Feb 2025 - March 2025',
+                status: 'Completed',
+                description: `
+                    <p>
+                       Time series forecasting model using Boosting methods for Amazon sales prediction.
+                    </p>
+                    <p>
+                        Amazon's marketplace is a dynamic retail ecosystem generating millions of daily transactions across countless product categories, offering a rich dataset for uncovering real-world patterns in purchase frequency, seasonality, and product performance. These insights are critical to optimizing inventory, pricing, and marketing strategies. To help businesses set revenue goals, allocate budgets, and predict growth across the U.S., this package is organized into four modules that go beyond traditional time series tools like Prophet or ARIMA. By combining regression and tree-ensemble models (XGBoost and CatBoost) with K-Means clustering, it produces accurate point forecasts alongside actionable customer-segment insights.
+                    </p>
+                    <p>
+                        This app was built with the idea that it could also be used by individual manufacturing companies whose products are sold on Amazon and who are trying to add a new product to an existing category. For manufacturers, it provides a quick overview of the performance of a product category. Since time to market is key to sales, they can decide when to manufacture and manage inventory based on demand. Given the forecast date range, the application enables users to forecast overall total sales, total sales for any specified U.S. state, and total sales for any specified product category. When the user clicks the Forecast button, the app first trains the model based on the user's selection if it hasn't already been trained on that specific selection. The trained model is then saved in the "models/saves" directory. Therefore, if the model has not yet been trained on that specific selection, the user must click Forecast once to train the model and then click Forecast again to retrieve the forecast results. The Streamlit app, written in "app.py", calls the functions available in "primepredict.py" to populate the results in the application. If the user performs a forecast based on a state or category, the application first loads the data using DataLoader and generates a processed dataset and stores it in "data/processed_datasets", which is then used during forecasting. To start the application, install the necessary packages listed in the requirements.txt file and activate the environment. Then, in that environment, navigate to the src folder and run "streamlit run app.py". The application will boot up and be ready to use.
+                    </p>
+                `,
+                videoSrc: '',
+                images: [
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/PrimePredict/main/data/images/1.jpg',
+                        description: 'Prime Predict Forecasting App.'
+                    },
+                ],
+                features: [
+                    'Integrated pipeline for EDA, preprocessing, feature engineering, ML forecasting, and clustering, removing the need to combine multiple tools.',
+                    'Interactive Streamlit app that highlights high-value customers, top-performing states, and sales forecasts for better inventory and marketing decisions.',
+                    'Predictions and visual comparison with two models, XGBoost and CatBoost.'
+                ],
+                futureConsiderations: [
+                    'Implement hierarchical or multi-level models so predictions roll up consistently across product, category, state, and national levels.',
+                    'Add prediction intervals and uncertainty estimates',
+                    'Move beyond forecasting to provide actionable recommendations'
+                ],
+                links: [
+                    { text: 'GitHub', url: 'https://github.com/Rohith-Kumar-S/PrimePredict' }
                 ]
             },
         };
@@ -1568,29 +1500,6 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
             
             // Update counter
             document.getElementById('carousel-counter').textContent = `${currentImageIndex + 1} / ${totalImages}`;
-            
-            // Update button states
-            updateCarouselButtons();
-        }
-        
-        function goToImage(index) {
-            const images = document.querySelectorAll('.carousel-image');
-            
-            // Hide current image
-            images[currentImageIndex].classList.remove('active');
-            
-            // Set new index
-            currentImageIndex = index;
-            
-            // Show new image
-            images[currentImageIndex].classList.add('active');
-            
-            // Update description
-            const description = images[currentImageIndex].getAttribute('data-description');
-            document.getElementById('carousel-description').textContent = description;
-            
-            // Update counter
-            document.getElementById('carousel-counter').textContent = `${currentImageIndex + 1} / ${images.length}`;
             
             // Update button states
             updateCarouselButtons();
@@ -1691,8 +1600,13 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
             const mainContent = document.getElementById('main-content');
             const projectDetail = document.getElementById('project-detail');
             
-            // Get project data (you can customize this based on projectId)
-            const project = projectData[projectId] || projectData['object-detection'];
+            // Get project data
+            const project = projectData[projectId];
+            
+            if (!project) {
+                console.error('Project not found:', projectId);
+                return;
+            }
             
             // Update basic project info
             document.getElementById('detail-title').textContent = project.title;
@@ -1700,6 +1614,16 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
             document.getElementById('detail-date').textContent = project.date;
             document.getElementById('detail-status').textContent = project.status;
             document.getElementById('detail-description').innerHTML = project.description;
+            
+            // Update Links at Top
+            if (project.links && project.links.length > 0) {
+                const linksSection = document.getElementById('project-links-top');
+                linksSection.innerHTML = project.links.map((link, index) => 
+                    `<a href="${link.url}" target="_blank">${link.text}</a>`
+                ).join('');
+            } else {
+                document.getElementById('project-links-top').innerHTML = '';
+            }
             
             // Update video if provided
             const videoSection = document.getElementById('video-section');
@@ -1709,7 +1633,6 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                 videoElement.load();
                 videoSection.style.display = 'block';
                 
-                // Update video caption if provided
                 if (project.videoCaption) {
                     document.getElementById('video-caption').textContent = project.videoCaption;
                 }
@@ -1758,7 +1681,8 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                         <p>${tech.description}</p>
                     </div>`
                 ).join('');
-            }else {
+                techDetails.style.display = 'block';
+            } else {
                 techDetails.style.display = 'none';
             }
             
@@ -1784,8 +1708,8 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                         <div class="result-label">${result.label}</div>
                     </div>`
                 ).join('');
-            }
-            else{
+                resultsSection.style.display = 'block';
+            } else {
                 resultsSection.style.display = 'none';
             }
             
@@ -1797,14 +1721,6 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                         ${project.futureConsiderations.map(item => `<li>${item}</li>`).join('')}
                     </ul>
                 `;
-            }
-            
-            // Update Links & Resources
-            if (project.links && project.links.length > 0) {
-                const linksSection = document.getElementById('project-links-detail');
-                linksSection.innerHTML = project.links.map(link => 
-                    `<a href="${link.url}">${link.text}</a>`
-                ).join('');
             }
             
             // Hide main content and show project detail
@@ -1841,10 +1757,9 @@ def focal_loss(pred, target, gamma=2.0, alpha=0.25):
                     // Don't open detail if clicking on project links
                     if (e.target.tagName === 'A') return;
                     
-                    // You can map each card to a specific project ID
-                    const projectIds = ['mars', 'cnn-visualizer', 'data-fusion', 
-                                       'time-series', 'face-recognition', 'vqa', 'recommender', 'big-data'];
-                    openProjectDetail(projectIds[index] || 'object-detection');
+                    // Map each card to a specific project ID
+                    const projectIds = ['mars', 'cnn-visualizer', 'data-fusion', 'prime-predict'];
+                    openProjectDetail(projectIds[index]);
                 });
             });
         });

@@ -981,6 +981,7 @@
             <!-- Filter Buttons -->
             <div class="filter-container">
                 <button class="filter-btn active" onclick="filterProjects('all')">All Projects</button>
+                <button class="filter-btn" onclick="filterProjects('algorithms')">Algorithms</button>
                 <button class="filter-btn" onclick="filterProjects('computer-vision')">Computer Vision</button>
                 <button class="filter-btn" onclick="filterProjects('deep-learning')">Deep Learning</button>
                 <button class="filter-btn" onclick="filterProjects('machine-learning')">Machine Learning</button>
@@ -988,6 +989,23 @@
             </div>
             
             <div class="projects-grid">
+                <!-- Project 0 - MARS -->
+                <div class="project-card" data-category="algorithms">
+                    <div class="project-category">Algorithms</div>
+                    <h3 class="project-title">Path Matching</h3>
+                    <p class="project-description">
+                        A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">pandas</span>
+                        <span class="tech-tag">Streamlit</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/Rohith-Kumar-S/Path-Matching" target="_blank">[GitHub]</a>
+                        <a href="https://rohith-kumar-s-path-matching-app-l8cun2.streamlit.app/" target="_blank">[Demo]</a>
+                    </div>
+                </div>
                 <!-- Project 1 - MARS -->
                 <div class="project-card" data-category="deep-learning">
                     <div class="project-category">Recommender Systems</div>
@@ -1509,6 +1527,55 @@ def focal_loss(pred, target, gamma=2.0):
                     { text: 'GitHub', url: 'https://github.com/Rohith-Kumar-S/PrimePredict' }
                 ]
             },
+            'path-matching':{
+                title: 'Path Matching',
+                category: 'Algorithms',
+                date: 'September 2025 - September 2025',
+                status: 'Completed',
+                description: `
+                    <p>
+                        An interactive simulation tool to visualize shortest path finding and bipartite matching algorithms.
+                    </p>
+                    <p>
+                        I started this project as a fun activity to mimic Professor Bruce Maxwell's visualization of the A* algorithm during one of his classes. Later, I discovered the <a href="https://github.com/qiao/PathFinding.js">PathFinding.js</a> tool, which provides a perfect visualization of the shortest path for a given single source–target pair and supports many shortest path algorithms. This inspired me to explore more algorithms and implement them in a similar interactive way. The project goes a step further by finding shortest paths for multi-source and multi-target scenarios and matching sources to targets based on the shortest path between each source–target pair. The project is still a work in progress, and I plan to add more algorithms and features in the future.
+                    </p>
+                    <p>
+                        The project features several shortest path finding algorithms, namely Dijkstra's, A*, and Breadth-First Search (BFS). When multiple sources or targets are detected, it incorporates bipartite matching into the process. Bipartite matching can currently be done either using the greedy algorithm or linear programming.
+                    </p>
+                    <p>
+                        For the heuristic in the A* algorithm, the project supports Manhattan, Euclidean, and Diagonal distance calculations. It features a grid-based canvas where users can choose different obstacle maps and define the sources and targets.
+                    </p>
+                    <p>
+                        The red grids indicate sources, and the blue grids indicate targets. The black grids represent obstacles. The yellow grids show the path taken by the algorithm to reach the target from the source, while other colored grids represent the search paths from each source to the target.
+                    </p>
+                    <p>
+                        <b>In terms of applications, this forms the basis for customer-to-taxi matching, delivery-driver-to-order matching, and many more use cases</b>.
+                    </p>
+                    <p>
+                        The project was written in Python and uses the Streamlit library for the web app. The path finding algorithms were implemented from scratch, and the linear programming for bipartite matching was done using the SciPy library.
+                    </p>
+
+                `,
+                videoSrc: '',
+                images: [
+                    {
+                        src: 'https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/path-matching/path-matching.gif',
+                        description: 'Path Matching App home screen, showing the interactive grid for pathfinding and matching algorithms.'
+                    }
+                ],
+                features: [
+                    'Displays the time taken to compute the overall shortest path and the time to match each source to its target.',
+                    'Goes beyond single-source shortest paths by handling multi-source and multi-target scenarios, using bipartite matching (greedy or linear programming) to optimally pair them.',
+                    'Supports multiple heuristics for A* (Manhattan, Euclidean) and allows users to create or select obstacle maps to test different scenarios.'
+                ],
+                futureConsiderations: [
+                    'Add features like customizable maps, step-by-step playback, and real-world scenario simulations.'
+                ],
+                links: [
+                    { text: 'GitHub', url: 'https://github.com/Rohith-Kumar-S/PathMatching' },
+                    { text: 'Live Demo', url: 'https://rohith-kumar-s-path-matching-app-l8cun2.streamlit.app/' }
+                ]
+            },
         };
 
         // Carousel functionality
@@ -1798,7 +1865,7 @@ def focal_loss(pred, target, gamma=2.0):
                     if (e.target.tagName === 'A') return;
                     
                     // Map each card to a specific project ID
-                    const projectIds = ['mars', 'cnn-visualizer', 'data-fusion', 'prime-predict'];
+                    const projectIds = ['path-matching', 'mars', 'cnn-visualizer', 'data-fusion', 'prime-predict'];
                     openProjectDetail(projectIds[index]);
                 });
             });

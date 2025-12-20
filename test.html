@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Rohith Kumar.S</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- CSS Reset & Variables --- */
+        :root {
+            --font-sans: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+            --primary-color: #268bd2;
+            --text-color: #222222;
+            --text-light: #555555;
+            --bg-color: #ffffff;
+            
+            /* SIZING VARIABLES */
+            --sidebar-width: 350px; 
+            --gap: 5rem; 
+            --border-color: #eeeeee;
+            --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --content-padding: 3rem; 
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            font-size: 19px; /* Large font preserved */
+        }
+
+        a { color: var(--text-color); text-decoration: none; }
+        a:hover { color: var(--primary-color); text-decoration: underline; }
+
+        /* --- Header --- */
+        .masthead {
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 0;
+            margin-bottom: 3rem;
+            width: 100%;
+            position: sticky;        /* Makes it stick */
+            top: 0;                  /* Sticks to the very top */
+            background-color: #fff;  /* Prevents transparent overlap */
+            z-index: 1000;
+        }
+        
+        .masthead-inner {
+            width: 100%;
+            padding: 0 var(--content-padding);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .site-title { font-weight: 700; font-size: 1.5rem; }
+        
+        .nav-links { display: flex; gap: 2.5rem; font-size: 1.1rem; }
+        .nav-links a { font-weight: 600; color: var(--text-light); }
+        .nav-links a:hover { color: var(--primary-color); }
+
+        /* --- Layout Container --- */
+        .page-wrapper {
+            width: 100%;
+            padding: 0 var(--content-padding);
+            display: flex;
+            /* align-items: flex-start;  <-- REMOVED so sidebar stretches to full height */
+            position: relative; /* Helps context */
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            flex: 0 0 var(--sidebar-width);
+            text-align: left;
+            /* Sidebar now stretches height automatically due to flex default */
+        }
+        
+        .profile-card {
+            position: -webkit-sticky; /* Safari support */
+            position: sticky;         /* Standard sticky positioning */
+            top: 12rem;                /* Sticks 2rem from the top of the viewport */
+            width: 100%;
+            z-index: 10;
+        }
+
+        .avatar {
+            width: 240px;
+            height: 260px;
+            border-radius: 50%;
+            aspect-ratio: 1 / 1;
+            background-color: #f2f3f3;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            border: 1px solid #eee;
+            overflow: hidden; /* CRITICAL */
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+            transform: scale(1.5); 
+        }
+
+        .author-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            color: #111;
+        }
+
+        .author-bio {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .author-links { list-style: none; padding: 0; margin: 0; }
+        .author-links li { margin-bottom: 0.6rem; display: flex; }
+        .author-links a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            padding-top: 0.5rem;
+            max-width: 1600px;
+            padding-bottom: 4rem; /* Adds space at bottom for scrolling */
+        }
+
+        h1 { 
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            margin-top: 0;
+            font-weight: 700;
+            color: #222;
+        }
+        h2 { 
+            font-size: 2rem; 
+            margin-top: 4rem; 
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
+        
+        .content-list { 
+            margin-bottom: 1.5rem; 
+            padding-left: 1.2rem; 
+            text-align: left;
+            font-size: 1.15rem;
+        }
+        .content-list li { margin-bottom: 0.8rem; }
+        
+        /* --- Flexbox Project Cards --- */
+        .flex-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: flex-start;
+        }
+
+        .project-card {
+            flex: 0 0 calc(50% - 1rem); 
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #fff;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        @media (max-width: 1100px) {
+            .project-card { flex: 0 0 100%; }
+        }
+
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .card-media {
+            height: 240px;
+            background-color: #f7f7f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #eee;
+            color: #999;
+            font-size: 1.2rem;
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-badges {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .badge {
+            font-size: 0.85rem;
+            padding: 4px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: var(--text-light);
+            background: #fff;
+            font-weight: 600;
+        }
+
+        section {
+            scroll-margin-top: 6.5rem; /* This prevents the header from covering the title */
+            margin-bottom: 4rem;
+        }
+
+        .card-excerpt {
+            font-size: 1.05rem;
+            color: #444;
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .card-meta {
+            font-size: 0.95rem;
+            color: #888;
+            margin-top: auto;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+
+        
+        
+        /* --- Footer --- */
+        .page-footer {
+            margin-top: 6rem;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 1rem;
+            color: #777;
+        }
+
+         /* --- MODAL (POPUP) STYLES --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; 
+            z-index: 2000; /* Sit on top of everything */
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(255,255,255, 1); /* Opaque white background */
+        }
+
+        .modal-content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        /* The Close Button */
+        .close-btn {
+            position: fixed;
+            top: 2rem;
+            right: 3rem;
+            color: #333;
+            font-size: 3rem;
+            font-weight: bold;
+            border: 2px solid #333; /* Boxy border */
+            padding: 4px 16px 4px 16px;
+            line-height: 1;
+            cursor: pointer;
+            z-index: 2001;
+            background: #fff;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Modal Internal Layout */
+        .modal-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+
+        .modal-meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            color: #666;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        
+        .modal-main-image {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.5rem;
+        }
+
+        .modal-body-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 3rem;
+        }
+
+        .modal-skills-section {
+            background-color: #f9f9f9;
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        
+        .modal-skills-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            color: #555;
+        }
+
+
+        /* --- Responsive Mobile --- */
+        @media (max-width: 900px) {
+            .page-wrapper { flex-direction: column; gap: 2rem; padding: 0 1.5rem; }
+            .masthead-inner { padding: 0 1.5rem; }
+            .sidebar { 
+                width: 100%; 
+                padding-bottom: 2rem; 
+                border-bottom: 1px solid #eee;
+                /* Reset sticky on mobile */
+                height: auto; 
+            }
+            .profile-card {
+                position: static; /* No sticky on mobile */
+            }
+            .avatar { margin: 0 auto 1.5rem; width: 180px; height: 180px; }
+            .profile-card { text-align: center; }
+            .author-links { display: inline-block; text-align: left; }
+            
+            /* Modal Mobile */
+            .close-btn { right: 1.5rem; top: 1.5rem; }
+            .modal-content-wrapper { padding: 4rem 1.5rem; }
+            .modal-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="masthead">
+        <div class="masthead-inner">
+            <div class="site-title">Rohith Kumar.S</div>
+            <nav class="nav-links">
+                <a href="#about">About Me</a>
+                <a href="#projects">Projects</a>
+                <a href="#timeline">Timeline</a>
+                <a href="#skills">Skills</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="profile-card">
+                <div class="avatar">
+                        <img 
+                        src="img.png"
+                    >
+                    </div>
+                
+                <h3 class="author-name">Rohith Kumar.S</h3>
+                <div class="author-bio">M.S. Data Science</div>
+                
+                <ul class="author-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt" style="width:24px"></i> Northeastern University</a></li>
+                    <li><a href="#"><i class="fas fa-file" style="width:24px"></i> Resume</a></li>
+                    <li><a href="#"><i class="fas fa-envelope" style="width:24px"></i> Email</a></li>
+                    <li><a href="#"><i class="fab fa-linkedin" style="width:24px"></i> LinkedIn</a></li>
+                    <li><a href="#"><i class="fab fa-github" style="width:24px"></i> Github</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <section id="about">
+                <h1>About Me</h1>
+                <p>I am a Master's in Data Science student at Northeastern University, specializing in Deep Learning and Computer Vision. With 3 years of experience in building full-stack and AI solutions, I am well-versed in developing product-specific tools using Core Java and Spring Boot, designing web pages with ReactJS and Angular, and deploying containerized applications using AWS EC2 and Docker.</p>
+                <p>Now transitioning into Data Science and Computer Vision, I focus on building end-to-end AI solutions, from computer vision systems for object detection, tracking, and 3D reconstruction to scalable ML applications including recommender systems and forecasting models, supported by robust data pipelines.</p>
+            </section>
+
+            <!-- <section>
+                <h2>Background</h2>
+                <p>I am a U.S. citizen, raised and educated in Singapore 🇸🇬. Year by year, here's what I explored, learned, and built:</p>
+                <ul class="content-list">
+                    <li><strong>At various points:</strong> Led product strategy at startups - deep tech (quantum computing) based in SG, AI-powered hiring based in Asia + US.</li>
+                    <li><strong>2021:</strong> Finding home at Stanford. Started robot learning research at IRIS Lab.</li>
+                    <li><strong>Summer 2022:</strong> Developed low-code workflow automation tools at Salesforce in SF.</li>
+                    <li><strong>Fall 2022:</strong> Studied abroad at Magdalen College, Oxford. Studied graph representation learning and philosophy of mind.</li>
+                    <li><strong>2023:</strong> Led a project that became my honors thesis. Took more philosophy classes.</li>
+                    <li><strong>2024:</strong> Graduated BS SymSys! Continued robot learning research at IPRL Lab.</li>
+                </ul>
+            </section> -->
+
+            <section id="projects">
+                <h2>Projects</h2>
+                <div class="flex-grid">
+                    
+                    <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="Path Matching"
+                        data-start="Jan 2024"
+                        data-end="Present"
+                        data-tools="Python, pandas, Streamlit"
+                        data-desc="A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms."
+                        data-overview="A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms."
+                        data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/path-matching/path-matching.gif"
+                    >
+                        <div class="card-media"><span>[Project Image/GIF]</span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">Path Matching</a></div>
+                            <div class="card-badges"><span class="badge">Python</span><span class="badge">pandas</span><span class="badge">Streamlit</span></div>
+                            <div class="card-excerpt">A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms.</div>
+                            <div class="card-meta"><strong>Topics:</strong> Algorithms, Data Visualization</div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="Multi-domain Adaptive Recommendation System (MARS)"
+                        data-start="Aug 2023"
+                        data-end="Dec 2023"
+                        data-tools="Python, PyTorch, pandas, ONNX, K-Means, Pinecone"
+                        data-desc="Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset."
+                        data-overview="Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset."
+                        data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/1.jpg"
+                    >
+                        <div class="card-media"><span>[Project Image/GIF]</span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">Multi-domain Adaptive Recommendation System (MARS)</a></div>
+                            <div class="card-badges"><span class="badge">Python</span><span class="badge">PyTorch</span><span class="badge">pandas</span><span class="badge">ONNX</span><span class="badge">K-Means</span><span class="badge">Pinecone</span></div>
+                            <div class="card-excerpt">Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.</div>
+                            <div class="card-meta"><strong>Topics:</strong> Machine Learning, Recommendation Systems, Optimization</div>
+                        </div>
+                    </article>
+
+                     <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="CNN Visualizer"
+                        data-start="Jan 2023"
+                        data-end="May 2023"
+                        data-tools="Python, PyTorch, OpenCV"
+                        data-desc="A comprehensive tool to visualize how CNNs process images."
+                        data-overview="A comprehensive tool to visualize how CNNs process images."
+                        data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/cnn-visualizer/1.jpg"
+                     >
+                        <div class="card-media"><span>[Project Image/GIF]</span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">CNN Visualizer</a></div>
+                            <div class="card-badges"><span class="badge">Python</span><span class="badge">PyTorch</span><span class="badge">OpenCV</span></div>
+                            <div class="card-excerpt"> A comprehensive tool to visualize how CNNs process images.</div>
+                            <div class="card-meta"><strong>Topics:</strong> Computer Vision, Deep Learning, Visualization</div>
+                        </div>
+                    </article>
+
+
+                    <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="Data Fusion Pipeline"
+                        data-start="Jan 2023"
+                        data-end="May 2023"
+                        data-tools="Python, Apache Spark, PostgreSQL, Streamlit"
+                        data-desc="A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface."
+                        data-overview="A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface. The system supports both real-time streaming and batch processing with distributed computing capabilities."
+                        data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/1.jpg"
+                     >
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/1.jpg" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">Data Fusion Pipeline</a></div>
+                            <div class="card-badges"><span class="badge">Python</span><span class="badge">Apache Spark</span><span class="badge">PostgreSQL</span><span class="badge">Streamlit</span></div>
+                            <div class="card-excerpt">A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface.</div>
+                            <div class="card-meta"><strong>Topics:</strong> Big Data Engineering, Data Streaming, Pipeline Automation</div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="Prime Predict"
+                        data-start="Jan 2023"
+                        data-end="May 2023"
+                        data-tools="Python, XGBoost, CatBoost, K-Means"
+                        data-desc="Time series forecasting model using Boosting methods for Amazon sales prediction. "
+                        data-overview="Time series forecasting model using Boosting methods for Amazon sales prediction. "
+                        data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/1.jpg"
+                     >
+                        <div class="card-media"><span>[Project Image/GIF]</span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">Prime Predict</a></div>
+                            <div class="card-badges"><span class="badge">Python</span><span class="badge">XGBoost</span><span class="badge">CatBoost</span><span class="badge">K-Means</span></div>
+                            <div class="card-excerpt">Time series forecasting model using Boosting methods for Amazon sales prediction. </div>
+                            <div class="card-meta"><strong>Topics:</strong>Time Series Forecasting, Machine Learning, Boosting Methods</div>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+            <section id="timeline">
+                <h2>Timeline</h2>
+                <p>I am a U.S. citizen, raised and educated in Singapore 🇸🇬. Year by year, here's what I explored, learned, and built:</p>
+                <ul class="content-list">
+                    <li><strong>At various points:</strong> Led product strategy at startups - deep tech (quantum computing) based in SG, AI-powered hiring based in Asia + US.</li>
+                    <li><strong>2021:</strong> Finding home at Stanford. Started robot learning research at IRIS Lab.</li>
+                    <li><strong>Summer 2022:</strong> Developed low-code workflow automation tools at Salesforce in SF.</li>
+                    <li><strong>Fall 2022:</strong> Studied abroad at Magdalen College, Oxford. Studied graph representation learning and philosophy of mind.</li>
+                    <li><strong>2023:</strong> Led a project that became my honors thesis. Took more philosophy classes.</li>
+                    <li><strong>2024:</strong> Graduated BS SymSys! Continued robot learning research at IPRL Lab.</li>
+                </ul>
+            </section>
+
+            <section id="skills">
+                <h2>Skills</h2>
+                <div class="skills-grid">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">Spring Boot</span>
+                    <span class="skill-tag">ReactJS</span>
+                    <span class="skill-tag">Angular</span>
+                    <span class="skill-tag">AWS (EC2)</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Deep Learning</span>
+                    <span class="skill-tag">Computer Vision</span>
+                    <span class="skill-tag">Machine Learning</span>
+                    <span class="skill-tag">Object Detection</span>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer class="page-footer">
+        <p>&copy; 2025 Rohith Kumar.S. Powered by Jekyll & AcademicPages.</p>
+    </footer>
+    <div id="projectModal" class="modal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        
+        <div class="modal-content-wrapper">
+            
+            <div class="modal-header">
+                <div class="modal-title" id="m-title">Project Title</div>
+                <div class="modal-meta-row">
+                    <div><i class="far fa-calendar-alt"></i> <span id="m-dates">Jan 2023 - Present</span></div>
+                    <div><i class="fas fa-tools"></i> <span id="m-tools-header">Python, React</span></div>
+                </div>
+            </div>
+
+            <p id="m-desc" style="font-size: 1.3rem; font-weight: 500; margin-bottom: 2rem; color: #555;">
+                Brief description goes here...
+            </p>
+
+            <div class="modal-main-image" id="m-image">
+                [Image/GIF Placeholder]
+            </div>
+
+            <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Overview</h3>
+            <div id="m-overview" class="modal-body-text">
+                Detailed overview content...
+            </div>
+
+            <div class="modal-skills-section">
+                <div class="modal-skills-title">Skills & Tools Used</div>
+                <div class="skills-grid" id="m-skills-list">
+                    </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        // Open Modal Function
+        function openModal(element) {
+            var modal = document.getElementById("projectModal");
+            
+            // Retrieve data attributes from the clicked element
+            var title = element.getAttribute("data-title");
+            var start = element.getAttribute("data-start");
+            var end = element.getAttribute("data-end");
+            var tools = element.getAttribute("data-tools");
+            var desc = element.getAttribute("data-desc");
+            var overview = element.getAttribute("data-overview");
+            var image = element.getAttribute("data-image");
+
+            // Populate Modal Content
+            document.getElementById("m-title").innerText = title;
+            document.getElementById("m-dates").innerText = start + " - " + end;
+            document.getElementById("m-tools-header").innerText = tools;
+            document.getElementById("m-desc").innerText = desc;
+            document.getElementById("m-overview").innerText = overview;
+            
+            // Update Image (using text for placeholder, but works with real URLs)
+            var imgContainer = document.getElementById("m-image");
+            if (image.includes("Placeholder")) {
+                imgContainer.innerText = image;
+                imgContainer.style.backgroundImage = "none";
+            } else {
+                imgContainer.innerHTML = `<img src="${image}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">`;
+            }
+
+            // Populate Skills at Bottom (Split tools string into badges)
+            var skillsContainer = document.getElementById("m-skills-list");
+            skillsContainer.innerHTML = ""; // Clear previous
+            var toolsArray = tools.split(",");
+            toolsArray.forEach(function(tool) {
+                var span = document.createElement("span");
+                span.className = "skill-tag";
+                span.innerText = tool.trim();
+                skillsContainer.appendChild(span);
+            });
+
+            // Show Modal
+            modal.style.display = "block";
+            // Disable body scroll
+            document.body.style.overflow = "hidden";
+        }
+
+        // Close Modal Function
+        function closeModal() {
+            var modal = document.getElementById("projectModal");
+            modal.style.display = "none";
+            // Re-enable body scroll
+            document.body.style.overflow = "auto";
+        }
+
+        // Close if clicked outside content
+        window.onclick = function(event) {
+            var modal = document.getElementById("projectModal");
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

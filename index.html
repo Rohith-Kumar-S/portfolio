@@ -421,27 +421,45 @@
 
 
         /* --- Responsive Mobile --- */
+         /* --- RESPONSIVE / MOBILE STYLES (UPDATED) --- */
         @media (max-width: 900px) {
+            /* 1. Header Fixes for Mobile */
+            .masthead-inner { 
+                flex-direction: column; /* Stack Name and Links vertically */
+                padding: 0 1.5rem;
+                gap: 1rem; /* Add spacing between them */
+            }
+
+            .nav-links {
+                flex-wrap: wrap; /* Allow links to wrap to next line */
+                justify-content: center; /* Center them */
+                gap: 1rem; /* Reduce gap between links */
+                font-size: 1rem; /* Slightly smaller text */
+                text-align: center;
+            }
+
+            /* 2. Layout & Sidebar Fixes */
             .page-wrapper { flex-direction: column; gap: 2rem; padding: 0 1.5rem; }
-            .masthead-inner { padding: 0 1.5rem; }
-            .sidebar { 
-                width: 100%; 
-                padding-bottom: 2rem; 
-                border-bottom: 1px solid #eee;
-                /* Reset sticky on mobile */
-                height: auto; 
-            }
-            .profile-card {
-                position: static; /* No sticky on mobile */
-            }
+            .sidebar { width: 100%; height: auto; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
+            .profile-card { position: static; text-align: center; }
             .avatar { margin: 0 auto 1.5rem; width: 180px; height: 180px; }
-            .profile-card { text-align: center; }
             .author-links { display: inline-block; text-align: left; }
             
-            /* Modal Mobile */
+            /* 3. Project Cards (1 per row) */
+            .project-card { 
+                flex: 0 0 100%; 
+            }
+
+            /* 4. Modal Fixes */
             .close-btn { right: 1.5rem; top: 1.5rem; }
             .modal-content-wrapper { padding: 4rem 1.5rem; }
             .modal-title { font-size: 2rem; }
+        }
+
+        @media (max-width: 1200px) and (min-width: 901px) {
+            .project-card {
+                flex: 0 0 calc((100% - 2rem) / 2);
+            }
         }
     </style>
 </head>

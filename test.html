@@ -463,7 +463,7 @@
             <div class="profile-card">
                 <div class="avatar">
                         <img 
-                        src="img.png"
+                        src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/img.png"
                     >
                     </div>
                 
@@ -664,19 +664,28 @@
                         <p>
                             The goal of this project is to segment different regions of the abdomen using 3D MRI scans of patients undergoing radiotherapy to identify signs of inflammation and bowel damage. </p><p>
 
-This was my first segmentation project and introduced me to transfer learning. I experimented with multiple architectures, including VGG16, ResNet50, and attention mechanisms for feature extraction. Initially, a Residual U-Net was trained from scratch, however, due to computational and time constraints, a transfer learning approach was adopted using the SegFormer model. This approach achieved a mean IoU of 75%.
+                        This was my first segmentation project and introduced me to transfer learning. I experimented with multiple architectures, including VGG16, ResNet50, and attention mechanisms for feature extraction. Initially, a Residual U-Net was trained from scratch, however, due to computational and time constraints, a transfer learning approach was adopted using the SegFormer model. This approach achieved a mean IoU of 75%.
                         </p>
                         <h3>
                             UW-Madison GI Tract Image Segmentation Dataset</h3>
                         <p></p>
                         <p>The dataset contains 467 de-identified MRI scans from 107 patients with each undergone
-serial (1-5) MRI scans of the abdomen. Every MRI scan consists of approximately 144 axial slices with an average pixel resolution of 1.5 x 1.5 x 3 mm. </p>
-<p> The dataset contains labeled annotations for five bowel regions: the ampulla of Vater, large bowel, pyloric sphincter, small bowel, and stomach. Of these, only three regions including small bowel, large bowel, and stomach, were used for training, as the remaining classes were underrepresented.</p>
-                        
-<h3> Training Pipeline</h3>
-<p></p>
+                        serial (1-5) MRI scans of the abdomen. Every MRI scan consists of approximately 144 axial slices with an average pixel resolution of 1.5 x 1.5 x 3 mm. </p>
+                        <p> The dataset contains labeled annotations for five bowel regions: the ampulla of Vater, large bowel, pyloric sphincter, small bowel, and stomach. Of these, only three regions including small bowel, large bowel, and stomach, were used for training, as the remaining classes were underrepresented.</p>
+                                                
+                        <h3> Training Pipeline</h3>
+                        <p></p>
+                        <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/bowel-seg/training_pipeline.png' alt='Training Pipeline' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
 
-"
+                        <p>==============================<br>
+                        Per-class IoU Results:<br>
+                        ==============================<br>
+                        Background: IoU = 0.9876<br>
+                        Large Bowel: IoU = 0.6893<br>
+                        Small Bowel: IoU = 0.5508<br>
+                        Stomach: IoU = 0.7679<br>
+                        Mean IoU: 0.7489<br>
+                        ==============================</p>"
                         data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/bowel-seg/segmentation_animation.gif"
                         
                      >

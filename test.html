@@ -143,6 +143,11 @@
             padding-bottom: 4rem; /* Adds space at bottom for scrolling */
         }
 
+        section {
+            scroll-margin-top: 6.5rem;
+            margin-bottom: 4rem;
+        }
+
         h1 { 
             font-size: 2.8rem;
             margin-bottom: 1.5rem;
@@ -177,7 +182,11 @@
         }
 
         .project-card {
-            flex: 0 0 calc(50% - 1rem); 
+            /* Calculation for 3 columns:
+               (100% width - (2 gaps * 2rem size)) / 3 items 
+            */
+            flex: 0 0 calc((100% - 4rem) / 3); 
+            
             display: flex;
             flex-direction: column;
             border: 1px solid var(--border-color);
@@ -185,22 +194,47 @@
             background: #fff;
             overflow: hidden;
             transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
         }
         
-        @media (max-width: 1100px) {
-            .project-card { flex: 0 0 100%; }
-        }
-
         .project-card:hover {
             transform: translateY(-3px);
             box-shadow: var(--card-shadow);
         }
 
+        /* --- Responsive Breakpoints --- */
+        /* Tablet: 2 Columns */
+        @media (max-width: 1200px) {
+            .project-card {
+                flex: 0 0 calc((100% - 2rem) / 2);
+            }
+        }
+
+        /* Mobile: 1 Column */
+        @media (max-width: 768px) {
+            .project-card { 
+                flex: 0 0 100%; 
+            }
+            
+            /* Mobile Layout Fixes */
+            .page-wrapper { flex-direction: column; gap: 2rem; padding: 0 1.5rem; }
+            .masthead-inner { padding: 0 1.5rem; }
+            .sidebar { width: 100%; height: auto; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
+            .profile-card { position: static; text-align: center; }
+            .avatar { margin: 0 auto 1.5rem; width: 180px; height: 180px; }
+            .author-links { display: inline-block; text-align: left; }
+            
+            /* Modal Mobile */
+            .close-btn { right: 1.5rem; top: 1.5rem; }
+            .modal-content-wrapper { padding: 4rem 1.5rem; }
+            .modal-title { font-size: 2rem; }
+        }
+
         .card-media {
-            height: 240px;
+            height: 200px; /* Slightly shorter to fit 3 in a row better */
             background-color: #f7f7f7;
             display: flex;
-            align-items: center;
+            align-items: left;
             justify-content: center;
             border-bottom: 1px solid #eee;
             color: #999;
@@ -208,19 +242,27 @@
             overflow: hidden;
         }
 
+        .card-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;   /* scales image to fill container without stretching */
+            object-position: left center; /* focuses on left side */
+        }
+
         .card-body {
-            padding: 1.8rem;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             flex: 1;
         }
 
         .card-title {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             line-height: 1.3;
             margin-bottom: 0.8rem;
         }
+        .card-title a { pointer-events: none; }
 
         .card-badges {
             margin-bottom: 1rem;
@@ -229,8 +271,8 @@
             gap: 0.5rem;
         }
         .badge {
-            font-size: 0.85rem;
-            padding: 4px 10px;
+            font-size: 0.8rem;
+            padding: 4px 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
             color: var(--text-light);
@@ -238,26 +280,18 @@
             font-weight: 600;
         }
 
-        section {
-            scroll-margin-top: 6.5rem; /* This prevents the header from covering the title */
-            margin-bottom: 4rem;
-        }
-
         .card-excerpt {
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: #444;
             margin-bottom: 1.2rem;
             flex-grow: 1;
         }
 
         .card-meta {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #888;
             margin-top: auto;
-            border-top: 1px solid #eee;
-            padding-top: 1rem;
         }
-
         
         
         /* --- Footer --- */
@@ -270,6 +304,20 @@
             color: #777;
         }
 
+        /* --- Skills Section --- */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .skill-tag {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            color: #495057;
+        }
          /* --- MODAL (POPUP) STYLES --- */
         .modal {
             display: none; /* Hidden by default */
@@ -464,10 +512,26 @@
                         data-end="Present"
                         data-tools="Python, pandas, Streamlit"
                         data-desc="A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms."
-                        data-overview="A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms."
-                        data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/path-matching/path-matching.gif"
+                        data-overview="<p>I started this project as a fun activity to mimic my Algorithm's professor visualization of the A* algorithm during one of his classes. Later, I discovered an interative pathfinding tool, which provides a perfect visualization of the shortest path for a given single source–target pair and supports many shortest path algorithms. This inspired me to explore more algorithms and implement them in a similar interactive way. The project goes a step further by finding shortest paths for multi-source and multi-target scenarios and matching sources to targets based on the shortest path between each source target pair. The project is still a work in progress, and I plan to add more algorithms and features in the future. </p>
+                        <p>
+                        The project features several shortest path finding algorithms, namely Dijkstra's, A*, and Breadth-First Search (BFS). When multiple sources or targets are detected, it incorporates bipartite matching into the process. Bipartite matching can currently be done either using the greedy algorithm or linear programming.
+                    </p>
+                    <p>
+                        For the heuristic in the A* algorithm, the project supports Manhattan, Euclidean, and Diagonal distance calculations. It features a grid-based canvas where users can choose different obstacle maps and define the sources and targets.
+                    </p>
+                    <p>
+                        The red grids indicate sources, and the blue grids indicate targets. The black grids represent obstacles. The yellow grids show the path taken by the algorithm to reach the target from the source, while other colored grids represent the search paths from each source to the target.
+                    </p>
+                    <p>
+                        <b>In terms of applications, this forms the basis for customer-to-taxi matching, delivery-driver-to-order matching, and many more use cases</b>.
+                    </p>
+                    <p>
+                        The project was written in Python and uses the Streamlit library for the web app. The path finding algorithms were implemented from scratch, and the linear programming for bipartite matching was done using the SciPy library.
+                    </p>
+                        "
+                        data-video="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/path-matching/path_matching.mp4"
                     >
-                        <div class="card-media"><span>[Project Image/GIF]</span></div>
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/path-matching/thumbnail.png" alt="Path Matching"></span></div>
                         <div class="card-body">
                             <div class="card-title"><a href="javascript:void(0)">Path Matching</a></div>
                             <div class="card-badges"><span class="badge">Python</span><span class="badge">pandas</span><span class="badge">Streamlit</span></div>
@@ -483,15 +547,52 @@
                         data-end="Dec 2023"
                         data-tools="Python, PyTorch, pandas, ONNX, K-Means, Pinecone"
                         data-desc="Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset."
-                        data-overview="Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset."
-                        data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/1.jpg"
+                        data-overview="<p>
+                       Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.
+                    </p>
+                    <p>
+                        This project was my first implementation of the collaborative filtering concept, it includes a robust hybrid model that effectively handles the cold start problem.
+                    </p>
+                    <p>
+                        The hybrid approach uses embeddings from the MovieLens dataset, generated with Ollama2 and stored in Pinecone, for content-based filtering, and ranks movies using collaborative filtering results from the ONNX model. The neural collaborative filtering model was trained on the ratings data using PyTorch with GPU acceleration. With an RMSE of over 0.97, it was later converted to ONNX format for faster inference and storage optimization. The original embeddings, which were over 1 GB in size, were reduced to under 100 MB using PCA (from 4096 to 512 dimensions), while still maintaining relevance for similar movie searches. Cosine similarity was applied for similarity search in Pinecone, which stored ~87,000 vectors corresponding to movie ratings in the dataset. The IMDb API was integrated to retrieve additional movie data, which was then used in the user interface built with Streamlit.
+                    </p>
+
+                    <p>
+                       Disclaimer: The movie images and data used in this project were obtained from publicly available sources, such as MovieLens and the IMDb API, for educational purposes only.
+                    </p>
+                    <h3>MovieLens Dataset</h3>
+                    <p></p>
+                    <p>
+                        The MovieLens dataset, provided by GroupLens Research at the University of Minnesota, is a widely used benchmark in the field of recommender systems. The dataset is available in various sizes, and the one I picked had 32 Million user-movie ratings across 87K movies.
+                    </p>
+
+                    <h3>Movie Genre Co-occurrence</h3>
+                    <p></p>
+                    <p>Movies in genereal tend to be categorized into multiple genres, and understanding the co-occurrence of these genres can provide insights into user preferences and movie characteristics. Below is a dendrogram visualizing the co-occurrence of different movie genres in the MovieLens dataset.</p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/genres_dendrogram.png' alt='Genre Dendrogram' style='width:50%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p> The above can be intepreted as like Horror, Crime, Mystery and Thriller genres often co-occur together in the movies with multiple genres. These co-occuring genres were later generalized into broader categories for better analysis and recommendation accuracy.</p>
+                    <h3>Architecture for Data and Model Preparation</h3>
+                    <p></p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/training_pipeline.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p>Here we store the movie embeddings from Llama2 locally and in Pinecone vector store. We also train the NCF PyTorch model and convert it into ONNX format for faster inference and reduced storage size. </p>
+                    
+                    <h3>Inference Pipeline</h3>
+                    <p></p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Arch.png' alt='Inference Pipeline' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p>The core idea is that once a user has rated enough movies, we trigger the inference pipeline. First, we fetch movies similar to those rated by the user using the Pinecone vector store. Next, we infer the user's preferences from their ratings and identify a MovieLens user with the closest taste profile. Finally, using this matched MovieLens user and the similar movies, we rank the movie candidates with an ONNX model to generate the final recommendations.</p>                    
+                    <p>Pincone vector store uses the movie embedding from local storage for similarity search. The similar movies fetched from similarity search are then used for content-based filtering. Especially when the user selects a movie to rate, these results populate the 'More like this' section.</p>
+                    
+                    <h3>Challenges Faced</h3>
+                    <p>Designing the user interface and integrating multiple technologies posed significant challenges during the development of the MARS Recommendation System. The interface was built using Streamlit, which limits deployed applications to 1 GB of RAM, while GitHub imposes a 100 MB repository size limit. The dataset alone exceeded 3 GB, and the PyTorch model was too large to store directly. As a result, several model and architectural optimizations were required to make this proof of concept functional on Streamlit Cloud.</p>                    
+                    "
+                        data-video="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Mars.mp4"
                     >
-                        <div class="card-media"><span>[Project Image/GIF]</span></div>
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Thumbnail.png" alt="Image 1"></span></div>
                         <div class="card-body">
-                            <div class="card-title"><a href="javascript:void(0)">Multi-domain Adaptive Recommendation System (MARS)</a></div>
-                            <div class="card-badges"><span class="badge">Python</span><span class="badge">PyTorch</span><span class="badge">pandas</span><span class="badge">ONNX</span><span class="badge">K-Means</span><span class="badge">Pinecone</span></div>
-                            <div class="card-excerpt">Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.</div>
-                            <div class="card-meta"><strong>Topics:</strong> Machine Learning, Recommendation Systems, Optimization</div>
+                            <div class="card-title"><a href="javascript:void(0)">MARS Recommendation System</a></div>
+                            <div class="card-badges"><span class="badge">PyTorch</span><span class="badge">ONNX</span><span class="badge">K-Means</span><span class="badge">Pinecone</span></div>
+                            <div class="card-excerpt">Hybrid movie recommender using collaborative and content-based filtering on the MovieLens dataset.</div>
+                            <div class="card-meta"><strong>Topics:</strong> Recommendation Systems, Optimization</div>
                         </div>
                     </article>
 
@@ -502,15 +603,23 @@
                         data-end="May 2023"
                         data-tools="Python, PyTorch, OpenCV"
                         data-desc="A comprehensive tool to visualize how CNNs process images."
-                        data-overview="A comprehensive tool to visualize how CNNs process images."
+                        data-overview=" <p>
+                        A comprehensive tool to visualize how CNNs process images.
+                    </p>
+                    <p>
+                        I started building this tool as a result of the challenges I faced in understanding how the filters in Convolutional Neural Networks affect input images, specifically while exploring attention U-Nets during a self-supervised approach to segment MRI images of the bowel region.
+                    </p>
+                    <p>
+                        This tool is scalable, with the addition of predefined model weights and image processing capabilities, and can be transformed into a full image processing pipeline with further developments.
+                    </p>"
                         data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/cnn-visualizer/1.jpg"
                      >
-                        <div class="card-media"><span>[Project Image/GIF]</span></div>
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/cnn-visualizer/thumbnail.png" alt="Image 1"></span></div>
                         <div class="card-body">
                             <div class="card-title"><a href="javascript:void(0)">CNN Visualizer</a></div>
                             <div class="card-badges"><span class="badge">Python</span><span class="badge">PyTorch</span><span class="badge">OpenCV</span></div>
                             <div class="card-excerpt"> A comprehensive tool to visualize how CNNs process images.</div>
-                            <div class="card-meta"><strong>Topics:</strong> Computer Vision, Deep Learning, Visualization</div>
+                            <div class="card-meta"><strong>Topics:</strong> Neural Networks, Visualization</div>
                         </div>
                     </article>
 
@@ -522,15 +631,61 @@
                         data-end="May 2023"
                         data-tools="Python, Apache Spark, PostgreSQL, Streamlit"
                         data-desc="A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface."
-                        data-overview="A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface. The system supports both real-time streaming and batch processing with distributed computing capabilities."
+                        data-overview="<p>
+                        A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface. The system supports both real-time streaming and batch processing with distributed computing capabilities.
+                    </p>
+                    <p>
+                        I built this as a final project for my Intro to Data Management course here at Northeastern. It is the culmination of the majority of tools I learned during my 3rd semester, covering RDBMS fundamentals, Big Data Systems, and Distributed Computing. I have always wanted to explore the full breadth of a data pipeline, and this project became the perfect sandbox for me to experiment in. I set up the final environment in Docker after countless struggles with manual setup, dealing with Hadoop and PySpark version mismatches which led to the failure of the download feature.
+                    </p>
+                    <p>
+                        At first, the data injection layer only allowed data from Kaggle to be imported, enabling the data to be casted, fused with another Kaggle dataset, and downloaded as a CSV file. Now the application supports Kaggle and GitHub sources through links and streamed data through Apache Kafka. It supports most of the main functionalities available in Spark: Cast, Filter, Rename, Drop, Fill, Explode, Flatten, and Save. It allows users to fuse data by rows and columns based on join type, and supports export options including download, logging to Docker console, and sending to JDBC driver.
+                    </p>
+                    <p>
+                        All the rules the user configures are stored in a MongoDB database, so they can be reused later. The pipelines built can be run in parallel and can be restarted once execution is completed.
+                    </p>"
                         data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/1.jpg"
                      >
-                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/1.jpg" alt="Image 1"></span></div>
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/thumbnail.png" alt="Image 1"></span></div>
                         <div class="card-body">
                             <div class="card-title"><a href="javascript:void(0)">Data Fusion Pipeline</a></div>
                             <div class="card-badges"><span class="badge">Python</span><span class="badge">Apache Spark</span><span class="badge">PostgreSQL</span><span class="badge">Streamlit</span></div>
-                            <div class="card-excerpt">A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface.</div>
-                            <div class="card-meta"><strong>Topics:</strong> Big Data Engineering, Data Streaming, Pipeline Automation</div>
+                            <div class="card-excerpt">Rule-based data integration platform for building scalable pipelines via an intuitive UI.</div>
+                            <div class="card-meta"><strong>Topics:</strong> Data Engineering, Streaming, Automation</div>
+                        </div>
+                    </article>
+                    <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="Bowel Segmenation with SegFormer"
+                        data-start="Jan 2023"
+                        data-end="May 2023"
+                        data-tools=" SegFormer, Transformer, Pytorch, OpenCV, NumPy"
+                        data-desc="A Vision Pipeline for Bowel Segmentation from MRI Scans using SegFormer Model."
+                        data-overview="
+                        <p>
+                            The goal of this project is to segment different regions of the abdomen using 3D MRI scans of patients undergoing radiotherapy to identify signs of inflammation and bowel damage. </p><p>
+
+This was my first segmentation project and introduced me to transfer learning. I experimented with multiple architectures, including VGG16, ResNet50, and attention mechanisms for feature extraction. Initially, a Residual U-Net was trained from scratch, however, due to computational and time constraints, a transfer learning approach was adopted using the SegFormer model. This approach achieved a mean IoU of 75%.
+                        </p>
+                        <h3>
+                            UW-Madison GI Tract Image Segmentation Dataset</h3>
+                        <p></p>
+                        <p>The dataset contains 467 de-identified MRI scans from 107 patients with each undergone
+serial (1-5) MRI scans of the abdomen. Every MRI scan consists of approximately 144 axial slices with an average pixel resolution of 1.5 x 1.5 x 3 mm. </p>
+<p> The dataset contains labeled annotations for five bowel regions: the ampulla of Vater, large bowel, pyloric sphincter, small bowel, and stomach. Of these, only three regions including small bowel, large bowel, and stomach, were used for training, as the remaining classes were underrepresented.</p>
+                        
+<h3> Training Pipeline</h3>
+<p></p>
+
+"
+                        data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/bowel-seg/segmentation_animation.gif"
+                        
+                     >
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/bowel-seg/segmentation_animation.gif" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">Bowel Segmenation with SegFormer</a></div>
+                            <div class="card-badges"><span class="badge">Transformer</span><span class="badge">Pytorch</span><span class="badge">OpenCV</span></div>
+                            <div class="card-excerpt">Vision Pipeline for Bowel Segmentation from MRI Scans using SegFormer Model.</div>
+                            <div class="card-meta"><strong>Topics:</strong> Image Segmentation, Medical Imaging</div>
                         </div>
                     </article>
 
@@ -541,15 +696,19 @@
                         data-end="May 2023"
                         data-tools="Python, XGBoost, CatBoost, K-Means"
                         data-desc="Time series forecasting model using Boosting methods for Amazon sales prediction. "
-                        data-overview="Time series forecasting model using Boosting methods for Amazon sales prediction. "
+                        data-overview="<p>
+                        Amazon's marketplace is a dynamic retail ecosystem generating millions of daily transactions across countless product categories, offering a rich dataset for uncovering real-world patterns in purchase frequency, seasonality, and product performance. These insights are critical to optimizing inventory, pricing, and marketing strategies. To help businesses set revenue goals, allocate budgets, and predict growth across the U.S., this package is organized into four modules that go beyond traditional time series tools like Prophet or ARIMA. By combining regression and tree-ensemble models (XGBoost and CatBoost) with K-Means clustering, it produces accurate point forecasts alongside actionable customer-segment insights.
+                    </p>
+                    <p>
+                        This app was built with the idea that it could also be used by individual manufacturing companies whose products are sold on Amazon and who are trying to add a new product to an existing category. For manufacturers, it provides a quick overview of the performance of a product category. Since time to market is key to sales, they can decide when to manufacture and manage inventory based on demand. Given the forecast date range, the application enables users to forecast overall total sales, total sales for any specified U.S. state, and total sales for any specified product category. When the user clicks the Forecast button, the app first trains the model based on the user's selection if it hasn't already been trained on that specific selection. The trained model is then saved in the 'models/saves' directory. Therefore, if the model has not yet been trained on that specific selection, the user must click Forecast once to train the model and then click Forecast again to retrieve the forecast results. The Streamlit app, written in 'app.py', calls the functions available in 'primepredict.py' to populate the results in the application. If the user performs a forecast based on a state or category, the application first loads the data using DataLoader and generates a processed dataset and stores it in 'data/processed_datasets', which is then used during forecasting. To start the application, install the necessary packages listed in the requirements.txt file and activate the environment. Then, in that environment, navigate to the src folder and run 'streamlit run app.py'. The application will boot up and be ready to use.</p>"
                         data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/1.jpg"
                      >
-                        <div class="card-media"><span>[Project Image/GIF]</span></div>
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/Thumbnail.png" alt="Image 1"></span></div>
                         <div class="card-body">
                             <div class="card-title"><a href="javascript:void(0)">Prime Predict</a></div>
                             <div class="card-badges"><span class="badge">Python</span><span class="badge">XGBoost</span><span class="badge">CatBoost</span><span class="badge">K-Means</span></div>
                             <div class="card-excerpt">Time series forecasting model using Boosting methods for Amazon sales prediction. </div>
-                            <div class="card-meta"><strong>Topics:</strong>Time Series Forecasting, Machine Learning, Boosting Methods</div>
+                            <div class="card-meta"><strong>Topics:</strong>Time Series Forecasting, Boosting Methods</div>
                         </div>
                     </article>
 
@@ -558,31 +717,35 @@
 
             <section id="timeline">
                 <h2>Timeline</h2>
-                <p>I am a U.S. citizen, raised and educated in Singapore 🇸🇬. Year by year, here's what I explored, learned, and built:</p>
                 <ul class="content-list">
-                    <li><strong>At various points:</strong> Led product strategy at startups - deep tech (quantum computing) based in SG, AI-powered hiring based in Asia + US.</li>
-                    <li><strong>2021:</strong> Finding home at Stanford. Started robot learning research at IRIS Lab.</li>
-                    <li><strong>Summer 2022:</strong> Developed low-code workflow automation tools at Salesforce in SF.</li>
-                    <li><strong>Fall 2022:</strong> Studied abroad at Magdalen College, Oxford. Studied graph representation learning and philosophy of mind.</li>
-                    <li><strong>2023:</strong> Led a project that became my honors thesis. Took more philosophy classes.</li>
-                    <li><strong>2024:</strong> Graduated BS SymSys! Continued robot learning research at IPRL Lab.</li>
+                    <li><strong>2021:</strong> Joined Capgemini as a Full-Stack Intern and later transitioned to a full-time role as a Senior Software Engineer.</li>
+                    <li><strong>Fall 2022:</strong> Promoted to Associate Consultant, continued working in the Banking and Telecommunications domains.</li>
+                    <li><strong>Summer 2023:</strong> Developed a facial recognition system and transitioned toward machine learning and computer vision.</li>
+                    <li><strong>Fall 2024:</strong> Began a Master's program in Data Science at Northeastern University.</li>
+                    <li><strong>Spring 2026:</strong> Teaching Assistant for the Algorithms course.</li>
                 </ul>
             </section>
 
             <section id="skills">
-                <h2>Skills</h2>
+                <h2>Tools/Skills</h2>
                 <div class="skills-grid">
                     <span class="skill-tag">Python</span>
                     <span class="skill-tag">Java</span>
-                    <span class="skill-tag">Spring Boot</span>
-                    <span class="skill-tag">ReactJS</span>
-                    <span class="skill-tag">Angular</span>
-                    <span class="skill-tag">AWS (EC2)</span>
+                    <span class="skill-tag">C++</span>
+                    <span class="skill-tag">scikit-learn</span>
+                    <span class="skill-tag">numpy</span>
+                    <span class="skill-tag">pandas</span>
+                    <span class="skill-tag">Apache Spark</span>
+                    <span class="skill-tag">PyTorch</span>
+                    <span class="skill-tag">OpenCV</span>
+                    <span class="skill-tag">Git/GitHub</span>
                     <span class="skill-tag">Docker</span>
-                    <span class="skill-tag">Deep Learning</span>
-                    <span class="skill-tag">Computer Vision</span>
-                    <span class="skill-tag">Machine Learning</span>
-                    <span class="skill-tag">Object Detection</span>
+                    <span class="skill-tag">CI/CD</span>
+                    <span class="skill-tag">AWS EC2</span>
+                    <span class="skill-tag">AWS RDS</span>
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">MongoDB</span>
+                    <span class="skill-tag">Pinecone</span>
                 </div>
             </section>
 
@@ -590,7 +753,7 @@
     </div>
 
     <footer class="page-footer">
-        <p>&copy; 2025 Rohith Kumar.S. Powered by Jekyll & AcademicPages.</p>
+        <!-- <p>&copy; 2025 Rohith Kumar.S. Powered by Jekyll & AcademicPages.</p> -->
     </footer>
     <div id="projectModal" class="modal">
         <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -627,11 +790,35 @@
         </div>
     </div>
     <script>
-        // Open Modal Function
-        function openModal(element) {
+        // Helper: Generate a URL-friendly "slug" from a title
+        // e.g., "Computer Vision Pipeline" -> "computer-vision-pipeline"
+        function createSlug(title) {
+            return title.toLowerCase().trim().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+        }
+
+        // 1. Check URL on page load to see if we need to open a modal
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const projectSlug = params.get('project');
+
+            if (projectSlug) {
+                const cards = document.querySelectorAll('.project-card');
+                // Find the card that matches the slug
+                for (let card of cards) {
+                    const title = card.getAttribute('data-title');
+                    if (createSlug(title) === projectSlug) {
+                        openModal(card, false); // false = don't push state (it's already there)
+                        break;
+                    }
+                }
+            }
+        });
+
+        // 2. Open Modal Function
+        function openModal(element, pushToHistory = true) {
             var modal = document.getElementById("projectModal");
             
-            // Retrieve data attributes from the clicked element
+            // Retrieve data attributes
             var title = element.getAttribute("data-title");
             var start = element.getAttribute("data-start");
             var end = element.getAttribute("data-end");
@@ -639,26 +826,35 @@
             var desc = element.getAttribute("data-desc");
             var overview = element.getAttribute("data-overview");
             var image = element.getAttribute("data-image");
-
-            // Populate Modal Content
+            var video = element.getAttribute("data-video");
+            // Populate Modal DOM
             document.getElementById("m-title").innerText = title;
             document.getElementById("m-dates").innerText = start + " - " + end;
             document.getElementById("m-tools-header").innerText = tools;
             document.getElementById("m-desc").innerText = desc;
-            document.getElementById("m-overview").innerText = overview;
+            document.getElementById("m-overview").innerHTML = overview;
             
             // Update Image (using text for placeholder, but works with real URLs)
             var imgContainer = document.getElementById("m-image");
-            if (image.includes("Placeholder")) {
-                imgContainer.innerText = image;
-                imgContainer.style.backgroundImage = "none";
-            } else {
-                imgContainer.innerHTML = `<img src="${image}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">`;
+            if(image!=null) {
+                if (image.includes("Placeholder")) {
+                    imgContainer.innerText = image;
+                    imgContainer.style.backgroundImage = "none";
+                } else {
+                    imgContainer.innerHTML = `<img src="${image}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">`;
+                }
             }
 
-            // Populate Skills at Bottom (Split tools string into badges)
+            // Update Video if exists (not used in current projects)
+            if (video!=null) {
+                imgContainer.innerHTML = `<video controls style="width:100%; height:100%; border-radius:8px;"><source src="${video}" type="video/mp4">Your browser does not support the video tag.</video>`;
+            }
+
+
+
+            // Populate Skills at Bottom
             var skillsContainer = document.getElementById("m-skills-list");
-            skillsContainer.innerHTML = ""; // Clear previous
+            skillsContainer.innerHTML = ""; 
             var toolsArray = tools.split(",");
             toolsArray.forEach(function(tool) {
                 var span = document.createElement("span");
@@ -669,17 +865,37 @@
 
             // Show Modal
             modal.style.display = "block";
-            // Disable body scroll
             document.body.style.overflow = "hidden";
+
+            // Update URL if requested
+            if (pushToHistory) {
+                const slug = createSlug(title);
+                const newUrl = window.location.pathname + '?project=' + slug + window.location.hash;
+                history.pushState({ modalOpen: true }, '', newUrl);
+            }
         }
 
-        // Close Modal Function
+        // 3. Close Modal Function
         function closeModal() {
             var modal = document.getElementById("projectModal");
             modal.style.display = "none";
-            // Re-enable body scroll
             document.body.style.overflow = "auto";
+            
+            // Clean up URL: Remove the ?project=... query param but keep the hash (#projects)
+            const cleanUrl = window.location.pathname + window.location.hash;
+            history.pushState(null, '', cleanUrl);
         }
+
+        // 4. Handle Browser Back Button
+        window.onpopstate = function(event) {
+            // If the user presses back, we just close the modal visually
+            // (The URL is already updated by the browser's back action)
+            var modal = document.getElementById("projectModal");
+            if (modal.style.display === "block") {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        };
 
         // Close if clicked outside content
         window.onclick = function(event) {

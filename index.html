@@ -58,6 +58,7 @@
                         data-title="Multi-domain Adaptive Recommendation System (MARS)"
                         data-start="Aug 2023"
                         data-end="Dec 2023"
+                        data-github="https://github.com/Rohith-Kumar-S/MARS"
                         data-tools="Python, PyTorch, pandas, ONNX, K-Means, Pinecone"
                         data-desc="Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset."
                         data-overview="<p>
@@ -114,6 +115,7 @@
                         data-title="Bowel Segmenation with SegFormer"
                         data-start="Jan 2023"
                         data-end="May 2023"
+                        data-github="https://github.com/Rohith-Kumar-S/BowelSegmentation-MRI"
                         data-tools=" SegFormer, Transformer, Pytorch, OpenCV, NumPy"
                         data-desc="A Vision Pipeline for Bowel Segmentation from MRI Scans using SegFormer Model."
                         data-overview="
@@ -176,6 +178,7 @@
                         data-title="Path Matching"
                         data-start="Jan 2024"
                         data-end="Present"
+                        data-github="https://github.com/Rohith-Kumar-S/Path-Matching"
                         data-tools="Python, pandas, Streamlit"
                         data-desc="A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms."
                         data-overview="<p>I started this project as a fun activity to mimic my Algorithm's professor visualization of the A* algorithm during one of his classes. Later, I discovered an interative pathfinding tool, which provides a perfect visualization of the shortest path for a given single source–target pair and supports many shortest path algorithms. This inspired me to explore more algorithms and implement them in a similar interactive way. The project goes a step further by finding shortest paths for multi-source and multi-target scenarios and matching sources to targets based on the shortest path between each source target pair. The project is still a work in progress, and I plan to add more algorithms and features in the future. </p>
@@ -211,6 +214,7 @@
                         data-title="Data Fusion Pipeline"
                         data-start="Jan 2023"
                         data-end="May 2023"
+                        data-github="https://github.com/Rohith-Kumar-S/datafusion-pipeline"
                         data-tools="Python, Apache Spark, PostgreSQL, Streamlit"
                         data-desc="A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface."
                         data-overview="<p>
@@ -242,6 +246,7 @@
                         data-start="Jan 2023"
                         data-end="May 2023"
                         data-tools="Python, PyTorch, OpenCV"
+                        data-github="https://github.com/Rohith-Kumar-S/cnn-layer-visualizer"
                         data-desc="A comprehensive tool to visualize how CNNs process images."
                         data-overview=" <p>
                         A comprehensive tool to visualize how CNNs process images.
@@ -271,6 +276,7 @@
                         data-start="Jan 2023"
                         data-end="May 2023"
                         data-tools="Python, XGBoost, CatBoost, K-Means"
+                        data-github="https://github.com/Rohith-Kumar-S/PrimePredict"
                         data-desc="Time series forecasting model using Boosting methods for Amazon sales prediction. "
                         data-overview="<p>
                         Amazon's marketplace is a dynamic retail ecosystem generating millions of daily transactions across countless product categories, offering a rich dataset for uncovering real-world patterns in purchase frequency, seasonality, and product performance. These insights are critical to optimizing inventory, pricing, and marketing strategies. To help businesses set revenue goals, allocate budgets, and predict growth across the U.S., this package is organized into four modules that go beyond traditional time series tools like Prophet or ARIMA. By combining regression and tree-ensemble models (XGBoost and CatBoost) with K-Means clustering, it produces accurate point forecasts alongside actionable customer-segment insights.
@@ -339,8 +345,13 @@
             <div class="modal-header">
                 <div class="modal-title" id="m-title">Project Title</div>
                 <div class="modal-meta-row">
+                    <a id="m-github-link" href="#" target="_blank" class="github-modal-btn">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
                     <div><i class="far fa-calendar-alt"></i> <span id="m-dates">Jan 2023 - Present</span></div>
                     <div><i class="fas fa-tools"></i> <span id="m-tools-header">Python, React</span></div>
+
+                    
                 </div>
             </div>
 
@@ -403,6 +414,7 @@
             var overview = element.getAttribute("data-overview");
             var image = element.getAttribute("data-image");
             var video = element.getAttribute("data-video");
+            var github = element.getAttribute("data-github");
             // Populate Modal DOM
             document.getElementById("m-title").innerText = title;
             document.getElementById("m-dates").innerText = start + " - " + end;
@@ -424,7 +436,13 @@
                 imgContainer.innerHTML = `<video controls style="width:100%; height:100%; border-radius:8px;"><source src="${video}" type="video/mp4">Your browser does not support the video tag.</video>`;
             }
 
-
+            var githubBtn = document.getElementById("m-github-link");
+            if (github) {
+                githubBtn.href = github;
+                githubBtn.style.display = "inline-flex";
+            } else {
+                githubBtn.style.display = "none"; // Hide if no link provided
+            }
 
             // Populate Skills at Bottom
             var skillsContainer = document.getElementById("m-skills-list");

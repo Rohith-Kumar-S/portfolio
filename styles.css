@@ -453,3 +453,25 @@ p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
         flex: 0 0 calc((100% - 2rem) / 2);
     }
 }
+
+/* Replace the previous .github-modal-btn styles with this: */
+.github-modal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #28434E; /* Use your primary blue color */
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.github-modal-btn:hover {
+    color: #232A3D; /* Darker blue on hover */
+    text-decoration: underline;
+}
+
+/* Mobile Adjustment */
+@media (max-width: 900px) {
+    .github-modal-btn { margin-left: 0; }
+}

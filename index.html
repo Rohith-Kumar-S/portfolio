@@ -55,9 +55,119 @@
                 <div class="flex-grid">
                     <article class="project-card" 
                         onclick="openModal(this)"
+                        data-title="AI-DataHunter"
+                        data-start="Nov 2025"
+                        data-end="Dec 2025"
+                        data-github="https://github.com/Rohith-Kumar-S/AI-DataHunter"
+                        data-tools="BERT, Captum, Python, PyTorch"
+                        data-desc="Detects whether text is AI-generated or human-written, with tools for preprocessing, training, and evaluation."
+                        data-overview="
+                    <p>
+                        This project focuses on the timely and increasingly important task of distinguishing AI-generated text from human-written text. Using a large dataset of 500,000 labeled texts from Kaggle, MAGE set, Mix Set, and RAID, we set out to build an effective binary classifier capable of identifying whether a given piece of writing was produced by a human or an AI system. Our goal is to train accurate models by designing a clean, scalable, and reproducible machine-learning pipeline that could serve as a foundation for future extensions such as multimodal detection.</p>
+                    <p></p>
+                    <p>To achieve this, we developed a complete end-to-end workflow that included text cleaning, lemmatization, validation of labels, duplicate removal, feature engineering, TF-IDF and Bag-of-Words vectorization, and careful handling of class imbalance through class weights. We trained and compared multiple models, including Logistic Regression, Random Forest, XGBoost, and a BERT-based deep learning approach, evaluating using stratified train, validation, and test splits and metrics such as accuracy, precision, recall, and F1 score. Across models, performance remained consistently strong, with our Random Forest classifier achieving 91% accuracy with a similar F1 score, demonstrating that traditional ML models, when paired with thoughtful preprocessing and feature engineering, can perform competitively on large-scale text classification tasks.</p>
+                    <p></p>
+                    <p>Overall, this project showcases our ability to build a high-performing ML classifier, analyze complex text datasets at scale, and construct a well-designed pipeline that is both robust and extensible. The results highlight solid modeling choices, reliable performance across algorithms, and a foundation that can be expanded to more advanced forms of AI-generated content detection in the future.</p>
+                    <h3>Input Data</h3>
+                    <p> For this project, the data is a combination of the following five datasets</p>
+                    <ul class='styled-list'>
+                        <li><b>Kaggle AI Text Detection Dataset:</b> A dataset from Kaggle containing 250,000 samples of human-written and AI-generated text across various topics and styles. However there is no information provided about which AI model was used to generate the synthetic content.</li>
+                        <li><b>MAGE Set:</b> Contains human-written texts from 10 datasets covering a wide
+range of writing tasks, e.g., news article writing, story
+generation, scientific writing.
+Machine-generated texts from 27 mainstream LLMs
+including OpenAI, LLaMA, and EleutherAI etc;</li>
+                        <li><b>Turing Bench:</b> A benchmark dataset containing 200K news articles sourced from CNN, with human-written samples and corresponding AI-generated versions from 19 language models including GPT-1/2/3, GROVER, CTRL, and XLNET.</li>
+                        <li><b>dmitva/human_ai_generated_text</b> This dataset contains 1M paired samples of human-written and AI-generated text responding to the same task instructions, primarily focused on educational essay writing including persuasive, argumentative, and reflective essays</li>
+                        <li><b>RAID Dataset:</b> Contains human and AI generated text that includes 11 different
+adversarial attacks that could fool AI detectors by
+transforming a text into patterns that the AI detectors
+have never seen during training.</li>
+                    </ul>
+                    <h3>Data Preparation</h3>
+                    <ul class='styled-list'>
+                        <li> To address domain imbalance in the combined dataset, a WeightedRandomSampler was used with inverse frequency weights based on source counts, ensuring equal representation across data sources during training.</li>
+                        <li> The data was also balanced by text length to form the following distribution.</li>
+                        <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/textlen_dist.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                        <li>The final combined dataset was then preprocessed and split into train and test sets.</li>
+                    </ul>
+                    
+                    <h3>Data Preprocessing</h3>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/preprocessing.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    
+                    <h3>Model Training and Performance Comparison</h3>
+                    <ul class='styled-list'>
+                        <li> We trained multiple models including Logistic Regression, Random Forest, XGBoost, and a BERT-based deep learning approach.</li>
+                        <li> We evaluated the models using stratified train, validation, and test splits and metrics such as accuracy, precision, recall, and F1 score.</li>
+                    <div class='table-wrapper'>
+                        <table class='performance-table'>
+                        <thead>
+                            <tr>
+                            <th>Model</th>
+                            <th>Accuracy (%)</th>
+                            <th>F1-Score</th>
+                            <th>Recall (Human / Class 0)</th>
+                            <th>Recall (AI / Class 1)</th>
+                            <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <td>Logistic Regression (Tuned)</td>
+                            <td>88.85</td>
+                            <td>0.883</td>
+                            <td>0.882</td>
+                            <td>0.897</td>
+                            <td>
+                                Improved after tuning regularization (C = 0.5 → 500);
+                                balanced performance across both classes
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>Random Forest (Tuned)</td>
+                            <td>91.0</td>
+                            <td>~0.91</td>
+                            <td>Not specified</td>
+                            <td>Not specified</td>
+                            <td>
+                                Significant gains from hyperparameter tuning,
+                                strong generalization and stability
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>BERT (Fine-tuned)</td>
+                            <td>92.59</td>
+                            <td>0.93</td>
+                            <td>0.92</td>
+                            <td>0.93</td>
+                            <td>
+                                Best overall performance,
+                                better in AI-text detection with slightly lower human recall
+                            </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                    </ul>
+                    <h3>Evidence of Meaningfulness</h3>
+                    <p>Inorder to evaluate meaningfulness in prediciton the best performinig model (BERT) was tested with respect to uncertainity and Input Text lengths. Based on the test the model was quite strict and predicts text as AI-generated as soon as it detects sufficient AI patterns within it. When tested across varying text lengths, the model​ strong AI detection on genuine AI text., but was uncertain for human text of lengths < 500 characters. This indicates that the model is effectively capturing AI-specific patterns, but may require more context to confidently identify human-written text.</p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/conf_bylen.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p>In order to evaluate the meaningfulness of the predictions, the best-performing model (BERT) was tested with respect to uncertainty and input text length. Based on these tests, the model was found to be relatively strict, predicting text as AI-generated as soon as it detects sufficient AI-specific patterns. When evaluated across varying text lengths, the model showed strong AI detection on genuine AI-generated text but exhibited uncertainty for human-written text shorter than 500 characters. This suggests that the model effectively captures AI-specific patterns but may require more contextual information to confidently identify human-authored text.</p>                    "
+                        data-video="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/overview.mp4"
+                    >
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/Thumbnail.png" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">AI-DataHunter</a></div>
+                            <div class="card-badges"><span class="badge">BERT</span><span class="badge">Captum</span><span class="badge">Python</span><span class="badge">PyTorch</span></div>
+                            <div class="card-excerpt">Text classification system that distinguishes human writing from AI-generated content</div>
+                            <div class="card-meta"><strong>Topics:</strong> NLP, Transfer Learning</div>
+                        </div>
+                    </article>
+                    <article class="project-card" 
+                        onclick="openModal(this)"
                         data-title="Multi-domain Adaptive Recommendation System (MARS)"
-                        data-start="Aug 2023"
-                        data-end="Dec 2023"
+                        data-start="Nov 2025"
+                        data-end="Dec 2025"
                         data-github="https://github.com/Rohith-Kumar-S/MARS"
                         data-tools="Python, PyTorch, pandas, ONNX, K-Means, Pinecone"
                         data-desc="Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset."
@@ -105,7 +215,7 @@
                         <div class="card-body">
                             <div class="card-title"><a href="javascript:void(0)">MARS Recommendation System</a></div>
                             <div class="card-badges"><span class="badge">PyTorch</span><span class="badge">ONNX</span><span class="badge">K-Means</span><span class="badge">Pinecone</span></div>
-                            <div class="card-excerpt">Hybrid movie recommender using collaborative and content-based filtering on the MovieLens dataset.</div>
+                            <div class="card-excerpt">Hybrid movie recommender using collaborative and content-based filtering on the MovieLens dataset</div>
                             <div class="card-meta"><strong>Topics:</strong> Recommendation Systems, Optimization</div>
                         </div>
                     </article>
@@ -113,8 +223,8 @@
                     <article class="project-card" 
                         onclick="openModal(this)"
                         data-title="Bowel Segmenation with SegFormer"
-                        data-start="Jan 2023"
-                        data-end="May 2023"
+                        data-start="Jan 2025"
+                        data-end="May 2025"
                         data-github="https://github.com/Rohith-Kumar-S/BowelSegmentation-MRI"
                         data-tools=" SegFormer, Transformer, Pytorch, OpenCV, NumPy"
                         data-desc="A Vision Pipeline for Bowel Segmentation from MRI Scans using SegFormer Model."
@@ -165,7 +275,7 @@
                         <div class="card-body">
                             <div class="card-title"><a href="javascript:void(0)">Bowel Segmenation with SegFormer</a></div>
                             <div class="card-badges"><span class="badge">Transformer</span><span class="badge">Pytorch</span><span class="badge">OpenCV</span></div>
-                            <div class="card-excerpt">Vision Pipeline for Bowel Segmentation from MRI Scans using SegFormer Model.</div>
+                            <div class="card-excerpt">Vision Pipeline for Bowel Segmentation from MRI Scans using SegFormer Model</div>
                             <div class="card-meta"><strong>Topics:</strong> Image Segmentation, Medical Imaging</div>
                         </div>
                     </article>
@@ -204,7 +314,7 @@
                         <div class="card-body">
                             <div class="card-title"><a href="javascript:void(0)">Path Matching</a></div>
                             <div class="card-badges"><span class="badge">Python</span><span class="badge">pandas</span><span class="badge">Streamlit</span></div>
-                            <div class="card-excerpt">A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms.</div>
+                            <div class="card-excerpt">A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms</div>
                             <div class="card-meta"><strong>Topics:</strong> Algorithms, Data Visualization</div>
                         </div>
                     </article>
@@ -235,7 +345,7 @@
                         <div class="card-body">
                             <div class="card-title"><a href="javascript:void(0)">Data Fusion Pipeline</a></div>
                             <div class="card-badges"><span class="badge">Python</span><span class="badge">Apache Spark</span><span class="badge">PostgreSQL</span><span class="badge">Streamlit</span></div>
-                            <div class="card-excerpt">Rule-based data integration platform for building scalable pipelines via an intuitive UI.</div>
+                            <div class="card-excerpt">Rule-based data integration platform for building scalable pipelines via an intuitive UI</div>
                             <div class="card-meta"><strong>Topics:</strong> Data Engineering, Streaming, Automation</div>
                         </div>
                     </article>
@@ -263,14 +373,14 @@
                         <div class="card-body">
                             <div class="card-title"><a href="javascript:void(0)">CNN Visualizer</a></div>
                             <div class="card-badges"><span class="badge">Python</span><span class="badge">PyTorch</span><span class="badge">OpenCV</span></div>
-                            <div class="card-excerpt"> A comprehensive tool to visualize how CNNs process images.</div>
+                            <div class="card-excerpt"> A comprehensive tool to visualize how CNNs process images</div>
                             <div class="card-meta"><strong>Topics:</strong> Neural Networks, Visualization</div>
                         </div>
                     </article>
 
 
                     
-                    <article class="project-card" 
+                    <!-- <article class="project-card" 
                         onclick="openModal(this)"
                         data-title="Prime Predict"
                         data-start="Jan 2023"
@@ -289,10 +399,10 @@
                         <div class="card-body">
                             <div class="card-title"><a href="javascript:void(0)">Prime Predict</a></div>
                             <div class="card-badges"><span class="badge">Python</span><span class="badge">XGBoost</span><span class="badge">CatBoost</span><span class="badge">K-Means</span></div>
-                            <div class="card-excerpt">Time series forecasting model using Boosting methods for Amazon sales prediction. </div>
+                            <div class="card-excerpt">Time series forecasting model using Boosting methods for Amazon sales prediction</div>
                             <div class="card-meta"><strong>Topics:</strong>Time Series Forecasting, Boosting Methods</div>
                         </div>
-                    </article>
+                    </article> -->
 
                 </div>
             </section>

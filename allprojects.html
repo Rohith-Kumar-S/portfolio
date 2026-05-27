@@ -1,0 +1,472 @@
+<div id="all-proj">
+    <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="GameFusion"
+                        data-start="Mar 2026"
+                        data-end="Apr 2026"
+                        data-github="https://github.com/ishanrai17/GameFusion"
+                        data-tools="Multimodal Fusion, Motion Prediction, Waymo Motion Dataset (WOMD) "
+                        data-desc="Multimodal fusion model for motion prediction using the Waymo Open Motion Dataset"
+                        data-overview="
+                    <p>
+                        The Problem: Autonomous vehicles must predict the mutually influential behavior of other agents at complex intersections. While models like GameFormer excel at this using vectorized data and game theory, they lack visual context—they know what happened, but not why (e.g., a pedestrian vs. a road hazard).                    <p></p>
+                    <p>In this work, we investigate whether adding camera to-
+kens as a complementary modality can enrich the model’s
+understanding of the scene. Camera tokens are pre-computed
+visual embeddings provided by the Waymo Open Dataset,
+representing compressed features from 8 surrounding cameras
+across 11 timesteps. We integrate these tokens along with
+LiDAR data from 5 sensors into the GameFormer pipeline and
+evaluate their effect on interaction prediction performance                    <p></p>
+<h3>GameFormer Architecture</h3>
+<p>GameFormer models joint trajectory prediction as a game-theoretic problem. The model consists of a Transformer-based encoder and an iterative level-k decoder. The encoder processes agent states and map features into a shared latent representation. The decoder then performs iterative reasoning, where each agent's predicted trajectory at level $k$ is conditioned on the predicted trajectories of other agents at level $k-1$. This process produces jointly consistent multi-modal trajectory predictions for all interacting agents.</p>
+                                        <h3>Dataset</h3>
+                    <p> We use the Waymo Open Dataset Motion v1.3, which provides richly annotated real-world driving scenarios. Each scenario contains 11 timesteps of historical agent states including position, velocity, heading, and object type, along with vectorized map features such as lane boundaries, crosswalks, and traffic signals. We train and evaluate on 3 shards of the training split and one shard of the validation split, containing approximately 13,000 and 3,000 scenarios respectively.</p>
+                    <h3>Camera Tokens</h3>
+                    <p>The Waymo Open Dataset provides pre-computed visual features as 256-dimensional embeddings from 8 cameras across 11 timesteps, yielding an $(11, 8, 256)$ tensor per scenario. These map to distinct integers in Waymo's codebook to form 32-dimensional embeddings, enabling direct use as compact model inputs without further encoding overhead.</p>
+                     <h3>LiDAR Data</h3>
+                    <p>We utilize 3D point cloud spatial data extracted across 11 timesteps (1.0s history) from five sensors: one mid-range (75m limit) and four short-range (20m limit). Using the provided extrinsic calibration matrices, the point clouds—which are restricted to the top two intensity returns—are transformed from the global frame into the vehicle frame.</p>                     
+                    <h3>Data Pipeline</h3>
+                     <p>The scenario data and sensor data are stored separately in the Waymo Google Cloud Storage bucket. We merge them by matching on scenario ID using \texttt{gsutil}, downloading the corresponding lidar and camera tfrecord for each scenario and merging the sensor data into the scenario tfrecord. The merged tfrecord is then processed by our data pipeline, which extracts vectorized agent and map features alongside LiDAR data and camera tokens, and saves them as compressed \texttt{.npz} files for training. Each scenario contains 11 frames of corresponding camera tokens and LiDAR data. The data pipeline processes these scenarios by individual interaction pairs. For each pair, the global LiDAR point cloud is transformed into an agent-centric coordinate system by shifting the origin to the center of the interacting agent. Finally, to project this raw 3D LiDAR data into a structured Bird's-Eye View (BEV) tensor, we apply a deterministic voxelization grid parameterized by the bounding constraints and resolutions outlined in Table 1 for computational efficiency.</p>
+                    <h3>Camera Encoder</h3>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/conf_bylen.jpg' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <h3>Experiment and Results</h3> 
+                    <p>We train and evaluate on the Waymo Open Dataset Motion
+v1.3, using 3 training shards of approximately 13,000 scenar-
+ios and one validation shard. All models are trained with a
+batch size of 16, learning rate of 1 × 10−4, and the AdamW
+optimizer. We select the last checkpoint based on validation
+loss.</p>
+                    <h3>Discussion and Summary</h3> 
+                   
+<ul>
+    <li><strong>Performance Gains:</strong> Integrating camera tokens into GameFormer consistently improves prediction accuracy across all horizons, reducing minADE by 12% (at 5s) to 7.5% (at 15s), with similar gains in minFDE.</li>
+    <li><strong>Training Convergence:</strong> Due to limited training data (~13,000 scenarios), both the baseline and camera models overfit by epoch 15–17.</li>
+    <li><strong>LiDAR Stability:</strong> In contrast, the LiDAR-fused model exhibits highly stable convergence, acting as a strong regularizer. We hypothesize that fixing the current spatial downsampling bottleneck and scaling the dataset will allow the LiDAR model to achieve the best overall generalization.</li>
+</ul>
+
+<p><strong>Limitations</strong></p>
+<ul>
+    <li><strong>Dataset Size:</strong> Training on a limited subset restricts full generalization.</li>
+    <li><strong>Feature Extraction:</strong> Using pre-computed camera embeddings prevents the model from learning low-level visual features directly.</li>
+    <li><strong>Spatial Granularity:</strong> Aggressive LiDAR downsampling and a coarse 0.5m Bird’s-Eye View (BEV) resolution discard critical fine-grained details, particularly for smaller agents like pedestrians.</li>
+    <li><strong>Boundary Artifacts:</strong> Padding missing missing timesteps with origin coordinates for agents that exit the sensor range creates artificial U-turn trajectories.</li>
+</ul>
+                    "
+                    data-video="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/overview.mp4"
+                    
+                    >
+                   
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/Thumbnail.png" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">GameFusion</a></div>
+                            <div class="card-badges"><span class="badge">Motion Prediction</span><span class="badge">Waymo Motion Dataset (WOMD) </span></div>
+                            <div class="card-excerpt">Multimodal fusion model for motion prediction using the Waymo Open Motion Dataset</div>
+                            <div class="card-meta"><strong>Topics:</strong> Computer Vision, Deep Learning</div>
+                        </div>
+                    </article>
+                    <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="Multi-domain Adaptive Recommendation System (MARS)"
+                        data-start="Nov 2025"
+                        data-end="Dec 2025"
+                        data-github="https://github.com/Rohith-Kumar-S/MARS"
+                        data-tools="Python, PyTorch, pandas, ONNX, K-Means, Pinecone"
+                        data-desc="Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset."
+                        data-overview="<p>
+                       Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.
+                    </p>
+                    <p>
+                        This project was my first implementation of the collaborative filtering concept, it includes a robust hybrid model that effectively handles the cold start problem.
+                    </p>
+                    <p>
+                        The hybrid approach uses embeddings from the MovieLens dataset, generated with Ollama2 and stored in Pinecone, for content-based filtering, and ranks movies using collaborative filtering results from the ONNX model. The neural collaborative filtering model was trained on the ratings data using PyTorch with GPU acceleration. With an RMSE of over 0.97, it was later converted to ONNX format for faster inference and storage optimization. The original embeddings, which were over 1 GB in size, were reduced to under 100 MB using PCA (from 4096 to 512 dimensions), while still maintaining relevance for similar movie searches. Cosine similarity was applied for similarity search in Pinecone, which stored ~87,000 vectors corresponding to movie ratings in the dataset. The IMDb API was integrated to retrieve additional movie data, which was then used in the user interface built with Streamlit.
+                    </p>
+
+                    <p>
+                       Disclaimer: The movie images and data used in this project were obtained from publicly available sources, such as MovieLens and the IMDb API, for educational purposes only.
+                    </p>
+                    <h3>MovieLens Dataset</h3>
+                    <p></p>
+                    <p>
+                        The MovieLens dataset, provided by GroupLens Research at the University of Minnesota, is a widely used benchmark in the field of recommender systems. The dataset is available in various sizes, and the one I picked had 32 Million user-movie ratings across 87K movies.
+                    </p>
+
+                    <h3>Movie Genre Co-occurrence</h3>
+                    <p></p>
+                    <p>Movies in genereal tend to be categorized into multiple genres, and understanding the co-occurrence of these genres can provide insights into user preferences and movie characteristics. Below is a dendrogram visualizing the co-occurrence of different movie genres in the MovieLens dataset.</p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/genres_dendrogram.png' alt='Genre Dendrogram' style='width:50%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p> The above can be intepreted as like Horror, Crime, Mystery and Thriller genres often co-occur together in the movies with multiple genres. These co-occuring genres were later generalized into broader categories for better analysis and recommendation accuracy.</p>
+                    <h3>Architecture for Data and Model Preparation</h3>
+                    <p></p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/training_pipeline.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p>Here we store the movie embeddings from Llama2 locally and in Pinecone vector store. We also train the NCF PyTorch model and convert it into ONNX format for faster inference and reduced storage size. </p>
+                    
+                    <h3>Inference Pipeline</h3>
+                    <p></p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Arch.png' alt='Inference Pipeline' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p>The core idea is that once a user has rated enough movies, we trigger the inference pipeline. First, we fetch movies similar to those rated by the user using the Pinecone vector store. Next, we infer the user's preferences from their ratings and identify a MovieLens user with the closest taste profile. Finally, using this matched MovieLens user and the similar movies, we rank the movie candidates with an ONNX model to generate the final recommendations.</p>                    
+                    <p>Pincone vector store uses the movie embedding from local storage for similarity search. The similar movies fetched from similarity search are then used for content-based filtering. Especially when the user selects a movie to rate, these results populate the 'More like this' section.</p>
+                    
+                    <h3>Challenges Faced</h3>
+                    <p>Designing the user interface and integrating multiple technologies posed significant challenges during the development of the MARS Recommendation System. The interface was built using Streamlit, which limits deployed applications to 1 GB of RAM, while GitHub imposes a 100 MB repository size limit. The dataset alone exceeded 3 GB, and the PyTorch model was too large to store directly. As a result, several model and architectural optimizations were required to make this proof of concept functional on Streamlit Cloud.</p>                    
+                    "
+                        data-video="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Mars.mp4"
+                    >
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Thumbnail.png" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">MARS Recommendation System</a></div>
+                            <div class="card-badges"><span class="badge">PyTorch</span><span class="badge">ONNX</span><span class="badge">K-Means</span><span class="badge">Pinecone</span></div>
+                            <div class="card-excerpt">Hybrid movie recommender using collaborative and content-based filtering on the MovieLens dataset</div>
+                            <div class="card-meta"><strong>Topics:</strong> Recommendation Systems, Optimization</div>
+                        </div>
+                    </article>
+
+<article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="AI-DataHunter"
+                        data-start="Nov 2025"
+                        data-end="Dec 2025"
+                        data-github="https://github.com/Rohith-Kumar-S/AI-DataHunter"
+                        data-tools="BERT, Captum, Python, PyTorch"
+                        data-desc="Detects whether text is AI-generated or human-written, with tools for preprocessing, training, and evaluation."
+                        data-overview="
+                    <p>
+                        This project focuses on the timely and increasingly important task of distinguishing AI-generated text from human-written text. Using a large dataset of 500,000 labeled texts from Kaggle, MAGE set, Mix Set, and RAID, we set out to build an effective binary classifier capable of identifying whether a given piece of writing was produced by a human or an AI system. Our goal is to train accurate models by designing a clean, scalable, and reproducible machine-learning pipeline that could serve as a foundation for future extensions such as multimodal detection.</p>
+                    <p></p>
+                    <p>To achieve this, we developed a complete end-to-end workflow that included text cleaning, lemmatization, validation of labels, duplicate removal, feature engineering, TF-IDF and Bag-of-Words vectorization, and careful handling of class imbalance through class weights. We trained and compared multiple models, including Logistic Regression, Random Forest, XGBoost, and a BERT-based deep learning approach, evaluating using stratified train, validation, and test splits and metrics such as accuracy, precision, recall, and F1 score. Across models, performance remained consistently strong, with our Random Forest classifier achieving 91% accuracy with a similar F1 score, demonstrating that traditional ML models, when paired with thoughtful preprocessing and feature engineering, can perform competitively on large-scale text classification tasks.</p>
+                    <p></p>
+                    <p>Overall, this project showcases our ability to build a high-performing ML classifier, analyze complex text datasets at scale, and construct a well-designed pipeline that is both robust and extensible. The results highlight solid modeling choices, reliable performance across algorithms, and a foundation that can be expanded to more advanced forms of AI-generated content detection in the future.</p>
+                    <h3>Input Data</h3>
+                    <p> For this project, the data is a combination of the following five datasets</p>
+                    <ul class='styled-list'>
+                        <li><b>Kaggle AI Text Detection Dataset:</b> A dataset from Kaggle containing 250,000 samples of human-written and AI-generated text across various topics and styles. However there is no information provided about which AI model was used to generate the synthetic content.</li>
+                        <li><b>MAGE Set:</b> Contains human-written texts from 10 datasets covering a wide
+range of writing tasks, e.g., news article writing, story
+generation, scientific writing.
+Machine-generated texts from 27 mainstream LLMs
+including OpenAI, LLaMA, and EleutherAI etc;</li>
+                        <li><b>Turing Bench:</b> A benchmark dataset containing 200K news articles sourced from CNN, with human-written samples and corresponding AI-generated versions from 19 language models including GPT-1/2/3, GROVER, CTRL, and XLNET.</li>
+                        <li><b>dmitva/human_ai_generated_text</b> This dataset contains 1M paired samples of human-written and AI-generated text responding to the same task instructions, primarily focused on educational essay writing including persuasive, argumentative, and reflective essays</li>
+                        <li><b>RAID Dataset:</b> Contains human and AI generated text that includes 11 different
+adversarial attacks that could fool AI detectors by
+transforming a text into patterns that the AI detectors
+have never seen during training.</li>
+                    </ul>
+                    <h3>Data Preparation</h3>
+                    <ul class='styled-list'>
+                        <li> To address domain imbalance in the combined dataset, a WeightedRandomSampler was used with inverse frequency weights based on source counts, ensuring equal representation across data sources during training.</li>
+                        <li> The data was also balanced by text length to form the following distribution.</li>
+                        <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/textlen_dist.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                        <li>The final combined dataset was then preprocessed and split into train and test sets.</li>
+                    </ul>
+                    
+                    <h3>Data Preprocessing</h3>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/preprocessing.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    
+                    <h3>Model Training and Performance Comparison</h3>
+                    <ul class='styled-list'>
+                        <li> We trained multiple models including Logistic Regression, Random Forest, XGBoost, and a BERT-based deep learning approach.</li>
+                        <li> We evaluated the models using stratified train, validation, and test splits and metrics such as accuracy, precision, recall, and F1 score.</li>
+                    <div class='table-wrapper'>
+                        <table class='performance-table'>
+                        <thead>
+                            <tr>
+                            <th>Model</th>
+                            <th>Accuracy (%)</th>
+                            <th>F1-Score</th>
+                            <th>Recall (Human / Class 0)</th>
+                            <th>Recall (AI / Class 1)</th>
+                            <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <td>Logistic Regression (Tuned)</td>
+                            <td>88.85</td>
+                            <td>0.883</td>
+                            <td>0.882</td>
+                            <td>0.897</td>
+                            <td>
+                                Improved after tuning regularization (C = 0.5 → 500);
+                                balanced performance across both classes
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>Random Forest (Tuned)</td>
+                            <td>91.0</td>
+                            <td>0.91</td>
+                            <td>0.92</td>
+                            <td>0.91</td>
+                            <td>
+                                Significant gains from hyperparameter tuning,
+                                strong generalization and stability
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>BERT (Fine-tuned)</td>
+                            <td>92.59</td>
+                            <td>0.93</td>
+                            <td>0.92</td>
+                            <td>0.93</td>
+                            <td>
+                                Best overall performance,
+                                better in AI-text detection with slightly lower human recall
+                            </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                    </ul>
+                    <h3>Evidence of Meaningfulness</h3>
+                    <p>Inorder to evaluate meaningfulness in prediciton the best performinig model (BERT) was tested with respect to uncertainity and Input Text lengths. Based on the test the model was quite strict and predicts text as AI-generated as soon as it detects sufficient AI patterns within it. When tested across varying text lengths, the model​ strong AI detection on genuine AI text., but was uncertain for human text of lengths < 500 characters. This indicates that the model is effectively capturing AI-specific patterns, but may require more context to confidently identify human-written text.</p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/conf_bylen.jpg' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p>In order to evaluate the meaningfulness of the predictions, the best-performing model (BERT) was tested with respect to uncertainty and input text length. Based on these tests, the model was found to be relatively strict, predicting text as AI-generated as soon as it detects sufficient AI-specific patterns. When evaluated across varying text lengths, the model showed strong AI detection on genuine AI-generated text but exhibited uncertainty for human-written text shorter than 500 characters. This suggests that the model effectively captures AI-specific patterns but may require more contextual information to confidently identify human-authored text.</p>                    "
+                        data-video="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/overview.mp4"
+                    >
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/Thumbnail.png" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">AI-DataHunter</a></div>
+                            <div class="card-badges"><span class="badge">BERT</span><span class="badge">Captum</span><span class="badge">Python</span><span class="badge">PyTorch</span></div>
+                            <div class="card-excerpt">Text classification system that distinguishes human writing from AI-generated content</div>
+                            <div class="card-meta"><strong>Topics:</strong> NLP, Transfer Learning</div>
+                        </div>
+                    </article>
+                    <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="Multi-domain Adaptive Recommendation System (MARS)"
+                        data-start="Nov 2025"
+                        data-end="Dec 2025"
+                        data-github="https://github.com/Rohith-Kumar-S/MARS"
+                        data-tools="Python, PyTorch, pandas, ONNX, K-Means, Pinecone"
+                        data-desc="Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset."
+                        data-overview="<p>
+                       Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.
+                    </p>
+                    <p>
+                        This project was my first implementation of the collaborative filtering concept, it includes a robust hybrid model that effectively handles the cold start problem.
+                    </p>
+                    <p>
+                        The hybrid approach uses embeddings from the MovieLens dataset, generated with Ollama2 and stored in Pinecone, for content-based filtering, and ranks movies using collaborative filtering results from the ONNX model. The neural collaborative filtering model was trained on the ratings data using PyTorch with GPU acceleration. With an RMSE of over 0.97, it was later converted to ONNX format for faster inference and storage optimization. The original embeddings, which were over 1 GB in size, were reduced to under 100 MB using PCA (from 4096 to 512 dimensions), while still maintaining relevance for similar movie searches. Cosine similarity was applied for similarity search in Pinecone, which stored ~87,000 vectors corresponding to movie ratings in the dataset. The IMDb API was integrated to retrieve additional movie data, which was then used in the user interface built with Streamlit.
+                    </p>
+
+                    <p>
+                       Disclaimer: The movie images and data used in this project were obtained from publicly available sources, such as MovieLens and the IMDb API, for educational purposes only.
+                    </p>
+                    <h3>MovieLens Dataset</h3>
+                    <p></p>
+                    <p>
+                        The MovieLens dataset, provided by GroupLens Research at the University of Minnesota, is a widely used benchmark in the field of recommender systems. The dataset is available in various sizes, and the one I picked had 32 Million user-movie ratings across 87K movies.
+                    </p>
+
+                    <h3>Movie Genre Co-occurrence</h3>
+                    <p></p>
+                    <p>Movies in genereal tend to be categorized into multiple genres, and understanding the co-occurrence of these genres can provide insights into user preferences and movie characteristics. Below is a dendrogram visualizing the co-occurrence of different movie genres in the MovieLens dataset.</p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/genres_dendrogram.png' alt='Genre Dendrogram' style='width:50%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p> The above can be intepreted as like Horror, Crime, Mystery and Thriller genres often co-occur together in the movies with multiple genres. These co-occuring genres were later generalized into broader categories for better analysis and recommendation accuracy.</p>
+                    <h3>Architecture for Data and Model Preparation</h3>
+                    <p></p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/training_pipeline.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p>Here we store the movie embeddings from Llama2 locally and in Pinecone vector store. We also train the NCF PyTorch model and convert it into ONNX format for faster inference and reduced storage size. </p>
+                    
+                    <h3>Inference Pipeline</h3>
+                    <p></p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Arch.png' alt='Inference Pipeline' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p>The core idea is that once a user has rated enough movies, we trigger the inference pipeline. First, we fetch movies similar to those rated by the user using the Pinecone vector store. Next, we infer the user's preferences from their ratings and identify a MovieLens user with the closest taste profile. Finally, using this matched MovieLens user and the similar movies, we rank the movie candidates with an ONNX model to generate the final recommendations.</p>                    
+                    <p>Pincone vector store uses the movie embedding from local storage for similarity search. The similar movies fetched from similarity search are then used for content-based filtering. Especially when the user selects a movie to rate, these results populate the 'More like this' section.</p>
+                    
+                    <h3>Challenges Faced</h3>
+                    <p>Designing the user interface and integrating multiple technologies posed significant challenges during the development of the MARS Recommendation System. The interface was built using Streamlit, which limits deployed applications to 1 GB of RAM, while GitHub imposes a 100 MB repository size limit. The dataset alone exceeded 3 GB, and the PyTorch model was too large to store directly. As a result, several model and architectural optimizations were required to make this proof of concept functional on Streamlit Cloud.</p>                    
+                    "
+                        data-video="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Mars.mp4"
+                    >
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Thumbnail.png" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">MARS Recommendation System</a></div>
+                            <div class="card-badges"><span class="badge">PyTorch</span><span class="badge">ONNX</span><span class="badge">K-Means</span><span class="badge">Pinecone</span></div>
+                            <div class="card-excerpt">Hybrid movie recommender using collaborative and content-based filtering on the MovieLens dataset</div>
+                            <div class="card-meta"><strong>Topics:</strong> Recommendation Systems, Optimization</div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="Bowel Segmenation with SegFormer"
+                        data-start="Jan 2025"
+                        data-end="May 2025"
+                        data-github="https://github.com/Rohith-Kumar-S/BowelSegmentation-MRI"
+                        data-tools=" SegFormer, Transformer, Pytorch, OpenCV, NumPy"
+                        data-desc="A Vision Pipeline for Bowel Segmentation from MRI Scans using SegFormer Model."
+                        data-overview="
+                        <p>
+                            The goal of this project is to segment different regions of the abdomen using 3D MRI scans of patients undergoing radiotherapy to identify signs of inflammation and bowel damage. </p><p>
+
+                        This was my first segmentation project and introduced me to transfer learning. I experimented with multiple architectures, including VGG16, ResNet50, and attention mechanisms for feature extraction. Initially, a Residual U-Net was trained from scratch, however, due to computational and time constraints, a transfer learning approach was adopted using the SegFormer model. This approach achieved a mean IoU of 75%.
+                        </p>
+                        <h3>
+                            UW-Madison GI Tract Image Segmentation Dataset</h3>
+                        <p></p>
+                        <p>The dataset contains 467 de-identified MRI scans from 107 patients with each undergone
+                        serial (1-5) MRI scans of the abdomen. Every MRI scan consists of approximately 144 axial slices with an average pixel resolution of 1.5 x 1.5 x 3 mm. </p>
+                        <p> The dataset contains labeled annotations for five bowel regions: the ampulla of Vater, large bowel, pyloric sphincter, small bowel, and stomach. Of these, only three regions including small bowel, large bowel, and stomach, were used for training, as the remaining classes were underrepresented.</p>
+                                                
+                        <h3> Training Pipeline</h3>
+                        <p></p>
+                        <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/bowel-seg/training_pipeline.png' alt='Training Pipeline' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+
+                        <p>==============================<br>
+                        Per-class IoU Results:<br>
+                        ==============================<br>
+                        Background: IoU = 0.9876<br>
+                        Large Bowel: IoU = 0.6893<br>
+                        Small Bowel: IoU = 0.5508<br>
+                        Stomach: IoU = 0.7679<br>
+                        Mean IoU: 0.7489<br>
+                        ==============================</p>
+                        
+                        <h3> Bowel Obstruction Detection</h3>
+                        <p>A bowel obstruction is simply a blockage that prevents contents from moving through. When something blocks the bowel, matter like food, gas, and fluid has nowhere to go. It just keeps accumulating, and that pressure stretches out the bowel wall. So when radiologists spot those swollen, dilated loops on a scan, it's indirect evidence something is blocked.</p>
+                        <h3>Obstruction Detection Pipeline</h3> 
+                        <p> To detect obstructions, we first segment the bowel regions using the trained SegFormer model. Next, we calculate bowel diameter per slice using distance transform and skeletonization to measure width along the centerline. We then classify risk into 4 tiers (normal, low risk, elevated, high risk) based on clinical thresholds, and visualize results with diameter profile plots and severity heatmaps.<\p>
+                        <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/bowel-seg/detection_pipeline.png' alt='Diameter Profile Plot' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                        <h3>Diameter Profile Plot</h3> 
+                        <p>Following plot is from the results for a test patient from the dataset. Bowel diameter across slices with clinical threshold lines, highlighting regions of concern.</p>
+                        <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/bowel-seg/diameter_plot.png' alt='Diameter Profile Plot' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                        <h3>Severity Heatmap</h3> 
+                        <p>Risk levels across all slices for both small and large bowel.</p>
+                        <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/bowel-seg/severity_plot.png' alt='Severity Heatmap' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                        "
+                        
+                        data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/bowel-seg/segmentation_animation.gif"
+                        
+                     >
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/bowel-seg/segmentation_animation.gif" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">Bowel Segmenation with SegFormer</a></div>
+                            <div class="card-badges"><span class="badge">Transformer</span><span class="badge">Pytorch</span><span class="badge">OpenCV</span></div>
+                            <div class="card-excerpt">Vision Pipeline for Bowel Segmentation from MRI Scans using SegFormer Model</div>
+                            <div class="card-meta"><strong>Topics:</strong> Image Segmentation, Medical Imaging</div>
+                        </div>
+                    </article>
+
+
+
+                    
+                    <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="Path Matching"
+                        data-start="Jan 2024"
+                        data-end="Present"
+                        data-github="https://github.com/Rohith-Kumar-S/Path-Matching"
+                        data-tools="Python, pandas, Streamlit"
+                        data-desc="A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms."
+                        data-overview="<p>I started this project as a fun activity to mimic my Algorithm's professor visualization of the A* algorithm during one of his classes. Later, I discovered an interative pathfinding tool, which provides a perfect visualization of the shortest path for a given single source–target pair and supports many shortest path algorithms. This inspired me to explore more algorithms and implement them in a similar interactive way. The project goes a step further by finding shortest paths for multi-source and multi-target scenarios and matching sources to targets based on the shortest path between each source target pair. The project is still a work in progress, and I plan to add more algorithms and features in the future. </p>
+                        <p>
+                        The project features several shortest path finding algorithms, namely Dijkstra's, A*, and Breadth-First Search (BFS). When multiple sources or targets are detected, it incorporates bipartite matching into the process. Bipartite matching can currently be done either using the greedy algorithm or linear programming.
+                    </p>
+                    <p>
+                        For the heuristic in the A* algorithm, the project supports Manhattan, Euclidean, and Diagonal distance calculations. It features a grid-based canvas where users can choose different obstacle maps and define the sources and targets.
+                    </p>
+                    <p>
+                        The red grids indicate sources, and the blue grids indicate targets. The black grids represent obstacles. The yellow grids show the path taken by the algorithm to reach the target from the source, while other colored grids represent the search paths from each source to the target.
+                    </p>
+                    <p>
+                        <b>In terms of applications, this forms the basis for customer-to-taxi matching, delivery-driver-to-order matching, and many more use cases</b>.
+                    </p>
+                    <p>
+                        The project was written in Python and uses the Streamlit library for the web app. The path finding algorithms were implemented from scratch, and the linear programming for bipartite matching was done using the SciPy library.
+                    </p>
+                        "
+                        data-video="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/path-matching/path_matching.mp4"
+                    >
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/path-matching/thumbnail.png" alt="Path Matching"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">Path Matching</a></div>
+                            <div class="card-badges"><span class="badge">Python</span><span class="badge">pandas</span><span class="badge">Streamlit</span></div>
+                            <div class="card-excerpt">A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms</div>
+                            <div class="card-meta"><strong>Topics:</strong> Algorithms, Data Visualization</div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="Data Fusion Pipeline"
+                        data-start="Jan 2023"
+                        data-end="May 2023"
+                        data-github="https://github.com/Rohith-Kumar-S/datafusion-pipeline"
+                        data-tools="Python, Apache Spark, PostgreSQL, Streamlit"
+                        data-desc="A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface."
+                        data-overview="<p>
+                        A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface. The system supports both real-time streaming and batch processing with distributed computing capabilities.
+                    </p>
+                    <p>
+                        I built this as a final project for my Intro to Data Management course here at Northeastern. It is the culmination of the majority of tools I learned during my 3rd semester, covering RDBMS fundamentals, Big Data Systems, and Distributed Computing. I have always wanted to explore the full breadth of a data pipeline, and this project became the perfect sandbox for me to experiment in. I set up the final environment in Docker after countless struggles with manual setup, dealing with Hadoop and PySpark version mismatches which led to the failure of the download feature.
+                    </p>
+                    <p>
+                        At first, the data injection layer only allowed data from Kaggle to be imported, enabling the data to be casted, fused with another Kaggle dataset, and downloaded as a CSV file. Now the application supports Kaggle and GitHub sources through links and streamed data through Apache Kafka. It supports most of the main functionalities available in Spark: Cast, Filter, Rename, Drop, Fill, Explode, Flatten, and Save. It allows users to fuse data by rows and columns based on join type, and supports export options including download, logging to Docker console, and sending to JDBC driver.
+                    </p>
+                    <p>
+                        All the rules the user configures are stored in a MongoDB database, so they can be reused later. The pipelines built can be run in parallel and can be restarted once execution is completed.
+                    </p>"
+                        data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/1.jpg"
+                     >
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/thumbnail.png" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">Data Fusion Pipeline</a></div>
+                            <div class="card-badges"><span class="badge">Python</span><span class="badge">Apache Spark</span><span class="badge">PostgreSQL</span><span class="badge">Streamlit</span></div>
+                            <div class="card-excerpt">Rule-based data integration platform for building scalable pipelines via an intuitive UI</div>
+                            <div class="card-meta"><strong>Topics:</strong> Data Engineering, Streaming, Automation</div>
+                        </div>
+                    </article>
+                    
+                     <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="CNN Visualizer"
+                        data-start="Jan 2023"
+                        data-end="May 2023"
+                        data-tools="Python, PyTorch, OpenCV"
+                        data-github="https://github.com/Rohith-Kumar-S/cnn-layer-visualizer"
+                        data-desc="A comprehensive tool to visualize how CNNs process images."
+                        data-overview=" <p>
+                        A comprehensive tool to visualize how CNNs process images.
+                    </p>
+                    <p>
+                        I started building this tool as a result of the challenges I faced in understanding how the filters in Convolutional Neural Networks affect input images, specifically while exploring attention U-Nets during a self-supervised approach to segment MRI images of the bowel region.
+                    </p>
+                    <p>
+                        This tool is scalable, with the addition of predefined model weights and image processing capabilities, and can be transformed into a full image processing pipeline with further developments.
+                    </p>"
+                        data-video="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/cnn-visualizer/cnn_visualizer.mp4"
+                     >
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/cnn-visualizer/thumbnail.png" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">CNN Visualizer</a></div>
+                            <div class="card-badges"><span class="badge">Python</span><span class="badge">PyTorch</span><span class="badge">OpenCV</span></div>
+                            <div class="card-excerpt"> A comprehensive tool to visualize how CNNs process images</div>
+                            <div class="card-meta"><strong>Topics:</strong> Neural Networks, Visualization</div>
+                        </div>
+                    </article>
+                    <article class="project-card" 
+                                            onclick="openModal(this)"
+                                            data-title="Prime Predict"
+                                            data-start="Jan 2023"
+                                            data-end="May 2023"
+                                            data-tools="Python, XGBoost, CatBoost, K-Means"
+                                            data-github="https://github.com/Rohith-Kumar-S/PrimePredict"
+                                            data-desc="Time series forecasting model using Boosting methods for Amazon sales prediction. "
+                                            data-overview="<p>
+                                            Amazon's marketplace is a dynamic retail ecosystem generating millions of daily transactions across countless product categories, offering a rich dataset for uncovering real-world patterns in purchase frequency, seasonality, and product performance. These insights are critical to optimizing inventory, pricing, and marketing strategies. To help businesses set revenue goals, allocate budgets, and predict growth across the U.S., this package is organized into four modules that go beyond traditional time series tools like Prophet or ARIMA. By combining regression and tree-ensemble models (XGBoost and CatBoost) with K-Means clustering, it produces accurate point forecasts alongside actionable customer-segment insights.
+                                        </p>
+                                        <p>
+                                            This app was built with the idea that it could also be used by individual manufacturing companies whose products are sold on Amazon and who are trying to add a new product to an existing category. For manufacturers, it provides a quick overview of the performance of a product category. Since time to market is key to sales, they can decide when to manufacture and manage inventory based on demand. Given the forecast date range, the application enables users to forecast overall total sales, total sales for any specified U.S. state, and total sales for any specified product category. When the user clicks the Forecast button, the app first trains the model based on the user's selection if it hasn't already been trained on that specific selection. The trained model is then saved in the 'models/saves' directory. Therefore, if the model has not yet been trained on that specific selection, the user must click Forecast once to train the model and then click Forecast again to retrieve the forecast results. The Streamlit app, written in 'app.py', calls the functions available in 'primepredict.py' to populate the results in the application. If the user performs a forecast based on a state or category, the application first loads the data using DataLoader and generates a processed dataset and stores it in 'data/processed_datasets', which is then used during forecasting. To start the application, install the necessary packages listed in the requirements.txt file and activate the environment. Then, in that environment, navigate to the src folder and run 'streamlit run app.py'. The application will boot up and be ready to use.</p>"
+                                            data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/1.jpg"
+                                        >
+                                            <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/Thumbnail.png" alt="Image 1"></span></div>
+                                            <div class="card-body">
+                                                <div class="card-title"><a href="javascript:void(0)">Prime Predict</a></div>
+                                                <div class="card-badges"><span class="badge">Python</span><span class="badge">XGBoost</span><span class="badge">CatBoost</span><span class="badge">K-Means</span></div>
+                                                <div class="card-excerpt">Time series forecasting model using Boosting methods for Amazon sales prediction</div>
+                                                <div class="card-meta"><strong>Topics:</strong>Time Series Forecasting, Boosting Methods</div>
+                                            </div>
+                                        </article>
+</div>

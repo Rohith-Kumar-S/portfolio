@@ -46,8 +46,9 @@
             
             <section id="about">
                 <h1>About Me</h1>
-                <p>I am a Master's in Data Science student at Northeastern University, specializing in Deep Learning and Computer Vision. With 3 years of experience in building full-stack and AI solutions, I am well-versed in developing product-specific tools using Core Java and Spring Boot, designing web pages with ReactJS and Angular, and deploying containerized applications using AWS EC2 and Docker.</p>
-                <p>Now transitioning into Data Science and Computer Vision, I focus on building end-to-end AI solutions, from computer vision systems for object detection, tracking, and 3D reconstruction to scalable ML applications including recommender systems and forecasting models, supported by robust data pipelines.</p>
+                <p>My interest is in diagnosing where things go wrong and optimizing for performance, whether that’s a flawed assumption in an ML architecture or a bottleneck in an LLM orchestration pipeline.</p>
+                <p>Currently a Master's in Data Science student at Northeastern University, I focus on deep learning, computer vision, and LLM systems. I have cross-functional domain expertise in Autonomous Driving, E-Commerce Search & Discovery, and Healthcare Life Sciences, with recent work spanning multimodal motion prediction, robotic manipulation, recommendation systems optimization, Agentic AI, and medical image segmentation.  With 3 years of experience building full-stack backend and enterprise solutions, I am well-versed in developing product-specific tools using Core Java and Spring Boot and deploying containerized applications across AWS and Docker.  
+</p>
             </section>
 
             <section id="projects">
@@ -380,30 +381,13 @@ have never seen during training.</li>
 
 
                     
-                    <!-- <article class="project-card" 
-                        onclick="openModal(this)"
-                        data-title="Prime Predict"
-                        data-start="Jan 2023"
-                        data-end="May 2023"
-                        data-tools="Python, XGBoost, CatBoost, K-Means"
-                        data-github="https://github.com/Rohith-Kumar-S/PrimePredict"
-                        data-desc="Time series forecasting model using Boosting methods for Amazon sales prediction. "
-                        data-overview="<p>
-                        Amazon's marketplace is a dynamic retail ecosystem generating millions of daily transactions across countless product categories, offering a rich dataset for uncovering real-world patterns in purchase frequency, seasonality, and product performance. These insights are critical to optimizing inventory, pricing, and marketing strategies. To help businesses set revenue goals, allocate budgets, and predict growth across the U.S., this package is organized into four modules that go beyond traditional time series tools like Prophet or ARIMA. By combining regression and tree-ensemble models (XGBoost and CatBoost) with K-Means clustering, it produces accurate point forecasts alongside actionable customer-segment insights.
-                    </p>
-                    <p>
-                        This app was built with the idea that it could also be used by individual manufacturing companies whose products are sold on Amazon and who are trying to add a new product to an existing category. For manufacturers, it provides a quick overview of the performance of a product category. Since time to market is key to sales, they can decide when to manufacture and manage inventory based on demand. Given the forecast date range, the application enables users to forecast overall total sales, total sales for any specified U.S. state, and total sales for any specified product category. When the user clicks the Forecast button, the app first trains the model based on the user's selection if it hasn't already been trained on that specific selection. The trained model is then saved in the 'models/saves' directory. Therefore, if the model has not yet been trained on that specific selection, the user must click Forecast once to train the model and then click Forecast again to retrieve the forecast results. The Streamlit app, written in 'app.py', calls the functions available in 'primepredict.py' to populate the results in the application. If the user performs a forecast based on a state or category, the application first loads the data using DataLoader and generates a processed dataset and stores it in 'data/processed_datasets', which is then used during forecasting. To start the application, install the necessary packages listed in the requirements.txt file and activate the environment. Then, in that environment, navigate to the src folder and run 'streamlit run app.py'. The application will boot up and be ready to use.</p>"
-                        data-image="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/1.jpg"
-                     >
-                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/Thumbnail.png" alt="Image 1"></span></div>
-                        <div class="card-body">
-                            <div class="card-title"><a href="javascript:void(0)">Prime Predict</a></div>
-                            <div class="card-badges"><span class="badge">Python</span><span class="badge">XGBoost</span><span class="badge">CatBoost</span><span class="badge">K-Means</span></div>
-                            <div class="card-excerpt">Time series forecasting model using Boosting methods for Amazon sales prediction</div>
-                            <div class="card-meta"><strong>Topics:</strong>Time Series Forecasting, Boosting Methods</div>
-                        </div>
-                    </article> -->
+                   
 
+                </div>
+                <div class="more-projects-container">
+                    <a href="javascript:void(0)" class="more-projects-link" onclick="openAllProjectsModal()">
+                        View All Projects <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </section>
 
@@ -445,23 +429,35 @@ have never seen during training.</li>
     </div>
 
     <footer class="page-footer">
-        <!-- <p>&copy; 2025 Rohith Kumar.S. Powered by Jekyll & AcademicPages.</p> -->
-    </footer>
-    <div id="projectModal" class="modal">
+        </footer>
+
+    <div id="allProjectsModal" class="modal" style="z-index: 1500;">
+        <span class="close-btn" onclick="closeAllProjectsModal()">&times;</span>
+        <div class="modal-content-wrapper" style="max-width: 1200px;">
+            <div class="modal-header">
+                <div class="modal-title">All Projects</div>
+            </div>
+            
+            <div class="flex-grid">
+                <div id="all-proj-container">
+                    <!-- Projects will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="projectModal" class="modal" style="z-index: 2000;">
         <span class="close-btn" onclick="closeModal()">&times;</span>
-        
         <div class="modal-content-wrapper">
             
             <div class="modal-header">
                 <div class="modal-title" id="m-title">Project Title</div>
                 <div class="modal-meta-row">
-                    <a id="m-github-link" href="#" target="_blank" class="github-modal-btn">
+                    <a id="m-github-link" href="#" target="_blank" rel="noopener noreferrer" class="github-modal-btn">
                         <i class="fab fa-github"></i> View Code
                     </a>
                     <div><i class="far fa-calendar-alt"></i> <span id="m-dates">Jan 2023 - Present</span></div>
                     <div><i class="fas fa-tools"></i> <span id="m-tools-header">Python, React</span></div>
-
-                    
                 </div>
             </div>
 
@@ -480,70 +476,87 @@ have never seen during training.</li>
 
             <div class="modal-skills-section">
                 <div class="modal-skills-title">Skills & Tools Used</div>
-                <div class="skills-grid" id="m-skills-list">
-                    </div>
+                <div class="skills-grid" id="m-skills-list"></div>
             </div>
 
         </div>
     </div>
+
     <script>
-        // Helper: Generate a URL-friendly "slug" from a title
-        // e.g., "Computer Vision Pipeline" -> "computer-vision-pipeline"
+        fetch("allprojects.html")
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById("all-proj-container").innerHTML = data;
+    });
         function createSlug(title) {
             return title.toLowerCase().trim().replace(/ /g, '-').replace(/[^\w-]+/g, '');
         }
 
-        // 1. Check URL on page load to see if we need to open a modal
         window.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             const projectSlug = params.get('project');
 
             if (projectSlug) {
                 const cards = document.querySelectorAll('.project-card');
-                // Find the card that matches the slug
                 for (let card of cards) {
                     const title = card.getAttribute('data-title');
-                    if (createSlug(title) === projectSlug) {
-                        openModal(card, false); // false = don't push state (it's already there)
+                    if (title && createSlug(title) === projectSlug) {
+                        openModal(card, false); 
                         break;
                     }
                 }
             }
         });
 
-        // 2. Open Modal Function
+        // --- ALL PROJECTS MODAL LOGIC ---
+        function openAllProjectsModal() {
+            var allModal = document.getElementById("allProjectsModal");
+            allModal.style.display = "block";
+            document.body.style.overflow = "hidden"; 
+        }
+
+        function closeAllProjectsModal() {
+            var allModal = document.getElementById("allProjectsModal");
+            allModal.style.display = "none";
+            
+            var projectModal = document.getElementById("projectModal");
+            if (projectModal.style.display !== "block") {
+                document.body.style.overflow = "auto";
+            }
+        }
+
+        // --- EXISTING PROJECT DETAILS MODAL LOGIC ---
         function openModal(element, pushToHistory = true) {
             var modal = document.getElementById("projectModal");
             
-            // Retrieve data attributes
-            var title = element.getAttribute("data-title");
-            var start = element.getAttribute("data-start");
-            var end = element.getAttribute("data-end");
+            var title = element.getAttribute("data-title") || "Project Title";
+            var start = element.getAttribute("data-start") || "";
+            var end = element.getAttribute("data-end") || "";
             var tools = element.getAttribute("data-tools");
-            var desc = element.getAttribute("data-desc");
-            var overview = element.getAttribute("data-overview");
+            var desc = element.getAttribute("data-desc") || "";
+            var overview = element.getAttribute("data-overview") || "";
             var image = element.getAttribute("data-image");
             var video = element.getAttribute("data-video");
             var github = element.getAttribute("data-github");
-            // Populate Modal DOM
+            
             document.getElementById("m-title").innerText = title;
-            document.getElementById("m-dates").innerText = start + " - " + end;
-            document.getElementById("m-tools-header").innerText = tools;
+            document.getElementById("m-dates").innerText = start + (end ? " - " + end : "");
+            document.getElementById("m-tools-header").innerText = tools || "";
             document.getElementById("m-desc").innerText = desc;
             document.getElementById("m-overview").innerHTML = overview;
             
             var imgContainer = document.getElementById("m-image");
-            if(image!=null) {
+            if (image) {
                 if (image.includes("Placeholder")) {
                     imgContainer.innerText = image;
                     imgContainer.style.backgroundImage = "none";
                 } else {
                     imgContainer.innerHTML = `<img src="${image}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">`;
                 }
-            }
-
-            if (video!=null) {
+            } else if (video) {
                 imgContainer.innerHTML = `<video controls style="width:100%; height:100%; border-radius:8px;"><source src="${video}" type="video/mp4">Your browser does not support the video tag.</video>`;
+            } else {
+                imgContainer.innerHTML = ""; // Clear if neither exist
             }
 
             var githubBtn = document.getElementById("m-github-link");
@@ -551,59 +564,67 @@ have never seen during training.</li>
                 githubBtn.href = github;
                 githubBtn.style.display = "inline-flex";
             } else {
-                githubBtn.style.display = "none"; // Hide if no link provided
+                githubBtn.style.display = "none";
             }
 
-            // Populate Skills at Bottom
             var skillsContainer = document.getElementById("m-skills-list");
             skillsContainer.innerHTML = ""; 
-            var toolsArray = tools.split(",");
-            toolsArray.forEach(function(tool) {
-                var span = document.createElement("span");
-                span.className = "skill-tag";
-                span.innerText = tool.trim();
-                skillsContainer.appendChild(span);
-            });
+            
+            // Safety check in case a card is missing data-tools
+            if (tools) {
+                var toolsArray = tools.split(",");
+                toolsArray.forEach(function(tool) {
+                    if(tool.trim() !== "") {
+                        var span = document.createElement("span");
+                        span.className = "skill-tag";
+                        span.innerText = tool.trim();
+                        skillsContainer.appendChild(span);
+                    }
+                });
+            }
 
-            // Show Modal
             modal.style.display = "block";
-            document.body.style.overflow = "hidden";
+            document.body.style.overflow = "hidden"; 
 
-            // Update URL if requested
+            // Try-Catch block prevents local file:// crashes
             if (pushToHistory) {
-                const slug = createSlug(title);
-                const newUrl = window.location.pathname + '?project=' + slug + window.location.hash;
-                history.pushState({ modalOpen: true }, '', newUrl);
+                try {
+                    const slug = createSlug(title);
+                    const newUrl = window.location.pathname + '?project=' + slug + window.location.hash;
+                    history.pushState({ modalOpen: true }, '', newUrl);
+                } catch (e) {
+                    console.log("Local file URL routing disabled.");
+                }
             }
         }
 
-        // 3. Close Modal Function
         function closeModal() {
             var modal = document.getElementById("projectModal");
             modal.style.display = "none";
-            document.body.style.overflow = "auto";
             
-            // Clean up URL: Remove the ?project=... query param but keep the hash (#projects)
-            const cleanUrl = window.location.pathname + window.location.hash;
-            history.pushState(null, '', cleanUrl);
-        }
-
-        // 4. Handle Browser Back Button
-        window.onpopstate = function(event) {
-            // If the user presses back, we just close the modal visually
-            // (The URL is already updated by the browser's back action)
-            var modal = document.getElementById("projectModal");
-            if (modal.style.display === "block") {
-                modal.style.display = "none";
+            var allModal = document.getElementById("allProjectsModal");
+            if (allModal && allModal.style.display === "block") {
+                document.body.style.overflow = "hidden"; 
+            } else {
                 document.body.style.overflow = "auto";
             }
-        };
+            
+            // Try-Catch block prevents local file:// crashes
+            try {
+                const cleanUrl = window.location.pathname + window.location.hash;
+                history.pushState(null, '', cleanUrl);
+            } catch (e) {}
+        }
 
-        // Close if clicked outside content
         window.onclick = function(event) {
-            var modal = document.getElementById("projectModal");
-            if (event.target == modal) {
+            var projectModal = document.getElementById("projectModal");
+            var allProjectsModal = document.getElementById("allProjectsModal");
+            
+            if (event.target == projectModal) {
                 closeModal();
+            }
+            if (event.target == allProjectsModal) {
+                closeAllProjectsModal();
             }
         }
     </script>

@@ -542,3 +542,50 @@ p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
     background-color: #268bd2; /* Your primary blue color */
     border-radius: 2px; /* Slight roundness (0 for perfect square) */
 }
+
+
+/* --- "More Projects" Link --- */
+.more-projects-container {
+    text-align: center;
+    margin-top: 3rem;
+    width: 100%;
+}
+
+.more-projects-link {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.more-projects-link:hover {
+    color: #1a6296; /* Slightly darker blue */
+    text-decoration: underline;
+    background-color: #f8f9fa; /* Subtle background highlight */
+}
+
+/* Ensure the Project Details modal always sits ON TOP of the All Projects modal */
+#projectModal {
+    z-index: 2000 !important;
+}
+
+#all-proj-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: flex-start;
+}
+
+#all-proj {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: flex-start;
+    max-width: 1300px;
+}

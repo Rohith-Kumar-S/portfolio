@@ -28,7 +28,11 @@ evaluate their effect on interaction prediction performance                    <
                     <p>We utilize 3D point cloud spatial data extracted across 11 timesteps (1.0s history) from five sensors: one mid-range (75m limit) and four short-range (20m limit). Using the provided extrinsic calibration matrices, the point clouds—which are restricted to the top two intensity returns—are transformed from the global frame into the vehicle frame.</p>                     
                     <h3>Data Pipeline</h3>
                      <p>The scenario data and sensor data are stored separately in the Waymo Google Cloud Storage bucket. We merge them by matching on scenario ID using \texttt{gsutil}, downloading the corresponding lidar and camera tfrecord for each scenario and merging the sensor data into the scenario tfrecord. The merged tfrecord is then processed by our data pipeline, which extracts vectorized agent and map features alongside LiDAR data and camera tokens, and saves them as compressed \texttt{.npz} files for training. Each scenario contains 11 frames of corresponding camera tokens and LiDAR data. The data pipeline processes these scenarios by individual interaction pairs. For each pair, the global LiDAR point cloud is transformed into an agent-centric coordinate system by shifting the origin to the center of the interacting agent. Finally, to project this raw 3D LiDAR data into a structured Bird's-Eye View (BEV) tensor, we apply a deterministic voxelization grid parameterized by the bounding constraints and resolutions outlined in Table 1 for computational efficiency.</p>
-                    <h3>Camera Encoder</h3>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/voxel.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+<p> Voxelized LiDAR Data</p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/voxel.gif' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+
+                     <h3>Camera Encoder</h3>
                     <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/conf_bylen.jpg' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
                     <h3>Experiment and Results</h3> 
                     <p>We train and evaluate on the Waymo Open Dataset Motion
@@ -37,6 +41,15 @@ ios and one validation shard. All models are trained with a
 batch size of 16, learning rate of 1 × 10−4, and the AdamW
 optimizer. We select the last checkpoint based on validation
 loss.</p>
+<img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/minadevehicle.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+<img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/minfdevehicle.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+
+
+<img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/gameformer.gif' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+<p> GameFormer with vectorized map geometry + agent past history</p>
+<img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/gamefusion.gif' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+<p> GameFormer with vectorized map geometry + agent past history + camera tokens</p>
+
                     <h3>Discussion and Summary</h3> 
                    
 <ul>
@@ -53,7 +66,6 @@ loss.</p>
     <li><strong>Boundary Artifacts:</strong> Padding missing missing timesteps with origin coordinates for agents that exit the sensor range creates artificial U-turn trajectories.</li>
 </ul>
                     "
-                    data-video="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/ai-datahunter/overview.mp4"
                     
                     >
                    

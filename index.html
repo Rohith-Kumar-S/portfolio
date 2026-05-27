@@ -56,6 +56,83 @@
                 <div class="flex-grid">
                     <article class="project-card" 
                         onclick="openModal(this)"
+                        data-title="GameFusion"
+                        data-start="Mar 2026"
+                        data-end="Apr 2026"
+                        data-github="https://github.com/ishanrai17/GameFusion"
+                        data-tools="Multimodal Fusion, Motion Prediction, Waymo Motion Dataset (WOMD) "
+                        data-desc="Multimodal fusion model for motion prediction using the Waymo Open Motion Dataset"
+                        data-overview="
+                        
+                    <p>
+                        The Problem: Autonomous vehicles must predict the mutually influential behavior of other agents at complex intersections. While models like GameFormer excel at this using vectorized data and game theory, they lack visual context—they know what happened, but not why (e.g., a pedestrian vs. a road hazard).                    <p></p>
+                    <p>In this work, we investigate whether adding camera to-
+kens as a complementary modality can enrich the model’s
+understanding of the scene. Camera tokens are pre-computed
+visual embeddings provided by the Waymo Open Dataset,
+representing compressed features from 8 surrounding cameras
+across 11 timesteps. We integrate these tokens along with
+LiDAR data from 5 sensors into the GameFormer pipeline and
+evaluate their effect on interaction prediction performance                    <p></p>
+<h3>GameFormer Architecture</h3>
+<p>GameFormer models joint trajectory prediction as a game-theoretic problem. The model consists of a Transformer-based encoder and an iterative level-k decoder. The encoder processes agent states and map features into a shared latent representation. The decoder then performs iterative reasoning, where each agent's predicted trajectory at level $k$ is conditioned on the predicted trajectories of other agents at level $k-1$. This process produces jointly consistent multi-modal trajectory predictions for all interacting agents.</p>
+                                        <h3>Dataset</h3>
+                    <p> We use the Waymo Open Dataset Motion v1.3, which provides richly annotated real-world driving scenarios. Each scenario contains 11 timesteps of historical agent states including position, velocity, heading, and object type, along with vectorized map features such as lane boundaries, crosswalks, and traffic signals. We train and evaluate on 3 shards of the training split and one shard of the validation split, containing approximately 13,000 and 3,000 scenarios respectively.</p>
+                    <h3>Camera Tokens</h3>
+                    <p>The Waymo Open Dataset provides pre-computed visual features as 256-dimensional embeddings from 8 cameras across 11 timesteps, yielding an $(11, 8, 256)$ tensor per scenario. These map to distinct integers in Waymo's codebook to form 32-dimensional embeddings, enabling direct use as compact model inputs without further encoding overhead.</p>
+                     <h3>LiDAR Data</h3>
+                    <p>We utilize 3D point cloud spatial data extracted across 11 timesteps (1.0s history) from five sensors: one mid-range (75m limit) and four short-range (20m limit). Using the provided extrinsic calibration matrices, the point clouds—which are restricted to the top two intensity returns—are transformed from the global frame into the vehicle frame.</p>                     
+                    <h3>Data Pipeline</h3>
+                     <p>The scenario data and sensor data are stored separately in the Waymo Google Cloud Storage bucket. We merge them by matching on scenario ID using \texttt{gsutil}, downloading the corresponding lidar and camera tfrecord for each scenario and merging the sensor data into the scenario tfrecord. The merged tfrecord is then processed by our data pipeline, which extracts vectorized agent and map features alongside LiDAR data and camera tokens, and saves them as compressed \texttt{.npz} files for training. Each scenario contains 11 frames of corresponding camera tokens and LiDAR data. The data pipeline processes these scenarios by individual interaction pairs. For each pair, the global LiDAR point cloud is transformed into an agent-centric coordinate system by shifting the origin to the center of the interacting agent. Finally, to project this raw 3D LiDAR data into a structured Bird's-Eye View (BEV) tensor, we apply a deterministic voxelization grid parameterized by the bounding constraints and resolutions outlined in Table 1 for computational efficiency.</p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/voxel.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+<p> Voxelized LiDAR Data</p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/voxel.gif' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+
+                                        <h3>Experiment and Results</h3> 
+                    <p>We train and evaluate on the Waymo Open Dataset Motion
+v1.3, using 3 training shards of approximately 13,000 scenar-
+ios and one validation shard. All models are trained with a
+batch size of 16, learning rate of 1 × 10−4, and the AdamW
+optimizer. We select the last checkpoint based on validation
+loss.</p>
+<img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/minadevehicle.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+<img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/minfdevehicle.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+
+
+<img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/gameformer.gif' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+<p> GameFormer with vectorized map geometry + agent past history</p>
+<img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/gamefusion.gif' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+<p> GameFormer with vectorized map geometry + agent past history + camera tokens</p>
+
+                    <h3>Discussion and Summary</h3> 
+                   
+<ul>
+    <li><strong>Performance Gains:</strong> Integrating camera tokens into GameFormer consistently improves prediction accuracy across all horizons, reducing minADE by 12% (at 5s) to 7.5% (at 15s), with similar gains in minFDE.</li>
+    <li><strong>Training Convergence:</strong> Due to limited training data (~13,000 scenarios), both the baseline and camera models overfit by epoch 15–17.</li>
+    <li><strong>LiDAR Stability:</strong> In contrast, the LiDAR-fused model exhibits highly stable convergence, acting as a strong regularizer. We hypothesize that fixing the current spatial downsampling bottleneck and scaling the dataset will allow the LiDAR model to achieve the best overall generalization.</li>
+</ul>
+
+<p><strong>Limitations</strong></p>
+<ul>
+    <li><strong>Dataset Size:</strong> Training on a limited subset restricts full generalization.</li>
+    <li><strong>Feature Extraction:</strong> Using pre-computed camera embeddings prevents the model from learning low-level visual features directly.</li>
+    <li><strong>Spatial Granularity:</strong> Aggressive LiDAR downsampling and a coarse 0.5m Bird’s-Eye View (BEV) resolution discard critical fine-grained details, particularly for smaller agents like pedestrians.</li>
+    <li><strong>Boundary Artifacts:</strong> Padding missing missing timesteps with origin coordinates for agents that exit the sensor range creates artificial U-turn trajectories.</li>
+</ul>
+                    "
+                    
+                    >
+                   
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/gamefusion/lidar2clean.gif" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">GameFusion</a></div>
+                            <div class="card-badges"><span class="badge">Motion Prediction</span><span class="badge">Waymo Motion Dataset (WOMD) </span></div>
+                            <div class="card-excerpt">Multimodal fusion model for motion prediction using the Waymo Open Motion Dataset</div>
+                            <div class="card-meta"><strong>Topics:</strong> Computer Vision, Deep Learning</div>
+                        </div>
+                    </article>
+                    <article class="project-card" 
+                        onclick="openModal(this)"
                         data-title="AI-DataHunter"
                         data-start="Nov 2025"
                         data-end="Dec 2025"
@@ -351,7 +428,7 @@ have never seen during training.</li>
                         </div>
                     </article>
                     
-                     <article class="project-card" 
+                     <!-- <article class="project-card" 
                         onclick="openModal(this)"
                         data-title="CNN Visualizer"
                         data-start="Jan 2023"
@@ -377,7 +454,7 @@ have never seen during training.</li>
                             <div class="card-excerpt"> A comprehensive tool to visualize how CNNs process images</div>
                             <div class="card-meta"><strong>Topics:</strong> Neural Networks, Visualization</div>
                         </div>
-                    </article>
+                    </article> -->
 
 
                     

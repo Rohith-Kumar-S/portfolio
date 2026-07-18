@@ -131,7 +131,7 @@ loss.</p>
                             <div class="card-meta"><strong>Topics:</strong> Computer Vision, Deep Learning</div>
                         </div>
                     </article>
-                    <article class="project-card" 
+                    <!-- <article class="project-card" 
                         onclick="openModal(this)"
                         data-title="AI-DataHunter"
                         data-start="Nov 2025"
@@ -239,6 +239,183 @@ have never seen during training.</li>
                             <div class="card-badges"><span class="badge">BERT</span><span class="badge">Captum</span><span class="badge">Python</span><span class="badge">PyTorch</span></div>
                             <div class="card-excerpt">Text classification system that distinguishes human writing from AI-generated content</div>
                             <div class="card-meta"><strong>Topics:</strong> NLP, Transfer Learning</div>
+                        </div>
+                    </article> -->
+                      <article class="project-card" 
+                        onclick="openModal(this)"
+                        data-title="Ask&Add"
+                        data-start="Dec 2025"
+                        data-end="Jan 2026"
+                        data-github="https://github.com/Rohith-Kumar-S/AskAndAdd"
+                        data-tools="LangChain, RAG, Spring Boot, AWS EC2, RDS, MySQL, CI/CD ["
+                        data-desc="Three retrieval systems, one real catalog. What each one does, how it behaves, and what that behavior reveals."
+                        data-overview='
+  <p>Three retrieval systems, one real catalog. What each one does, how it behaves, and what that behavior reveals.</p>
+ 
+<p>If you have ever searched an online store for a &ldquo;cozy living room seat&rdquo; and received zero results because the database only contained &ldquo;upholstered armchairs,&rdquo; you have experienced the fragility of keyword search.</p>
+ 
+<p>The industry&rsquo;s answer was vector embeddings &mdash; semantic search. But basic semantic search has a blind spot: it captures the <em>vibe</em> of a query while struggling with exact constraints. A search for a &ldquo;13-inch laptop case&rdquo; will happily rank a &ldquo;15-inch laptop case&rdquo; near the top, because the two descriptions are semantically almost identical.</p>
+ 
+<p>I built and compared three different retrieval systems for a real retail catalog to see how far each approach gets: an <strong>LLM-guided structured search</strong>, a <strong>retrieve-and-rerank</strong> pipeline, and &mdash; for the &ldquo;find similar, but&hellip;&rdquo; experience &mdash; a <strong>composed image retrieval</strong> model. This is what each one does, how they behave, and what that behavior reveals.</p>
+ 
+<p>
+  <strong>A note on the numbers up front.</strong> The quantitative results below come from small, hand-judged evaluations (10 queries each). They are <em>indicative</em>, not statistically definitive &mdash; treat them as a directional read, not a benchmark. Where a metric has an important caveat (relevance rule, recall blindness), it is stated inline. The most robust number in the whole study is the latency difference.
+</p>
+ 
+<h2>Approach 1: LLM-Guided Structured Search</h2>
+ 
+<p>The first system uses a language model as a <strong>query-understanding front end</strong> rather than as the retriever itself.</p>
+ 
+<p>The pipeline is:</p>
+<ol>
+  <li><strong>Structured extraction.</strong> An LLM reads the raw query and extracts structured fields: product <strong>category</strong>, <strong>subcategory</strong>, <strong>brand name</strong>, and <strong>product name</strong>.</li>
+  <li><strong>Attribute-filtered retrieval.</strong> Those fields are used to pull candidate products from the database &mdash; effectively a hard filter to the extracted category/subcategory (and brand, when present).</li>
+  <li><strong>Semantic ranking within the category.</strong> The remaining candidates are ranked by embedding distance between the query and each product, using <a href="https://huggingface.co/nomic-ai/nomic-embed-text-v1.5"><code>nomic-ai/nomic-embed-text-v1.5</code></a> for both sides.</li>
+  <li><strong>Return</strong> the ranked products from that category.</li>
+</ol>
+ 
+<p>The appeal is precision: if the model correctly identifies &ldquo;this is a <em>dress</em> query,&rdquo; everything it returns is a dress. The cost, as the evaluation will show, is <strong>recall</strong> &mdash; the system can only ever return what survives the structured filter, and the filter is only as good as the extraction.</p>
+ 
+<div class="reveal">
+  <span class="label">What its behavior reveals</span>
+  <p>In testing, this system frequently returned very few products (as few as one) and occasionally the wrong category entirely. The root cause is architectural: the LLM&rsquo;s extracted attributes become a <em>hard gate</em>. When the extracted category or subcategory doesn&rsquo;t line up with how products are actually labeled in the database &mdash; asking for &ldquo;blouse&rdquo; when the catalog files them under &ldquo;tops,&rdquo; for instance &mdash; the filter silently excludes valid matches, and recall collapses. When extraction <em>does</em> match the taxonomy, the in-category <code>nomic</code> ranking is quite good. The lesson: an LLM is excellent at <em>understanding</em> a query but a risky choice as the <em>retrieval gate</em>, because a single taxonomy mismatch upstream removes correct products the ranker never even sees.</p>
+</div>
+ 
+<h2>Approach 2: Retrieve-and-Rerank</h2>
+ 
+<p>The second system separates <em>finding</em> candidates from <em>ordering</em> them &mdash; the two-stage funnel used by large-scale search teams.</p>
+ 
+<h3>The &ldquo;Smoothie&rdquo; Effect</h3>
+ 
+<p>Basic semantic search relies on a <strong>Bi-Encoder</strong>: it encodes the query and each product <em>independently</em> into a single dense vector, then compares by distance. The weakness is in how that vector is formed. At the end of the network, the model <strong>pools</strong> all token vectors into one &mdash; averaging them.</p>
+ 
+<p>Imagine a smoothie: banana, strawberries, and one small piece of chili. Blended, you can tell it&rsquo;s a fruit smoothie (semantic gist), but the chili&rsquo;s specific bite is impossible to isolate. In a product description, dominant words like &ldquo;shoes&rdquo; and &ldquo;running&rdquo; drown out a constraint like &ldquo;size 10.&rdquo; The exact detail gets diluted.</p>
+ 
+<h3>Stage 1: The Fast Filter</h3>
+ 
+<p>Because a Bi-Encoder encodes products in isolation, nearly all the work happens offline. Every product in the catalog is embedded once, ahead of time, and the vectors are stored. At query time, only the short query is embedded, and it is scored against the stored vectors with a single matrix multiplication (cosine similarity); the top candidates move on.</p>
+ 
+<p>At this catalog&rsquo;s scale (~1,000 products), that brute-force comparison is <strong>exact and effectively instantaneous</strong> &mdash; sub-millisecond on a GPU &mdash; so an approximate-nearest-neighbor index such as FAISS is unnecessary. FAISS earns its keep only at hundreds of thousands to millions of vectors, where exhaustive scoring becomes the bottleneck; below that, brute force is both faster <em>and</em> exact, with no index to build or tune. This stage casts a wide net but inevitably lets a few close-but-wrong matches (wrong size or color) through &mdash; which is exactly what Stage 2 is for.</p>
+ 
+<h3>Stage 2: The Deep Reader</h3>
+ 
+<p>The top candidates are handed to a <strong>Cross-Encoder</strong>. Unlike the Bi-Encoder, it uses no pre-computed vectors. It joins query and product into one input:</p>
+ 
+<pre><code>[CLS] User Query [SEP] Product Description [SEP]</code></pre>
+ 
+<p>Because they are processed together, the model runs full <strong>self-attention</strong> &mdash; every query token attends directly to every product token <em>before</em> any pooling. A &ldquo;size 10&rdquo; in the query looks straight at a &ldquo;size 11&rdquo; in the description and sees the clash instead of averaging it away, so it can penalize the mismatch. This depth is also why the rerank stage dominates the pipeline&rsquo;s latency: it runs a full transformer over each candidate pair. Precision has a price.</p>
+ 
+<h3>Training: Hard Negative Mining</h3>
+ 
+<p>A Cross-Encoder doesn&rsquo;t know your specific catalog out of the box. It is trained on triplets:</p>
+<ol>
+  <li>the <strong>query</strong>,</li>
+  <li>the <strong>true product</strong>, and</li>
+  <li>a <strong>hard negative</strong> &mdash; the product that most convincingly fooled the Bi-Encoder.</li>
+</ol>
+ 
+<p>A pairwise margin loss forces the true product above the hard negative:</p>
+ 
+<div class="formula">Loss = max(0,&nbsp; Score<sub>neg</sub> &minus; Score<sub>pos</sub> + Margin)</div>
+ 
+<p>Penalizing the model whenever it ranks the impostor above the real match teaches its attention heads to act like a spotlight &mdash; hunting the specific constraints (size, color, brand, model number) that the Bi-Encoder blends away.</p>
+ 
+<div>
+  <span class="label">What its behavior reveals</span>
+  <p>This system retrieved a full candidate set on every query and ranked it cleanly. Because Stage 1 casts a wide semantic net rather than a hard attribute gate, it <em>keeps recall high</em>; because Stage 2 reads query and product jointly, it <em>orders precisely</em>. The contrast with Approach 1 is the whole story: soft-retrieve-then-rerank preserves the candidates that a hard structured filter would have discarded.</p>
+</div>
+ 
+<h2>Head-to-Head: Structured LLM Search vs. Retrieve-and-Rerank</h2>
+ 
+<p>Both systems take a text query and return a ranked product list, so they are directly comparable. Ten queries of mixed specificity were run through each.</p>
+ 
+<p><strong>Relevance rule:</strong> <em>loose</em> &mdash; a result counts as a hit if the garment <strong>category</strong> is correct (color and other attributes ignored), applied identically to both systems.<br>
+<strong>NDCG@5</strong> here is <strong>retrieved-normalized</strong>: it measures the ranking quality <em>of the results each system returned</em>, and deliberately does <strong>not</strong> penalize short result lists. The recall difference is therefore reported as a separate row.</p>
+ 
+<div class="table-scroll">
+<table>
+  <caption>Test 1 &mdash; Text Search (10 queries, loose category relevance)</caption>
+  <thead>
+    <tr><th>Measure</th><th>LLM-Guided Search</th><th>Retrieve-and-Rerank</th><th>&Delta;</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Avg NDCG@5 <em>(retrieved-normalized)</em></td><td>0.79</td><td>0.98</td><td>+24% relative</td></tr>
+    <tr><td>MRR</td><td>0.80</td><td>1.00</td><td>+25% relative</td></tr>
+    <tr><td>Latency</td><td>~5,300 ms</td><td>~477 ms</td><td>~11&times; faster (91% lower)</td></tr>
+    <tr><td>Products returned per query</td><td>1&ndash;9</td><td>20 (capped)</td><td>markedly higher recall</td></tr>
+    <tr><td>Queries evaluated</td><td>10</td><td>10</td><td>&mdash;</td></tr>
+  </tbody>
+</table>
+</div>
+ 
+<p>Two things the data shows:</p>
+<ol>
+  <li><strong>Ranking is comparable when both return results &mdash; recall is not.</strong> The LLM system&rsquo;s MRR of 0.80 means that <em>when</em> it surfaces the right category, it usually ranks it near the top; its <code>nomic</code>-based in-category ordering is genuinely good. Its problem is upstream: the structured filter under-retrieves, returning as few as one product and occasionally missing the category outright. The retrieve-rerank system&rsquo;s high, retrieved-normalized NDCG combined with a full 20-result list is the point &mdash; it ranks well <em>and</em> covers the catalog. Note that the retrieved-normalized metric actually <em>understates</em> this gap, since it gives the LLM system no penalty for its thin result lists.</li>
+  <li><strong>The generative latency tax is real.</strong> The ~5.3-second LLM path (dominated by the extraction call) versus ~477 ms is the study&rsquo;s most robust finding: an ~11&times; difference that no amount of sampling noise will erase. For an interactive search bar, that alone is decisive.</li>
+</ol>
+ 
+<div class="aside">
+  <strong>Caveats to carry:</strong> n&nbsp;=&nbsp;10 (indicative, not definitive); the NDCG figure depends on loose, category-level relevance judgments (a few borderline calls shift it); and it measures ranking of retrieved results, not recall &mdash; which is why the retrieval-count row is reported alongside it.
+</div>
+ 
+<h2>Stage 3: Composed Image Retrieval for &ldquo;Similar Products&rdquo;</h2>
+ 
+<p>Text search answers &ldquo;find me a blue floral dress.&rdquo; It cannot answer the request a shopper makes <em>while looking at a product</em>: <strong>&ldquo;this dress &mdash; but in navy, with long sleeves.&rdquo;</strong> That is a reference image <em>plus</em> a modification, a distinct task called <strong>Composed Image Retrieval (CIR)</strong>, and it is what powers a true &ldquo;find similar, but&hellip;&rdquo; button on a product page.</p>
+ 
+<p>I built this as a separate system: a <strong>CLIP ViT-B/16</strong> backbone with a <strong>FiLM-based combiner</strong> that fuses the reference image embedding with the text-edit embedding, <strong>fine-tuned with LoRA</strong> on the FashionIQ dataset. At query time, the reference product and the edit are encoded and combined into a single query vector, then ranked by dot product against the pre-embedded catalog.</p>
+ 
+<p><strong>This is a different task from text search and is not directly comparable to it.</strong> The relevance bar is higher: a result counts only if it <em>preserves the reference&rsquo;s garment type</em> <strong>and</strong> <em>applies the requested edit</em>. A &ldquo;navy dress&rdquo; is a failure for a &ldquo;navy tunic&rdquo; query.</p>
+ 
+<h3>Results (in-domain references: tops and dresses)</h3>
+ 
+<div class="table-scroll">
+<table>
+  <caption>Test 2 &mdash; Composed retrieval, qualitative behavior by edit type</caption>
+  <thead>
+    <tr><th>Edit type</th><th>Behavior</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Color</strong> (e.g. &ldquo;in navy&rdquo;)</td><td>Propagates strongly through the results</td></tr>
+    <tr><td><strong>Pattern add</strong> (stripes, floral)</td><td>Works &mdash; image-confirmed</td></tr>
+    <tr><td><strong>Sleeve / structural</strong></td><td>Applied, but weaker than color</td></tr>
+    <tr><td><strong>Compound edits</strong> (&ldquo;navy <em>and</em> long-sleeved&rdquo;)</td><td>Partially satisfied &mdash; attention splits across axes</td></tr>
+    <tr><td><strong>Out-of-domain categories</strong> (pants, home goods)</td><td>Drifts &mdash; model trained only on dresses/shirts/tops</td></tr>
+    <tr><td><strong>Positional edits</strong> (&ldquo;pocket on the left&rdquo;)</td><td>Not supported (see Future Work)</td></tr>
+  </tbody>
+</table>
+</div>
+ 
+<p>On a <strong>10-query in-domain evaluation</strong> using the strict rule above (category preserved <strong>and</strong> edit applied), the system reached <strong>&asymp; 0.84 NDCG@5</strong> and <strong>&asymp; 0.85 MRR</strong>. This uses a <em>stricter</em> relevance rule and a <em>different task</em> than the text-search comparison &mdash; the two numbers should not be placed on the same leaderboard.</p>
+ 
+<div class="reveal">
+  <span class="label">What its behavior reveals</span>
+  <p>Two clean inferences. First, the model is strongest on <strong>color and pattern</strong> and weakest on <strong>sleeve length and compound edits</strong> &mdash; the FiLM combiner learned to modulate global appearance attributes (color, texture) more readily than structural ones, and stacking two edits divides its capacity. Second, its two failure modes trace to <em>data and architecture, not the fusion mechanism</em>: it <strong>drifts on out-of-domain categories</strong> because FashionIQ contains only dresses, shirts, and tops (there is no training signal for pants or home goods), and it <strong>ignores position</strong> because CLIP&rsquo;s Vision Transformer lacks the spatial inductive bias that left/right edits require. Within its trained attribute-and-category envelope, composed retrieval works well.</p>
+</div>
+ 
+<h2>Future Work: Teaching the Model <em>Where</em></h2>
+ 
+<p>The clearest next step is the positional-edit gap. CLIP embeddings are notoriously weak at spatial relations, and no amount of attribute fine-tuning installs a capability the backbone never had. A promising direction is to inject <strong>CNN-style spatial inductive bias</strong> &mdash; applying the text modification at the <em>convolutional feature-map</em> level, where layout is preserved, rather than at the pooled embedding. Prior work (TIRG) found that this specifically helps on spatially-localized retrieval. The blocker is data: no positional-edit fashion dataset exists publicly, so this would require synthesizing one (e.g. compositing features at known positions with generated captions) before the architecture could learn anything. It is a research direction, not a quick add-on &mdash; but it is the honest frontier for this system.</p>
+ 
+<h2>Takeaways</h2>
+ 
+<p>Three systems, three lessons:</p>
+<ul>
+  <li><strong>An LLM is a strong query <em>understander</em> but a weak retrieval <em>gate</em>.</strong> Structured extraction plus a hard category filter buys precision at a steep recall cost, and it inherits every taxonomy mismatch as a silent miss.</li>
+  <li><strong>Retrieve-and-rerank wins by not throwing candidates away.</strong> A wide semantic net (Stage 1) plus token-level joint reading (Stage 2) delivers both coverage and ordering &mdash; an order of magnitude faster than the generative loop, on this catalog.</li>
+  <li><strong>Composed retrieval unlocks an interaction text can&rsquo;t express</strong>, and it works well within the attributes and categories it was trained on. Its limits &mdash; out-of-domain drift, no spatial reasoning &mdash; are traceable and, in principle, fixable with the right data.</li>
+</ul>
+ 
+<p>Search stops being a matching game and starts becoming contextual reasoning the moment you stop asking one model to do everything, and instead let each stage do the one thing it is actually good at.</p>
+ 
+'
+                        data-video="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/asknadd/asknadd.mp4"
+                    >
+                        <div class="card-media"><span><img src="https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/asknadd/thumbnail.gif" alt="Image 1"></span></div>
+                        <div class="card-body">
+                            <div class="card-title"><a href="javascript:void(0)">Ask&Add</a></div>
+                            <div class="card-badges"><span class="badge">LangChain</span><span class="badge">RAG</span><span class="badge">Spring Boot</span><span class="badge">AWS EC2</span></div>
+                            <div class="card-excerpt">Three retrieval systems, one real catalog. What each one does, how it behaves, and what that behavior reveals.</div>
+                            <div class="card-meta"><strong>Topics:</strong> Search, Retrieval, RAG</div>
                         </div>
                     </article>
                     <article class="project-card" 

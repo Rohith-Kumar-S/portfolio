@@ -36,7 +36,7 @@ a:hover { color: var(--primary-color); text-decoration: underline; }
     position: sticky;        /* Makes it stick */
     top: 0;                  /* Sticks to the very top */
     background-color: #fff;  /* Prevents transparent overlap */
-    z-index: 1000;
+    z-index: 2500;           /* Stays above the project popups */
 }
 
 .masthead-inner {
@@ -217,7 +217,7 @@ p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
     .author-links { display: inline-block; text-align: left; }
     
     /* Modal Mobile */
-    .close-btn { right: 1.5rem; top: 1.5rem; }
+    .close-btn { right: 1.5rem; top: calc(var(--masthead-h, 0px) + 1rem); }
     .modal-content-wrapper { padding: 4rem 1.5rem; }
     .modal-title { font-size: 2rem; }
 }
@@ -316,9 +316,9 @@ p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
     position: fixed; 
     z-index: 2000; /* Sit on top of everything */
     left: 0;
-    top: 0;
+    top: var(--masthead-h, 0px);       /* Start below the title bar */
     width: 100%; 
-    height: 100%; 
+    height: calc(100% - var(--masthead-h, 0px)); 
     overflow: auto; /* Enable scroll if needed */
     background-color: rgba(255,255,255, 1); /* Opaque white background */
 }
@@ -333,7 +333,7 @@ p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
 /* The Close Button */
 .close-btn {
     position: fixed;
-    top: 2rem;
+    top: calc(var(--masthead-h, 0px) + 1.5rem);
     right: 3rem;
     color: #333;
     font-size: 3rem;
@@ -443,7 +443,7 @@ p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
     }
 
     /* 4. Modal Fixes */
-    .close-btn { right: 1.5rem; top: 1.5rem; }
+    .close-btn { right: 1.5rem; top: calc(var(--masthead-h, 0px) + 1rem); }
     .modal-content-wrapper { padding: 4rem 1.5rem; }
     .modal-title { font-size: 2rem; }
 }
@@ -588,4 +588,196 @@ p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
     gap: 2rem;
     justify-content: flex-start;
     max-width: 1300px;
+}
+
+/* =========================================================
+   --- POSTS ---
+   ========================================================= */
+.posts-intro {
+    margin-bottom: 2.5rem;
+}
+
+.posts-intro h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+}
+
+.posts-intro p {
+    font-size: 1.2rem;
+    color: var(--text-light);
+}
+
+.posts-status {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+.posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.post-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: #fff;
+    padding: 1.5rem 1.75rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.post-card:hover,
+.post-card:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow);
+    outline: none;
+}
+
+.post-card:hover .post-card-title,
+.post-card:focus-visible .post-card-title {
+    color: var(--primary-color);
+}
+
+.post-card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 0.6rem;
+    transition: color 0.2s;
+}
+
+.post-card-excerpt {
+    color: var(--text-light);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.post-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.post-card-meta i { margin-right: 4px; }
+
+/* Full post body (Markdown output) */
+.post-body h1,
+.post-body h2,
+.post-body h3,
+.post-body h4 {
+    line-height: 1.3;
+    margin: 2rem 0 0.8rem;
+}
+
+.post-body h1 { font-size: 1.9rem; }
+.post-body h2 { font-size: 1.6rem; }
+.post-body h3 { font-size: 1.3rem; }
+
+.post-body p,
+.post-body ul,
+.post-body ol,
+.post-body pre,
+.post-body blockquote,
+.post-body table {
+    margin-bottom: 1.2rem;
+}
+
+.post-body ul,
+.post-body ol { padding-left: 1.6rem; }
+
+.post-body li { margin-bottom: 0.3rem; }
+
+.post-body a { color: var(--primary-color); }
+
+.post-body code {
+    font-family: Consolas, "SFMono-Regular", Menlo, monospace;
+    font-size: 0.88em;
+    background: #f7f7f7;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 1px 5px;
+}
+
+.post-body pre {
+    background: #f7f7f7;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    line-height: 1.5;
+}
+
+.post-body pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.85rem;
+}
+
+.post-body blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding: 0.4rem 1rem;
+    color: var(--text-light);
+    background: #f8fbfd;
+}
+
+.post-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 1rem auto;
+}
+
+.post-body table {
+    border-collapse: collapse;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    font-size: 0.95rem;
+}
+
+.post-body th,
+.post-body td {
+    border: 1px solid #ddd;
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+}
+
+.post-body th { background: #f7f7f7; }
+
+.post-body hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+}
+
+.post-body .katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.3rem 0;
+}
+
+@media (max-width: 900px) {
+    .posts-intro h1 { font-size: 2rem; }
+    .posts-intro p { font-size: 1.05rem; }
+    .post-card { padding: 1.2rem; }
+    .post-card-title { font-size: 1.2rem; }
+}
+
+/* Keep popup titles clear of the fixed close (×) button on narrower screens */
+@media (max-width: 1200px) {
+    .modal-title,
+    .posts-intro h1 { padding-right: 4.5rem; }
 }

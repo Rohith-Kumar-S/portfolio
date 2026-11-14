@@ -781,3 +781,67 @@ p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
     .modal-title,
     .posts-intro h1 { padding-right: 4.5rem; }
 }
+
+/* =========================================================
+   --- PROJECT POPUP: TABLE OF CONTENTS ---
+   ========================================================= */
+.toc-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: #fafafa;
+    margin: 0 0 2rem;
+}
+
+.toc-card summary {
+    list-style: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    user-select: none;
+    transition: color 0.2s;
+}
+
+.toc-card summary::-webkit-details-marker { display: none; }
+
+.toc-card summary::after {
+    content: "\f078"; /* Font Awesome chevron-down */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 0.8rem;
+    margin-left: auto;
+    transition: transform 0.2s;
+}
+
+.toc-card[open] summary::after { transform: rotate(180deg); }
+
+.toc-card summary:hover { color: var(--primary-color); }
+
+.toc-list {
+    padding: 0 1.2rem 1rem 2.6rem;
+    font-size: 0.98rem;
+    line-height: 1.5;
+}
+
+.toc-list li { margin: 0.3rem 0; }
+
+.toc-list ol {
+    list-style: lower-alpha;
+    padding-left: 1.4rem;
+    font-size: 0.92rem;
+}
+
+.toc-list a { color: var(--text-color); }
+
+.toc-list a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+    .toc-card summary { padding: 0.7rem 1rem; }
+    .toc-list { padding: 0 1rem 0.8rem 2.2rem; }
+}

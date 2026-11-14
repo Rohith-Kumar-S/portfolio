@@ -2,10 +2,10 @@
   "gamefusion",
   "askadd",
   "movie-recommendation-system",
-  "ai-datahunter",
+  "data-fusion-pipeline",
   "bowel-segmentation-with-segformer",
   "path-matching",
-  "data-fusion-pipeline",
+  "ai-datahunter",
   "cnn-visualizer",
   "prime-predict"
 ]

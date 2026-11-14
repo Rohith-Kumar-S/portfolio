@@ -209,7 +209,10 @@ function openModal(element, pushToHistory = true) {
         });
     }
 
+    buildProjectToc();
+
     modal.style.display = "block";
+    modal.scrollTo({ top: 0, behavior: "instant" }); // also cancels any smooth scroll still running
     document.body.style.overflow = "hidden"; 
 
     // Try-Catch block prevents local file:// crashes
@@ -240,4 +243,58 @@ function closeModal() {
         const cleanUrl = window.location.pathname + window.location.hash;
         history.pushState(null, '', cleanUrl);
     } catch (e) {}
+}
+
+// --- TABLE OF CONTENTS (project popup) ---
+// Built from the Overview heading, the h2/h3 headings inside the write-up,
+// and the Skills & Tools section. Starts collapsed on every open.
+function buildProjectToc() {
+    var toc = document.getElementById("m-toc");
+    var list = document.getElementById("m-toc-list");
+    list.innerHTML = "";
+    toc.open = false;
+
+    var headingText = function (el) { return el.textContent.replace(/\s+/g, " ").trim(); };
+    var inner = Array.prototype.filter.call(
+        document.querySelectorAll("#m-overview h2, #m-overview h3"),
+        function (h) { return headingText(h) !== ""; });
+    var hasH2 = inner.some(function (h) { return h.tagName === "H2"; });
+
+    function addItem(parentList, text, target) {
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = "#";
+        a.textContent = text;
+        a.onclick = function (e) {
+            e.preventDefault();
+            scrollProjectModalTo(target);
+        };
+        li.appendChild(a);
+        parentList.appendChild(li);
+        return li;
+    }
+
+    addItem(list, "Overview", document.getElementById("m-overview-heading"));
+    var currentH2Item = null;
+    inner.forEach(function (h) {
+        if (hasH2 && h.tagName === "H3" && currentH2Item) {
+            var sub = currentH2Item.querySelector("ol");
+            if (!sub) {
+                sub = document.createElement("ol");
+                currentH2Item.appendChild(sub);
+            }
+            addItem(sub, headingText(h), h);
+        } else {
+            var li = addItem(list, headingText(h), h);
+            if (h.tagName === "H2") currentH2Item = li;
+        }
+    });
+    addItem(list, "Skills & Tools Used", document.getElementById("m-skills-section"));
+}
+
+// Scroll the project popup (not the page) so the target sits just below the title bar.
+function scrollProjectModalTo(target) {
+    var modal = document.getElementById("projectModal");
+    var top = target.getBoundingClientRect().top - modal.getBoundingClientRect().top + modal.scrollTop - 24;
+    modal.scrollTo({ top: top, behavior: "smooth" });
 }

@@ -1,0 +1,36 @@
+<script type="application/json" class="project-meta">
+{
+  "title": "Data Fusion Pipeline",
+  "start": "Jan 2023",
+  "end": "May 2023",
+  "github": "https://github.com/Rohith-Kumar-S/datafusion-pipeline",
+  "tools": "Python, Apache Spark, PostgreSQL, Streamlit",
+  "desc": "A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface.",
+  "excerpt": "Rule-based data integration platform for building scalable pipelines via an intuitive UI",
+  "topics": "Data Engineering, Streaming, Automation",
+  "badges": [
+    "Python",
+    "Apache Spark",
+    "PostgreSQL",
+    "Streamlit"
+  ],
+  "thumbnail": "https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/thumbnail.png",
+  "image": "https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/data-fusion/1.jpg",
+  "video": null,
+  "featured": true
+}
+</script>
+
+<!-- Overview: shown in the project popup -->
+<p>
+                        A comprehensive rule-based data integration platform that enables users to build and execute scalable data processing pipelines through an intuitive user interface. The system supports both real-time streaming and batch processing with distributed computing capabilities.
+                    </p>
+                    <p>
+                        I built this as a final project for my Intro to Data Management course here at Northeastern. It is the culmination of the majority of tools I learned during my 3rd semester, covering RDBMS fundamentals, Big Data Systems, and Distributed Computing. I have always wanted to explore the full breadth of a data pipeline, and this project became the perfect sandbox for me to experiment in. I set up the final environment in Docker after countless struggles with manual setup, dealing with Hadoop and PySpark version mismatches which led to the failure of the download feature.
+                    </p>
+                    <p>
+                        At first, the data injection layer only allowed data from Kaggle to be imported, enabling the data to be casted, fused with another Kaggle dataset, and downloaded as a CSV file. Now the application supports Kaggle and GitHub sources through links and streamed data through Apache Kafka. It supports most of the main functionalities available in Spark: Cast, Filter, Rename, Drop, Fill, Explode, Flatten, and Save. It allows users to fuse data by rows and columns based on join type, and supports export options including download, logging to Docker console, and sending to JDBC driver.
+                    </p>
+                    <p>
+                        All the rules the user configures are stored in a MongoDB database, so they can be reused later. The pipelines built can be run in parallel and can be restarted once execution is completed.
+                    </p>

@@ -1,0 +1,62 @@
+<script type="application/json" class="project-meta">
+{
+  "title": "Movie Recommendation System",
+  "start": "Nov 2025",
+  "end": "Dec 2025",
+  "github": "https://github.com/Rohith-Kumar-S/MARS",
+  "tools": "Python, PyTorch, pandas, ONNX, K-Means, Pinecone",
+  "desc": "Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.",
+  "excerpt": "Hybrid movie recommender using collaborative and content-based filtering on the MovieLens dataset",
+  "topics": "Recommendation Systems, Optimization",
+  "badges": [
+    "PyTorch",
+    "ONNX",
+    "K-Means",
+    "Pinecone"
+  ],
+  "thumbnail": "https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Thumbnail.png",
+  "image": null,
+  "video": "https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Mars.mp4",
+  "featured": true
+}
+</script>
+
+<!-- Overview: shown in the project popup -->
+<p>
+                       Hybrid recommendation system combining collaborative and content-based filtering, trained on Movie Lens dataset.
+                    </p>
+                    <p>
+                        This project was my first implementation of the collaborative filtering concept, it includes a robust hybrid model that effectively handles the cold start problem.
+                    </p>
+                    <p>
+                        The hybrid approach uses embeddings from the MovieLens dataset, generated with Ollama2 and stored in Pinecone, for content-based filtering, and ranks movies using collaborative filtering results from the ONNX model. The neural collaborative filtering model was trained on the ratings data using PyTorch with GPU acceleration. With an RMSE of over 0.97, it was later converted to ONNX format for faster inference and storage optimization. The original embeddings, which were over 1 GB in size, were reduced to under 100 MB using PCA (from 4096 to 512 dimensions), while still maintaining relevance for similar movie searches. Cosine similarity was applied for similarity search in Pinecone, which stored ~87,000 vectors corresponding to movie ratings in the dataset. The IMDb API was integrated to retrieve additional movie data, which was then used in the user interface built with Streamlit.
+                    </p>
+
+                    <p>
+                       Disclaimer: The movie images and data used in this project were obtained from publicly available sources, such as MovieLens and the IMDb API, for educational purposes only.
+                    </p>
+                    <h3>MovieLens Dataset</h3>
+                    <p></p>
+                    <p>
+                        The MovieLens dataset, provided by GroupLens Research at the University of Minnesota, is a widely used benchmark in the field of recommender systems. The dataset is available in various sizes, and the one I picked had 32 Million user-movie ratings across 87K movies.
+                    </p>
+
+                    <h3>Movie Genre Co-occurrence</h3>
+                    <p></p>
+                    <p>Movies in genereal tend to be categorized into multiple genres, and understanding the co-occurrence of these genres can provide insights into user preferences and movie characteristics. Below is a dendrogram visualizing the co-occurrence of different movie genres in the MovieLens dataset.</p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/genres_dendrogram.png' alt='Genre Dendrogram' style='width:50%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p> The above can be intepreted as like Horror, Crime, Mystery and Thriller genres often co-occur together in the movies with multiple genres. These co-occuring genres were later generalized into broader categories for better analysis and recommendation accuracy.</p>
+                    <h3>Architecture for Data and Model Preparation</h3>
+                    <p></p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/training_pipeline.png' alt='Architecture Diagram' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p>Here we store the movie embeddings from Llama2 locally and in Pinecone vector store. We also train the NCF PyTorch model and convert it into ONNX format for faster inference and reduced storage size. </p>
+                    
+                    <h3>Inference Pipeline</h3>
+                    <p></p>
+                    <img src='https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/mars/Arch.png' alt='Inference Pipeline' style='width:100%; height:auto; margin-bottom:1rem; border:1px solid #eee; border-radius:8px;'>
+                    <p>The core idea is that once a user has rated enough movies, we trigger the inference pipeline. First, we fetch movies similar to those rated by the user using the Pinecone vector store. Next, we infer the user's preferences from their ratings and identify a MovieLens user with the closest taste profile. Finally, using this matched MovieLens user and the similar movies, we rank the movie candidates with an ONNX model to generate the final recommendations.</p>                    
+                    <p>Pincone vector store uses the movie embedding from local storage for similarity search. The similar movies fetched from similarity search are then used for content-based filtering. Especially when the user selects a movie to rate, these results populate the 'More like this' section.</p>
+                    
+                    <h3>Challenges Faced</h3>
+                    <p>Designing the user interface and integrating multiple technologies posed significant challenges during the development of the MARS Recommendation System. The interface was built using Streamlit, which limits deployed applications to 1 GB of RAM, while GitHub imposes a 100 MB repository size limit. The dataset alone exceeded 3 GB, and the PyTorch model was too large to store directly. As a result, several model and architectural optimizations were required to make this proof of concept functional on Streamlit Cloud.</p>                    
+                    

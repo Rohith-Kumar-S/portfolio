@@ -1,0 +1,29 @@
+<script type="application/json" class="project-meta">
+{
+  "title": "Prime Predict",
+  "start": "Jan 2023",
+  "end": "May 2023",
+  "github": "https://github.com/Rohith-Kumar-S/PrimePredict",
+  "tools": "Python, XGBoost, CatBoost, K-Means",
+  "desc": "Time series forecasting model using Boosting methods for Amazon sales prediction. ",
+  "excerpt": "Time series forecasting model using Boosting methods for Amazon sales prediction",
+  "topics": "Time Series Forecasting, Boosting Methods",
+  "badges": [
+    "Python",
+    "XGBoost",
+    "CatBoost",
+    "K-Means"
+  ],
+  "thumbnail": "https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/Thumbnail.png",
+  "image": "https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/prime-predict/1.jpg",
+  "video": null,
+  "featured": false
+}
+</script>
+
+<!-- Overview: shown in the project popup -->
+<p>
+                                            Amazon's marketplace is a dynamic retail ecosystem generating millions of daily transactions across countless product categories, offering a rich dataset for uncovering real-world patterns in purchase frequency, seasonality, and product performance. These insights are critical to optimizing inventory, pricing, and marketing strategies. To help businesses set revenue goals, allocate budgets, and predict growth across the U.S., this package is organized into four modules that go beyond traditional time series tools like Prophet or ARIMA. By combining regression and tree-ensemble models (XGBoost and CatBoost) with K-Means clustering, it produces accurate point forecasts alongside actionable customer-segment insights.
+                                        </p>
+                                        <p>
+                                            This app was built with the idea that it could also be used by individual manufacturing companies whose products are sold on Amazon and who are trying to add a new product to an existing category. For manufacturers, it provides a quick overview of the performance of a product category. Since time to market is key to sales, they can decide when to manufacture and manage inventory based on demand. Given the forecast date range, the application enables users to forecast overall total sales, total sales for any specified U.S. state, and total sales for any specified product category. When the user clicks the Forecast button, the app first trains the model based on the user's selection if it hasn't already been trained on that specific selection. The trained model is then saved in the 'models/saves' directory. Therefore, if the model has not yet been trained on that specific selection, the user must click Forecast once to train the model and then click Forecast again to retrieve the forecast results. The Streamlit app, written in 'app.py', calls the functions available in 'primepredict.py' to populate the results in the application. If the user performs a forecast based on a state or category, the application first loads the data using DataLoader and generates a processed dataset and stores it in 'data/processed_datasets', which is then used during forecasting. To start the application, install the necessary packages listed in the requirements.txt file and activate the environment. Then, in that environment, navigate to the src folder and run 'streamlit run app.py'. The application will boot up and be ready to use.</p>

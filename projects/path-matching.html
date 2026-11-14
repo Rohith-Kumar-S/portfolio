@@ -1,0 +1,40 @@
+<script type="application/json" class="project-meta">
+{
+  "title": "Path Matching",
+  "start": "Jan 2024",
+  "end": "Present",
+  "github": "https://github.com/Rohith-Kumar-S/Path-Matching",
+  "tools": "Python, pandas, Streamlit",
+  "desc": "An interactive simulation tool to visualize shortest path finding and bipartite matching algorithms.",
+  "excerpt": "A interactive simulation tool to visualize shortest path finding and bipartite matching algorithms",
+  "topics": "Algorithms, Data Visualization",
+  "badges": [
+    "Python",
+    "pandas",
+    "Streamlit"
+  ],
+  "thumbnail": "https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/path-matching/thumbnail.png",
+  "image": null,
+  "video": "https://raw.githubusercontent.com/Rohith-Kumar-S/portfolio/main/images/path-matching/path_matching.mp4",
+  "featured": true
+}
+</script>
+
+<!-- Overview: shown in the project popup -->
+<p>I started this project as a fun activity to mimic my Algorithm's professor visualization of the A* algorithm during one of his classes. Later, I discovered an interative pathfinding tool, which provides a perfect visualization of the shortest path for a given single source–target pair and supports many shortest path algorithms. This inspired me to explore more algorithms and implement them in a similar interactive way. The project goes a step further by finding shortest paths for multi-source and multi-target scenarios and matching sources to targets based on the shortest path between each source target pair. The project is still a work in progress, and I plan to add more algorithms and features in the future. </p>
+                        <p>
+                        The project features several shortest path finding algorithms, namely Dijkstra's, A*, and Breadth-First Search (BFS). When multiple sources or targets are detected, it incorporates bipartite matching into the process. Bipartite matching can currently be done either using the greedy algorithm or linear programming.
+                    </p>
+                    <p>
+                        For the heuristic in the A* algorithm, the project supports Manhattan, Euclidean, and Diagonal distance calculations. It features a grid-based canvas where users can choose different obstacle maps and define the sources and targets.
+                    </p>
+                    <p>
+                        The red grids indicate sources, and the blue grids indicate targets. The black grids represent obstacles. The yellow grids show the path taken by the algorithm to reach the target from the source, while other colored grids represent the search paths from each source to the target.
+                    </p>
+                    <p>
+                        <b>In terms of applications, this forms the basis for customer-to-taxi matching, delivery-driver-to-order matching, and many more use cases</b>.
+                    </p>
+                    <p>
+                        The project was written in Python and uses the Streamlit library for the web app. The path finding algorithms were implemented from scratch, and the linear programming for bipartite matching was done using the SciPy library.
+                    </p>
+                        

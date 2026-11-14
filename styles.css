@@ -700,7 +700,8 @@ p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
 
 .post-body a { color: var(--primary-color); }
 
-.post-body code {
+.post-body code,
+#m-overview code {
     font-family: Consolas, "SFMono-Regular", Menlo, monospace;
     font-size: 0.88em;
     background: #f7f7f7;
@@ -709,7 +710,9 @@ p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
     padding: 1px 5px;
 }
 
-.post-body pre {
+.post-body pre,
+#m-overview pre {
+    margin-bottom: 1.2rem;
     background: #f7f7f7;
     border: 1px solid #eee;
     border-radius: 8px;
@@ -718,7 +721,8 @@ p { margin-bottom: 1.5rem; text-align: left; font-size: 1.15rem; }
     line-height: 1.5;
 }
 
-.post-body pre code {
+.post-body pre code,
+#m-overview pre code {
     background: none;
     border: none;
     padding: 0;
